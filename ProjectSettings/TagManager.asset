@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+
+  tags:
+  - Weapon
+  - Item
+  - CinemachineTarget
+
   layers:
   - Default
   - TransparentFX
@@ -11,9 +16,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+
+  - Player
+  - Ground
+  - PostProcessing
+
   - 
   - 
   - 

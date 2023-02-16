@@ -85,7 +85,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks //Äİ¹éÇÔ¼ö override¸¦ À§Ç
         }
         //TODO : ¹æ¿¡ÀÖ´Â Ä³¸¯ÅÍ°¡ ¾Æ½º³ª ÀÎÁö ÃÑ¾È½î´Â¾Ö(ÀÓ½Ã)¿¡ µû¶ó ÀÎ½ºÅÏÆ®È­ÇÒ ÇÁ¸®ÆÕ ¹Ù²ãÁà¾ßµÊ
         //¹æ¿¡µé¾î¿À¸é ÀÎ½ºÅÏÆ®È­ÇÒ resourcse ¾ÈÀÇ prefabsÀÇ string, º¤ÅÍ°ª, È¸Àü°ª ³Ö¾î¼­ º¹»ç
-        PhotonNetwork.Instantiate("Player", new Vector3(-136.33f, 3.63f, 26.319f), Quaternion.identity);
+        PhotonNetwork.Instantiate("Player2", new Vector3(-136.33f, 3.63f, 26.319f), Quaternion.identity);
         //GameObject.Find("Plyaer").SetActive(true);
 
     }

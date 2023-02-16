@@ -83,7 +83,7 @@ public class ThirdPlayerController : MonoBehaviour
             // 
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                Debug.Log("충돌객체:" + hit.collider.name);
+                //Debug.Log("충돌객체:" + hit.collider.name);
                 // 이벤트 오브젝트 일시
                 if (hit.collider.tag == "EventObj")
                 {
@@ -97,6 +97,7 @@ public class ThirdPlayerController : MonoBehaviour
                     if (playerInputs.investigate == true)
                     {
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
+
                     } 
                     // 키보드 R키 입력 시
                     //if (Input.GetKeyDown(KeyCode.R))

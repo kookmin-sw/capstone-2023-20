@@ -294,7 +294,6 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-
     m_Name: Enable Debug Button 1
     descriptiveName: 
     descriptiveNegativeName: 
@@ -428,7 +427,6 @@ InputManager:
     descriptiveNegativeName: 
     negativeButton: left
     positiveButton: right
-
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -439,7 +437,6 @@ InputManager:
     type: 0
     axis: 0
     joyNum: 0
-
   - serializedVersion: 3
     m_Name: Debug Vertical
     descriptiveName: 

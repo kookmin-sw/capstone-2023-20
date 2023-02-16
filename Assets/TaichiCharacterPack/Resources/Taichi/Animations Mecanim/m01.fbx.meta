@@ -1976,7 +1976,8 @@ ModelImporter:
     - name: LeftHandThumbNull
       parentName: 
       position: {x: -0.015098293, y: -0.010920322, z: 0.0153131895}
-      rotation: {x: -0.0000000102860405, y: 0.000000037791047, z: -0.0000000133488856, w: 1}
+      rotation: {x: -0.0000000102860405, y: 0.000000037791047, z: -0.0000000133488856,
+        w: 1}
       scale: {x: 1.0000001, y: 1, z: 0.9999999}
     - name: Neck
       parentName: 
@@ -2166,7 +2167,8 @@ ModelImporter:
     - name: eyebrow_a_Right
       parentName: 
       position: {x: 0.018455347, y: 0.008273181, z: 0.00050790864}
-      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467, w: 1}
+      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467,
+        w: 1}
       scale: {x: 0.99999994, y: 0.99999994, z: 1}
     - name: eyebrow_b_Right
       parentName: 
@@ -2186,12 +2188,14 @@ ModelImporter:
     - name: nostrir_Left
       parentName: 
       position: {x: -0.0121657, y: -0.002447906, z: -0.01989481}
-      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467, w: 1}
+      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467,
+        w: 1}
       scale: {x: 0.99999994, y: 0.99999994, z: 1}
     - name: nostrir_Right
       parentName: 
       position: {x: 0.012165742, y: -0.0024469495, z: -0.01989479}
-      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467, w: 1}
+      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467,
+        w: 1}
       scale: {x: 0.99999994, y: 0.99999994, z: 1}
     - name: tail_of_eye_Left
       parentName: 
@@ -2211,12 +2215,14 @@ ModelImporter:
     - name: lip_top_Left
       parentName: 
       position: {x: -0.008739327, y: -0.0001853066, z: -0.002396373}
-      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467, w: 1}
+      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467,
+        w: 1}
       scale: {x: 0.99999994, y: 0.99999994, z: 1}
     - name: lip_top_Right
       parentName: 
       position: {x: 0.008742857, y: -0.00018244707, z: -0.0023964306}
-      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467, w: 1}
+      rotation: {x: 0.000000010504225, y: -0.000000041915847, z: 0.0000000044059467,
+        w: 1}
       scale: {x: 0.99999994, y: 0.99999994, z: 1}
     - name: Glasses_Null
       parentName: 
@@ -2385,7 +2391,8 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 0f4d3b4cbf56b1b43b75648d868b831e, type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 0f4d3b4cbf56b1b43b75648d868b831e,
+    type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1

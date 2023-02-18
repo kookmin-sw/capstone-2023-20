@@ -21,6 +21,11 @@ public class EventObject : MonoBehaviour
         }
     }
 
+    public GameObject getText()
+    {
+        return Text;
+    }
+
     public GameObject getEventUI()
     {
         return EventUI;

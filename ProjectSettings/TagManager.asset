@@ -12,6 +12,7 @@ TagManager:
   - EventObj
   - Asuna
   - Poster
+  - Items
   layers:
   - Default
   - TransparentFX

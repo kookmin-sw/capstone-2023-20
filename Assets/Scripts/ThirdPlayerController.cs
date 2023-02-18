@@ -22,6 +22,13 @@ public class ThirdPlayerController : MonoBehaviour
     private GameObject cameraRoot;
     //카메라 
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+    //김원진 - 인벤토리 GameObject 추가
+    [SerializeField] private GameObject Inventory;
+    //김원진 - 인벤토리 관리자 InventoryManager 추가
+    [SerializeField] private InventoryManager InventoryManager;
+    //김원진 - 디폴트 아이템 추가
+    private Items Items;
+
 
 
     private StarterAssetsInputs playerInputs;
@@ -83,7 +90,7 @@ public class ThirdPlayerController : MonoBehaviour
             // 
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                Debug.Log("충돌객체:" + hit.collider.name);
+                //Debug.Log("충돌객체:" + hit.collider.name);
                 // 이벤트 오브젝트 일시
                 if (hit.collider.tag == "EventObj")
                 {
@@ -119,22 +126,44 @@ public class ThirdPlayerController : MonoBehaviour
                 Popup.instance.ClosePopUp();
             }
         }
+        //김원진 - 인벤토리 상태시 인벤토리 UI 활성화
+        if (playerInputs.inventory)
+        {
+            Inventory.SetActive(true);
+        }
+        else
+        {
+            Inventory.SetActive(false);
+        }
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "EventObj")
+        if (other.tag == "Items")
         {
+            Debug.Log(other);
             if (playerInputs.investigate)
             {
+                Debug.Log("Investigating");
                 other.GetComponent<EventObject>().getEventUI().SetActive(true);
+            }
+
+            //김원진 - 아이템 상호작용시 습득
+            if (playerInputs.interaction)
+            {
+                //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
+                other.GetComponent<EventObject>().getText().SetActive(false);
+                other.GetComponent<EventObject>().getEventUI().SetActive(false);
+                other.GetComponent<GetItem>().Get();
+                InventoryManager.Instance.addItem(other.GetComponent<ItemController>().Item);
+                playerInputs.interaction = false;
             }
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "EventObj")
+        if (other.tag == "Items")
         {
             other.GetComponent<EventObject>().getEventUI().SetActive(false);
         }

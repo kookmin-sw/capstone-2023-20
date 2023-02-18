@@ -15,7 +15,14 @@ namespace StarterAssets
 
 		public bool investigate;
 
-		[Header("Movement Settings")]
+        //김원진 interaction - E키 누르면 해당 오브젝트와 상호작용
+        public bool interaction;
+
+        //김원진 inventory - I키 누르면 Inventory UI 활성화
+        public bool inventory;
+
+
+        [Header("Movement Settings")]
 		public bool analogMovement;
 
 		[Header("Mouse Cursor Settings")]
@@ -56,11 +63,22 @@ namespace StarterAssets
 		{
 			InvestigateInput(value.isPressed);
 		}
+		//김원진 - InteractionInput 함수에 버튼이 눌렸는지 안눌렸는지 값 넘겨주는 함수
+		public void OnInteraction(InputValue value)
+		{
+			InteractionInput(value.isPressed);
+		}
+
+		//김원진 - InventoryInput 함수에 버튼이 눌렸는지 안눌렸는지 값 넘겨주는 함수
+		public void OnInventory(InputValue value)
+		{
+			InventoryInput(value.isPressed);
+		}
 #endif
 
 
-		// 조사중 일 때 못움직이게 하는게 아니라 조사를 하면 움직임을 아예 멈추게하도록 수정 필요함.
-		public void MoveInput(Vector2 newMoveDirection)
+        // 조사중 일 때 못움직이게 하는게 아니라 조사를 하면 움직임을 아예 멈추게하도록 수정 필요함.
+        public void MoveInput(Vector2 newMoveDirection)
 		{
 
 			move = newMoveDirection;
@@ -95,8 +113,38 @@ namespace StarterAssets
             }
         }
 
+        //김원진 - 상호작용 함수 추가;
+        public void InteractionInput(bool newInteractionState)
+        {
+            if (inventory == false)
+                interaction = newInteractionState;
 
-		public void PlayerLockOn()
+        }
+
+        //김원진 - 인벤토리 함수 추가;
+        //김원진 - 인벤토리가 열려있을때 누르면 닫히도록 함
+        public void InventoryInput(bool newInventoryState)
+        {
+			Debug.Log("Inventory Pressed");
+            if (inventory == false)
+            {
+                move = new Vector2(0, 0);
+                inventory = newInventoryState;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                inventory = false;
+            }
+
+
+        }
+
+
+        public void PlayerLockOn()
 		{
             if (investigate == false)
             {

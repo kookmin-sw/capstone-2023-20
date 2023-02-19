@@ -21,6 +21,8 @@ namespace StarterAssets
         //김원진 inventory - I키 누르면 Inventory UI 활성화
         public bool inventory;
 
+		//김원진 minimap - m키 누르면 minimap UI 활성화
+		public bool minimap;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
@@ -73,6 +75,11 @@ namespace StarterAssets
 		public void OnInventory(InputValue value)
 		{
 			InventoryInput(value.isPressed);
+		}
+
+		//김원진 - MinimapInput 함수에 버튼이 눌렸는지 안눌렸는지 값 넘겨주는 함수
+		public void OnMinimap(InputValue value){
+			MinimapInput(value.isPressed);
 		}
 #endif
 
@@ -142,6 +149,17 @@ namespace StarterAssets
 
 
         }
+
+		//김원진 - 미니맵 함수 추가
+		//김원진 - 미니맵이 열려있을때 누르면 닫히도록 함.
+		public void MinimapInput(bool newMinimapState)
+		{
+			if (minimap == false)
+				minimap = newMinimapState;
+			else
+				minimap = false;
+
+		}
 
 
         public void PlayerLockOn()

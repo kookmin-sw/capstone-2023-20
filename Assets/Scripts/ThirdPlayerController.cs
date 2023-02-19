@@ -26,9 +26,10 @@ public class ThirdPlayerController : MonoBehaviour
     [SerializeField] private GameObject Inventory;
     //김원진 - 인벤토리 관리자 InventoryManager 추가
     [SerializeField] private InventoryManager InventoryManager;
-    //김원진 - 디폴트 아이템 추가
-    private Items Items;
-
+    //김원진 - 미니맵 GameObject 추가
+    [SerializeField] private GameObject Minimap;
+    //김원진 - 현재 캐릭터가 위치한 곳 저장
+    [SerializeField] private GameObject CurrentMap;
 
 
     private StarterAssetsInputs playerInputs;
@@ -127,22 +128,77 @@ public class ThirdPlayerController : MonoBehaviour
             }
         }
         //김원진 - 인벤토리 상태시 인벤토리 UI 활성화
+        //김원진 - 중복 UI 방지 위해 미니맵 UI 비활성 코드 추가
         if (playerInputs.inventory)
         {
             Inventory.SetActive(true);
+            playerInputs.minimap = false;
         }
         else
         {
             Inventory.SetActive(false);
         }
 
+        //김원진 - 미니맵 상태시 미니맵 UI 활성화
+        //김원진 - 중복 UI 방지 위해 인벤토리 UI 비활성 코드 추가
+        //김원진 - 현재 UI가 중복되진 않으나 Update 함수 특성상 그 순서에 따라 Map -> Inventory시
+        //MapUI에서 InventoryUI로 UI가 전환되나 Inventory -> Map으로는 전환되진 않음. 
+        //상의후 필요시 Inventory -> Map 전환기능 추가 구현 혹은 전환을 아예 막는 방향으로 갈것.
+        if (playerInputs.minimap)
+        {
+            Minimap.SetActive(true);
+            playerInputs.inventory = false;
+        }
+        else
+        {
+            Minimap.SetActive(false);
+        }
+
     }
 
+    //김원진 - 미니맵 전환 구역 진입시 미니맵 전환.
+    //김원진 - CurrentMap이 Null 상태일 경우 최초 진입한 전환구역의 TransMap을 CurrentMap으로 설정.
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Maps")
+        {
+            Debug.Log("Entering : " + other);
+            if (CurrentMap == null)
+            {
+                GameObject TransMap = other.GetComponent<MinimapTransition>().getMap();
+                TransMap.SetActive(true);
+                CurrentMap = TransMap;
+            }
+            if(other.name == "Stair2")
+            {
+                if (CurrentMap.name == "Floor1")
+                {
+                    CurrentMap.SetActive(false);
+                    GameObject TransMap = other.GetComponent<MinimapTransition>().getMap();
+                    TransMap.SetActive(true);
+                    CurrentMap = TransMap;
+                }
+                
+            }
+            if(other.name == "Stair1")
+            {
+                if(CurrentMap.name == "Floor2")
+                {
+                    CurrentMap.SetActive(false);
+                    GameObject TransMap = other.GetComponent<MinimapTransition>().getMap();
+                    TransMap.SetActive(true);
+                    CurrentMap = TransMap;
+                }
+            }
+        }
+    }
+
+    //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환
+    //       - cf) Enter로 할 시 최초진입이 기준이므로 아이템 획득을 위해 상호작용 버튼을 누를시 획득되지 않는 경우가 생김. 
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Items")
         {
-            Debug.Log(other);
             if (playerInputs.investigate)
             {
                 Debug.Log("Investigating");
@@ -163,9 +219,33 @@ public class ThirdPlayerController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        
         if (other.tag == "Items")
         {
             other.GetComponent<EventObject>().getEventUI().SetActive(false);
+        }
+        if (other.tag == "Maps")
+        {
+            Debug.Log("Exiting : " + other);
+            if (other.name == "Stair2")
+            {
+                if (CurrentMap.name == "Floor1")
+                {
+                    CurrentMap.SetActive(false);
+                }
+
+            }
+        }
+        if (other.tag == "Maps")
+        {
+            if (other.name == "Stair1")
+            {
+                if (CurrentMap.name == "Floor2")
+                {
+                    CurrentMap.SetActive(false);
+                }
+
+            }
         }
     }
 

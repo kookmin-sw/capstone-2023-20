@@ -13,6 +13,7 @@ TagManager:
   - Asuna
   - Poster
   - Items
+  - Maps
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Minimap
+  - Icons
   - 
   - 
   - 

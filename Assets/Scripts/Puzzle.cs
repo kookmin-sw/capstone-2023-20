@@ -7,11 +7,14 @@ public class Puzzle : MonoBehaviour
 {
     public bool state;
     public GameObject target;
+    private ThirdPlayerController ThirdPlayerController;
+
 
     // Start is called before the first frame update
     void Start()
     {
         this.state = false;
+        ThirdPlayerController = FindObjectOfType<ThirdPlayerController>();
     }
 
     // Update is called once per frame

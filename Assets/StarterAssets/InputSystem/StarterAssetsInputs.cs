@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint;
 
 		public bool investigate;
+		public bool lockon;
 
         //김원진 interaction - E키 누르면 해당 오브젝트와 상호작용
         public bool interaction;
@@ -114,10 +115,8 @@ namespace StarterAssets
 		// 조사버튼 입력시 마우스 보이기, 마우스 화면 따라가기, 마우스 고정 제어
 		public void InvestigateInput(bool newInvestigateState)
 		{
-			if (PlayerController.InvestigateValue == true)
-			{
-				PlayerLockOn();
-            }
+			investigate = newInvestigateState;
+
         }
 
         //김원진 - 상호작용 함수 추가;
@@ -164,9 +163,10 @@ namespace StarterAssets
 
         public void PlayerLockOn()
 		{
-            if (investigate == false)
+			Debug.Log("Lockon");
+            if (lockon == false)
             {
-                investigate = true;
+                lockon = true;
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 cursorInputForLook = false;
@@ -174,10 +174,10 @@ namespace StarterAssets
             }
             else
             {
+                lockon = false;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 cursorInputForLook = true;
-                investigate = false;
             }
         }
 

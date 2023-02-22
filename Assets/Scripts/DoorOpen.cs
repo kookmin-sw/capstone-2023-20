@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
 
-public class DoorOpen : MonoBehaviour
+public class DoorOpen : Object
 {
     Animator animator;
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class DoorOpen : MonoBehaviour
     {
         
     }
-    public void Open()
+    public void Activate()
     {
         if (animator.GetBool("IsOpen") == false)
             animator.SetBool("IsOpen", true);
@@ -26,11 +26,6 @@ public class DoorOpen : MonoBehaviour
         Thread.Sleep(100);
     }
 
-    private void Close()
-    {
-
-        animator.SetBool("IsOpen", false);
-    }
     //private void OnTriggerEnter(Collider other)
     //{
     //    if (other.tag == "Player")

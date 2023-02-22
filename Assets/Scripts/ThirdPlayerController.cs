@@ -8,6 +8,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using System.Threading;
 using System;
     
 
@@ -58,7 +60,7 @@ public class ThirdPlayerController : MonoBehaviour
     {
         //KB - 객체생성시 카메라 우선도 조정, 자신의 로컬캐릭터면 우선도 높힘
         pv = GetComponent<PhotonView>();
-        if (pv.IsMine) virtualCamera.Priority = 20;
+        //if (pv.IsMine) virtualCamera.Priority = 20;
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
@@ -80,9 +82,9 @@ public class ThirdPlayerController : MonoBehaviour
             // 
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                //Debug.Log("충돌객체: " + hit.collider.name  + "\m"충돌태그: " + hit.collider.tag);
+                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
-                if (hit.collider.tag == "PuzzleObj")
+                if (hit.collider.CompareTag("PuzzleObj"))
                 {
                     // 상호작용 버튼 활성화
                     InvestigateValue = true;
@@ -97,6 +99,7 @@ public class ThirdPlayerController : MonoBehaviour
                         playerInputs.investigate = true;
                         playerInputs.PlayerLockOn();
                     } 
+
                     // 키보드 R키 입력 시
                     //if (Input.GetKeyDown(KeyCode.R))
                     //{
@@ -104,12 +107,13 @@ public class ThirdPlayerController : MonoBehaviour
                     //    //GameObject.Find("Puzzle2").GetComponent<Activate1>().Activate();
                     //}
                 }
-                else if (hit.collider.tag == "EventObj")
+                else if (hit.collider.CompareTag("EventObj"))
                 {
                     Popup.instance.OpenPopUp();
                     if (playerInputs.investigate == true)
                     {
-                        GameObject.Find(hit.collider.name).GetComponent<DoorOpen>().Open();
+                        GameObject.Find(hit.collider.name).GetComponent<DoorOpen>().Activate();
+
                     }
                 }
                 else

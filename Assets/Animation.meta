@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animation.meta
 guid: 2828fb69ba4201348ad8f49d0fd26218
 folderAsset: yes
+========
+guid: ecdd06931ae853d43a47962931c2ea4b
+>>>>>>>> upstream/master:Assets/Scenes/MainTitle.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

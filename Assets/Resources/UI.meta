@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animation/DoorOpen.anim.meta
+guid: 4b2a5d7fe59c5544f83b30800a70aeca
+NativeFormatImporter:
+========
+guid: 30749b7b2dcb85d46878e5c1f3c57311
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> upstream/master:Assets/Resources/UI.meta
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

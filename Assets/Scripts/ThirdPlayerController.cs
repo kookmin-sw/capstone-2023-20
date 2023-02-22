@@ -17,10 +17,10 @@ public class ThirdPlayerController : MonoBehaviour
     //포톤뷰 객체
     private PhotonView pv;
     //보통상태 시네머신 카메라
+    [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
-    //에임상태일때 시네머신카메라
-    private CinemachineVirtualCamera aimVirtualCamera;
     //카메라 root
+    [SerializeField]
     private GameObject cameraRoot;
     //카메라 
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
@@ -56,22 +56,9 @@ public class ThirdPlayerController : MonoBehaviour
 
     private void Awake()
     {
-
+        //KB - 객체생성시 카메라 우선도 조정, 자신의 로컬캐릭터면 우선도 높힘
         pv = GetComponent<PhotonView>();
-
-        //CinemachineVirtualCamera[] cameras = GameObject.FindObjectsOfType<CinemachineVirtualCamera>();
-        //foreach (CinemachineVirtualCamera camera in cameras)
-        //{
-        //    if (camera.Name == "AsunaFollowCamera") virtualCamera = camera;
-        //    else if (camera.Name == "AsunaAimCamera") aimVirtualCamera = camera;
-        //}
-        //cameraRoot = GameObject.FindGameObjectWithTag("CinemachineTarget");
-        //// 자신의 로컬 캐릭터의 경우 시네머신 카메라 연결
-        //if (pv.IsMine)
-        //{
-        //    virtualCamera.Follow = cameraRoot.transform;
-        //    aimVirtualCamera.Follow = cameraRoot.transform;
-        //}
+        if (pv.IsMine) virtualCamera.Priority = 20;
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();

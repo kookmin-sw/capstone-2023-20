@@ -1,13 +1,12 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Animation/DoorClose.anim.meta
-guid: 75deda835da689845b8b7f90143c3e91
-NativeFormatImporter:
+<<<<<<<< HEAD:Assets/UI.meta
+guid: e6171659aefafe94e9ded154852b9dda
+folderAsset: yes
 ========
 guid: b8a5c27f9322c2c449911891a7007d1b
+>>>>>>>> 132d196a6dc10886356ecd9f9239248f4404a0ef:Assets/UI/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 DefaultImporter:
->>>>>>>> upstream/master:Assets/UI/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
   externalObjects: {}
-  mainObjectFileID: 7400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -60,7 +60,7 @@ public class ThirdPlayerController : MonoBehaviour
     {
         //KB - 객체생성시 카메라 우선도 조정, 자신의 로컬캐릭터면 우선도 높힘
         pv = GetComponent<PhotonView>();
-        //if (pv.IsMine) virtualCamera.Priority = 20;
+        if (pv.IsMine) virtualCamera.Priority = 20;
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();

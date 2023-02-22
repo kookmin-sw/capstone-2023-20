@@ -43,7 +43,7 @@
                 },
                 {
                     "name": "Investigate",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "a89ee87b-1adb-4467-99d0-59581bbe68e2",
                     "expectedControlType": "Button",
                     "processors": "",

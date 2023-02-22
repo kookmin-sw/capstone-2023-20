@@ -8,6 +8,10 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using System.Threading;
+using System;
+    
 
 //김기범 - Asuna용도 컨트롤러 클래스 (player 확장용 클래스)
 public class ThirdPlayerController : MonoBehaviour
@@ -38,7 +42,7 @@ public class ThirdPlayerController : MonoBehaviour
 
 
     float hitDistance = 2f;
-    public bool InvestigateValue;
+    public bool InvestigateValue = false;
 
     Material outline;
 
@@ -56,7 +60,7 @@ public class ThirdPlayerController : MonoBehaviour
     {
         //KB - 객체생성시 카메라 우선도 조정, 자신의 로컬캐릭터면 우선도 높힘
         pv = GetComponent<PhotonView>();
-        if (pv.IsMine) virtualCamera.Priority = 20;
+        //if (pv.IsMine) virtualCamera.Priority = 20;
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
@@ -70,7 +74,7 @@ public class ThirdPlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-
+        // 유성현
         if (Physics.Raycast(ray, out hit))
         {
 
@@ -78,9 +82,9 @@ public class ThirdPlayerController : MonoBehaviour
             // 
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                //Debug.Log("충돌객체:" + hit.collider.name);
-                // 이벤트 오브젝트 일시
-                if (hit.collider.tag == "EventObj")
+                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                // 퍼즐 오브젝트 일시
+                if (hit.collider.CompareTag("PuzzleObj"))
                 {
                     // 상호작용 버튼 활성화
                     InvestigateValue = true;
@@ -92,7 +96,10 @@ public class ThirdPlayerController : MonoBehaviour
                     if (playerInputs.investigate == true)
                     {
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
+                        playerInputs.investigate = true;
+                        playerInputs.PlayerLockOn();
                     } 
+
                     // 키보드 R키 입력 시
                     //if (Input.GetKeyDown(KeyCode.R))
                     //{
@@ -100,9 +107,17 @@ public class ThirdPlayerController : MonoBehaviour
                     //    //GameObject.Find("Puzzle2").GetComponent<Activate1>().Activate();
                     //}
                 }
+                else if (hit.collider.CompareTag("EventObj"))
+                {
+                    Popup.instance.OpenPopUp();
+                    if (playerInputs.investigate == true)
+                    {
+                        GameObject.Find(hit.collider.name).GetComponent<DoorOpen>().Activate();
+
+                    }
+                }
                 else
                 {
-                    InvestigateValue = false;
                     Popup.instance.ClosePopUp();
 
                 }
@@ -110,10 +125,11 @@ public class ThirdPlayerController : MonoBehaviour
             // raycast에 물체가 없을 시 
             else
             {
-                InvestigateValue = false;
                 Popup.instance.ClosePopUp();
             }
         }
+
+
         //김원진 - 인벤토리 상태시 인벤토리 UI 활성화
         //김원진 - 중복 UI 방지 위해 미니맵 UI 비활성 코드 추가
         if (playerInputs.inventory)
@@ -179,6 +195,7 @@ public class ThirdPlayerController : MonoBehaviour
             }
         }
     }
+
 
     //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환
     //       - cf) Enter로 할 시 최초진입이 기준이므로 아이템 획득을 위해 상호작용 버튼을 누를시 획득되지 않는 경우가 생김. 

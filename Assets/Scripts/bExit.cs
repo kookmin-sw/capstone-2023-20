@@ -22,6 +22,7 @@ public class bExit : MonoBehaviour
     {
         Debug.Log(playerInputs);
         playerInputs.PlayerLockOn();
+        ThirdPlayerController.InvestigateValue = false;
         puzzle.GetComponent<Puzzle>().Activate();
         
     }   

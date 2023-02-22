@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/UI.meta
+guid: 45016e841ff74944aa3c2e77a309afcf
+folderAsset: yes
+========
 guid: b8a5c27f9322c2c449911891a7007d1b
+>>>>>>>> 132d196a6dc10886356ecd9f9239248f4404a0ef:Assets/UI/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

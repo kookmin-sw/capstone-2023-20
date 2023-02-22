@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using StarterAssetsPackageChecker;
 using UnityEditor;
@@ -121,7 +120,7 @@ namespace StarterAssets
 
                 if (assetPath.Contains("/StarterAssets/"))
                 {
-                    Object loadedObj = AssetDatabase.LoadMainAssetAtPath(assetPath);
+                    UnityEngine.Object loadedObj = AssetDatabase.LoadMainAssetAtPath(assetPath);
 
                     if (PrefabUtility.GetPrefabAssetType(loadedObj) != PrefabAssetType.NotAPrefab &&
                         PrefabUtility.GetPrefabAssetType(loadedObj) != PrefabAssetType.MissingAsset)

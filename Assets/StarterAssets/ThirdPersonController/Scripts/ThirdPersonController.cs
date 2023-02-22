@@ -87,7 +87,9 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
-        private bool InvestigateValue;
+
+        // 성현 - 조사중일때 밸류 값 true로 조정 이동, 점프 불가
+        public bool InvestigateValue;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -161,15 +163,10 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
 
             Investigate();
-
-            // 상호작용 중일시 움직임 불가
-            if (!InvestigateValue)
-            {
-                JumpAndGravity();
-                Move();
-
-            }
+            JumpAndGravity();
+            Move();
             GroundedCheck();
+
         }
 
         private void LateUpdate()

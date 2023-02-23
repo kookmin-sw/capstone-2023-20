@@ -18,10 +18,10 @@ EditorBuildSettings:
     path: Assets/Scenes/testSceneKWJ.unity
     guid: c7f1076db8e39c0449bda875140b4cdf
   - enabled: 0
-    path: Assets/testScene.unity
+    path: Assets/Scenes/testScene.unity
     guid: 67206306b634a1d45bb19d1374a1f57d
   - enabled: 0
-    path: Assets/cutScene.unity
+    path: Assets/Scenes/cutScene.unity
     guid: 46b46a276b7492a4f8f7047043dfa0a6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,

@@ -7,7 +7,7 @@ using TMPro;
 //김원진 - 인벤토리 습득/제거
 public class InventoryManager : MonoBehaviour
 {
-   public static InventoryManager Instance;
+   public InventoryManager Instance;
    public List<Items> Items = new List<Items>();
 
     public Transform ItemContent;
@@ -43,7 +43,8 @@ public class InventoryManager : MonoBehaviour
         {
             GameObject obj = Instantiate(InventoryItem, ItemContent);
             Debug.Log(obj.transform.Find("ItemIcon").GetComponent<Image>());
-
+            
+            obj.GetComponent<InventoryitemController>().InventoryManager = this;
 
             var ItemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var ItemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();

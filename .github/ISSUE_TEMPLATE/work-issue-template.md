@@ -1,7 +1,7 @@
 ---
 name: Work issue template
 about: Work issue template
-title: "[Work] Title :  summary"
+title: "[Work] Assignees :  summary"
 labels: ''
 assignees: ''
 

@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;  // OnDrawGizmos
-//using static UnityEditor.PlayerSettings;
-//김원진 - UnityEditor 세부 패키지는 build시 사용불가 => build할때 에러로 인해 동작하지않으므로 임시 주석처리
+using static UnityEditor.PlayerSettings;
 
 public class MonsterView : MonoBehaviour
 {
@@ -73,13 +72,12 @@ public class MonsterView : MonoBehaviour
         }
     }
 
-    //김원진 - UnityEditor 세부 패키지는 build시 사용불가 => build할때 에러로 인해 동작하지않으므로 임시 주석처리
-    //// 유니티 에디터에 부채꼴을 그려줄 메소드
-    //private void OnDrawGizmos()
-    //{
-    //    Handles.color = isCollision ? _red : _blue;
-    //    // DrawSolidArc(시작점, 노멀벡터(법선벡터), 그려줄 방향 벡터, 각도, 반지름)
-    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, radius);
-    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, radius);
-    //}
+    // 유니티 에디터에 부채꼴을 그려줄 메소드
+    private void OnDrawGizmos()
+    {
+        Handles.color = isCollision ? _red : _blue;
+        // DrawSolidArc(시작점, 노멀벡터(법선벡터), 그려줄 방향 벡터, 각도, 반지름)
+        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, radius);
+        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, radius);
+    }
 }

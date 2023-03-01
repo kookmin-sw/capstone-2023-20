@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class Puzzle : MonoBehaviour
 {
@@ -23,14 +24,12 @@ public class Puzzle : MonoBehaviour
         if (state == false)
         {
             target.SetActive(true);
-            print("생겨나");
             this.state = true;
             
         }
         else
         {
             target.SetActive(false);
-            print("사라져");
             this.state = false;
         }
 

@@ -10,7 +10,6 @@ public class Puzzle : MonoBehaviour
     public GameObject target;
     private ThirdPlayerController ThirdPlayerController;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +24,7 @@ public class Puzzle : MonoBehaviour
         {
             target.SetActive(true);
             this.state = true;
-            
+
         }
         else
         {

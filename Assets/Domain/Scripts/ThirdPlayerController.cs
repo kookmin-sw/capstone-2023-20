@@ -35,6 +35,7 @@ public class ThirdPlayerController : MonoBehaviour
     //김원진 - 현재 캐릭터가 위치한 곳 저장
     [SerializeField] private GameObject CurrentMap;
 
+    [SerializeField] private GameObject TextInteraction;
 
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
@@ -135,7 +136,6 @@ public class ThirdPlayerController : MonoBehaviour
         if (playerInputs.inventory)
         {
             Inventory.SetActive(true);
-            playerInputs.minimap = false;
         }
         else
         {
@@ -150,7 +150,6 @@ public class ThirdPlayerController : MonoBehaviour
         if (playerInputs.minimap)
         {
             Minimap.SetActive(true);
-            playerInputs.inventory = false;
         }
         else
         {
@@ -203,18 +202,12 @@ public class ThirdPlayerController : MonoBehaviour
     {
         if (other.tag == "Items")
         {
-            if (playerInputs.investigate)
-            {
-                Debug.Log("Investigating");
-                other.GetComponent<EventObject>().getEventUI().SetActive(true);
-            }
-
+            TextInteraction.SetActive(true);
             //김원진 - 아이템 상호작용시 습득
             if (playerInputs.interaction)
             {
                 //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
-                other.GetComponent<EventObject>().getText().SetActive(false);
-                other.GetComponent<EventObject>().getEventUI().SetActive(false);
+                TextInteraction.SetActive(false);
                 Debug.Log(other.GetComponent<ItemController>().Item);
                 InventoryManager.addItem(other.GetComponent<ItemController>().Item);
                 other.GetComponent<GetItem>().Get();
@@ -230,7 +223,7 @@ public class ThirdPlayerController : MonoBehaviour
         
         if (other.tag == "Items")
         {
-            other.GetComponent<EventObject>().getEventUI().SetActive(false);
+            TextInteraction.SetActive(false);
         }
         if (other.tag == "Maps")
         {

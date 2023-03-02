@@ -47,7 +47,7 @@ public class InventoryitemController : MonoBehaviour
     {
         ItemName = gameObject.transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text;
 
-        if (ItemName == "Phone" || ItemName=="HP")
+        if (ItemName == "Phone" || ItemName=="HP" || ItemName == "W.C Key" || ItemName == "Flashlight")
         {
             InventoryManager.removeItem(item);
             Destroy(gameObject);

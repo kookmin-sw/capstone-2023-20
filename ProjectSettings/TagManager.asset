@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CinemachineTarget
+  - Crosshair
+  - Bullet
+  - Mob
+  - SchoolObject
+  - EventObj
+  - Asuna
+  - Poster
+  - Items
+  - Maps
+  - PuzzleObj
   layers:
   - Default
   - TransparentFX
@@ -11,8 +22,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Minimap
+  - Icons
   - 
   - 
   - 

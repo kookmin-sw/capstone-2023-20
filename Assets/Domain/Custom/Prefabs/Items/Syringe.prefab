@@ -4942,7 +4942,7 @@ PrefabInstance:
     - target: {fileID: 1145214836529793487, guid: 93903fac38405d94381bff9993d61f64,
         type: 3}
       propertyPath: m_TagString
-      value: EventObj
+      value: Items
       objectReference: {fileID: 0}
     - target: {fileID: 2512993283939140726, guid: 93903fac38405d94381bff9993d61f64,
         type: 3}
@@ -5024,7 +5024,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4589b87b8508f6e48b8fddb385924b16, type: 2}
+      objectReference: {fileID: 2100000, guid: 2dc81cbd5ee486142b6c1cd536c98a5b, type: 2}
     - target: {fileID: 9124439886483944626, guid: 93903fac38405d94381bff9993d61f64,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -5076,7 +5076,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.32, z: 0.5}
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
   m_Center: {x: 0, y: 4.659524e-11, z: 0.0067277574}
 --- !u!135 &7120469967864427207
 SphereCollider:
@@ -5116,4 +5116,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ee2b777fa005543b76a6e63f3e318e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Items: {fileID: 11400000, guid: c419c71e07727f84d9d682fc1fa6aedc, type: 2}

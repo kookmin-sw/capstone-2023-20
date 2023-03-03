@@ -25,6 +25,8 @@ namespace StarterAssets
 		//김원진 minimap - m키 누르면 minimap UI 활성화
 		public bool minimap;
 
+		public bool UILock;
+
         [Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -132,18 +134,20 @@ namespace StarterAssets
         public void InventoryInput(bool newInventoryState)
         {
 			Debug.Log("Inventory Pressed");
-            if (inventory == false)
+            if (inventory == false && UILock == false)
             {
+				UILock = true;
                 move = new Vector2(0, 0);
                 inventory = newInventoryState;
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
-            else
+            else if (inventory == true && UILock == true)
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 inventory = false;
+				UILock = false;
             }
 
 
@@ -153,11 +157,14 @@ namespace StarterAssets
 		//김원진 - 미니맵이 열려있을때 누르면 닫히도록 함.
 		public void MinimapInput(bool newMinimapState)
 		{
-			if (minimap == false)
+			if (minimap == false && UILock == false) {
+				UILock = true;
 				minimap = newMinimapState;
-			else
+			}
+			else if (minimap == true && UILock == true) {
+				UILock = false;
 				minimap = false;
-
+			}
 		}
 
 

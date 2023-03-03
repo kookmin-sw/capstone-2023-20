@@ -20,19 +20,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (nickName.Equals("Latifa"))
         {
             Transform point = GameObject.Find("SpwanPointLatifa").GetComponent<Transform>();
-            PhotonNetwork.Instantiate("Latifa", point.position, point.rotation);
+            PhotonNetwork.Instantiate("PlayerLatifa", point.position, point.rotation);
  
         }
         else if (nickName.Equals("Taichi"))
         {
             
             Transform point = GameObject.Find("SpwanPointTaichi").GetComponent<Transform>();
-            PhotonNetwork.Instantiate("Taichi", point.position, point.rotation);
-        }
-        else
-        {
-            Transform point = GameObject.Find("spwan").GetComponent<Transform>();
-            PhotonNetwork.Instantiate("Lafita", point.position, point.rotation);
+            PhotonNetwork.Instantiate("PlayerTaichi", point.position, point.rotation);
         }
         Debug.Log("캐릭터 생성" + nickName);
     }

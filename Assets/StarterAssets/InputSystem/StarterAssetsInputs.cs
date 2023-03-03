@@ -177,6 +177,7 @@ namespace StarterAssets
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 cursorInputForLook = false;
+				look = new Vector2(0, 0);
 
             }
             else

@@ -4677,7 +4677,6 @@ GameObject:
   - component: {fileID: 5156270661453043217}
   - component: {fileID: 981693778722704448}
   - component: {fileID: 8053508464401518960}
-  - component: {fileID: -5105076175087851825}
   m_Layer: 8
   m_Name: Taichi
   m_TagString: Player
@@ -5069,18 +5068,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 126494ae2a10a34499272ed97a6c9f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-5105076175087851825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6059449469735972586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fc3f92b379c7c94dab5e8d8b3daec2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6191284361254577340
@@ -8082,7 +8069,7 @@ PrefabInstance:
     - target: {fileID: 5721627802026848136, guid: d435b4c65d9874542bee7c2ecd2ce030,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5721627802026848139, guid: d435b4c65d9874542bee7c2ecd2ce030,
         type: 3}

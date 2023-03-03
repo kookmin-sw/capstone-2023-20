@@ -3151,7 +3151,6 @@ GameObject:
   - component: {fileID: 2655993273688867196}
   - component: {fileID: 4739832367753883608}
   - component: {fileID: 369565989063905590}
-  - component: {fileID: 3990440454873756518}
   m_Layer: 8
   m_Name: Latifa
   m_TagString: Player
@@ -3527,18 +3526,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 126494ae2a10a34499272ed97a6c9f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3990440454873756518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3817298006141453325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 006bddaaf4777254696ff9c0a3da934c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3905592645910007981
@@ -7881,7 +7868,7 @@ PrefabInstance:
     - target: {fileID: 5721627802026848136, guid: d435b4c65d9874542bee7c2ecd2ce030,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5721627802026848139, guid: d435b4c65d9874542bee7c2ecd2ce030,
         type: 3}

@@ -210,7 +210,6 @@ public class ThirdPlayerController : MonoBehaviour
                 Debug.Log(other.GetComponent<ItemController>().Item);
                 InventoryManager.addItem(other.GetComponent<ItemController>().Item);
                 other.GetComponent<GetItem>().Get();
-                InventoryManager.Instance.addItem(other.GetComponent<ItemController>().Item);
                 playerInputs.interaction = false;
             }
         }

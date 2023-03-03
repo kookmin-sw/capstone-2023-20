@@ -3152,7 +3152,7 @@ GameObject:
   - component: {fileID: 4739832367753883608}
   - component: {fileID: 369565989063905590}
   m_Layer: 8
-  m_Name: Latifa
+  m_Name: PlayerLatifa
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4678,7 +4678,7 @@ GameObject:
   - component: {fileID: 981693778722704448}
   - component: {fileID: 8053508464401518960}
   m_Layer: 8
-  m_Name: Taichi
+  m_Name: PlayerTaichi
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

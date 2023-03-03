@@ -3249,7 +3249,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Inventory: {fileID: 8606224454559211286}
-  InventoryManager: {fileID: 5309904160214306624}
+  InventoryManager: {fileID: 2312498499568412951}
   Minimap: {fileID: 8870119579038678174}
   CurrentMap: {fileID: 0}
   TextInteraction: {fileID: 1477754087404381693}
@@ -3337,6 +3337,7 @@ MonoBehaviour:
   interaction: 0
   inventory: 0
   minimap: 0
+  UILock: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -3469,6 +3470,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 0
     Name: MotionSpeed
+  - Type: 4
+    SynchronizeType: 0
+    Name: Investigate
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -5129,7 +5133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7049454254289566045}
-  - component: {fileID: 5309904160214306624}
+  - component: {fileID: 2312498499568412951}
   m_Layer: 8
   m_Name: InventoryManagerLatifa
   m_TagString: Untagged
@@ -5157,7 +5161,7 @@ RectTransform:
   m_AnchoredPosition: {x: 513.2975, y: 167.09}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5309904160214306624
+--- !u!114 &2312498499568412951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5166,10 +5170,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5935322645104600022}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7c8175b155349843adac3ecfd892a9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 76ccc0b59941afb4b91b36feeafd2902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Instance: {fileID: 5309904160214306624}
   Items: []
   ItemContent: {fileID: 4604799300649834788}
   InventoryItem: {fileID: 3424938949494706469, guid: af8c1eb66f077214090c9f0c667d3b8f,

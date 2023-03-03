@@ -82,12 +82,10 @@ public class ThirdPlayerController : MonoBehaviour
             // 
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                //Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
-                    // 상호작용 버튼 활성화
-                    InvestigateValue = true;
 
                     // 상호작용 메세지 활성화
                     Popup.instance.OpenPopUp();
@@ -95,8 +93,9 @@ public class ThirdPlayerController : MonoBehaviour
                     // 상호작용시 퍼즐 활성화
                     if (playerInputs.investigate == true)
                     {
+                        // 상호작용 버튼 활성화
+                        InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
-                        playerInputs.investigate = true;
                         playerInputs.PlayerLockOn();
                     } 
 
@@ -215,12 +214,8 @@ public class ThirdPlayerController : MonoBehaviour
                 //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
                 other.GetComponent<EventObject>().getText().SetActive(false);
                 other.GetComponent<EventObject>().getEventUI().SetActive(false);
-                Debug.Log(other.GetComponent<ItemController>().Item);
-                InventoryManager.addItem(other.GetComponent<ItemController>().Item);
                 other.GetComponent<GetItem>().Get();
-
-                //Debug.Log("Item:" + other.GetComponent<ItemController>().Item);
-                
+                InventoryManager.Instance.addItem(other.GetComponent<ItemController>().Item);
                 playerInputs.interaction = false;
             }
         }

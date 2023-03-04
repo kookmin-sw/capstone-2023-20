@@ -1,7 +1,7 @@
 ---
-name: 회의록
-about: 회의록
-title: ''
+name: Meeting minutes
+about: Meeting minutes
+title: "[Meeting minutes] date"
 labels: ''
 assignees: ''
 

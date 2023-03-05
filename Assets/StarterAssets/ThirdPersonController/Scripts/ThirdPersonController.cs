@@ -101,6 +101,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDInvestigate;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
@@ -163,8 +164,9 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
 
             Investigate();
+            if (!InvestigateValue)
+                Move();
             JumpAndGravity();
-            Move();
             GroundedCheck();
 
         }
@@ -181,6 +183,7 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDInvestigate = Animator.StringToHash("Investigate");
         }
 
         private void GroundedCheck()
@@ -296,13 +299,17 @@ namespace StarterAssets
         //유성현 - 조사버튼 액션
        void Investigate()
         {
-            
-            if (PlayerController.InvestigateValue == true && _input.investigate == true)
+
+            if (PlayerController.InvestigateValue == true)
             {
                 InvestigateValue = true;
+                _animator.SetBool(_animIDInvestigate, true);
             }
             else
-                InvestigateValue= false;
+            {
+                InvestigateValue = false;
+                _animator.SetBool(_animIDInvestigate, false);
+            }
 
         }
 
@@ -334,7 +341,8 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDJump, true);
+                        if (!_animator.GetBool(_animIDInvestigate))
+                            _animator.SetBool(_animIDJump, true);
                     }
                 }
 
@@ -373,6 +381,7 @@ namespace StarterAssets
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
         }
+
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {

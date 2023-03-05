@@ -74,6 +74,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
         for (int i = 0; i < ChatLog.Length; i++) ChatLog[i].text = "";
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2) ChatRPC("<color=red>" + "서로 무슨 역할을 할지 조율하세요. 인게임에서는 오로지 보이스로만 소통이 가능합니다");
         CharacterRenewal();
+
         //플레이어 커스텀 프로퍼티
         PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "GameReady", false } });
 
@@ -239,10 +240,10 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     [PunRPC]
     private void GameStart()
     {
-        Invoke("LoadGameScene", 3f);
+        Invoke("GameScene", 3f);
     }
 
-    private void LoadGameScene()
+    private void GameScene()
     {
         Debug.Log("게임 씬으로 이동");
         SceneManager.LoadScene("testSceneKWJ");

@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class InventoryitemController : MonoBehaviour
 {
     Items item;
-    public InventoryManager InventoryManager;
+
     public Button RemoveButton;
     public GameObject ItemView;
     public GameObject ItemTooltip;
@@ -19,7 +19,6 @@ public class InventoryitemController : MonoBehaviour
     private GameObject ItemModel;
     private GameObject itemPrefab;
     
-
     // 아이템(인벤토리)가 비활성화됐을 경우 ItemView와 ItemTooltip 모두 비활성화
     private void Update()
     {
@@ -47,9 +46,9 @@ public class InventoryitemController : MonoBehaviour
     {
         ItemName = gameObject.transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text;
 
-        if (ItemName == "Phone" || ItemName=="HP")
+        if (ItemName == "Phone" || ItemName=="HP" || ItemName == "W.C Key" || ItemName == "Flashlight")
         {
-            InventoryManager.removeItem(item);
+            InventoryManager.Instance.removeItem(item);
             Destroy(gameObject);
         }
         else

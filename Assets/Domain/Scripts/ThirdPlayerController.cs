@@ -13,28 +13,29 @@ using System.Threading;
 using System;
     
 
-//±è±â¹ü - Asuna¿ëµµ ÄÁÆ®·Ñ·¯ Å¬·¡½º (player È®Àå¿ë Å¬·¡½º)
+//ï¿½ï¿½ï¿½ï¿½ - Asunaï¿½ëµµ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ (player È®ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½)
 public class ThirdPlayerController : MonoBehaviour
 {
-    //Æ÷Åæºä °´Ã¼
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
     private PhotonView pv;
-    //º¸Åë»óÅÂ ½Ã³×¸Ó½Å Ä«¸Þ¶ó
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã³×¸Ó½ï¿½ Ä«ï¿½Þ¶ï¿½
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
-    //Ä«¸Þ¶ó root
+    //Ä«ï¿½Þ¶ï¿½ root
     [SerializeField]
     private GameObject cameraRoot;
-    //Ä«¸Þ¶ó 
+    //Ä«ï¿½Þ¶ï¿½ 
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    //±è¿øÁø - ÀÎº¥Åä¸® GameObject Ãß°¡
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Îºï¿½ï¿½ä¸® GameObject ï¿½ß°ï¿½
     [SerializeField] private GameObject Inventory;
-    //±è¿øÁø - ÀÎº¥Åä¸® °ü¸®ÀÚ InventoryManager Ãß°¡
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ InventoryManager ï¿½ß°ï¿½
     [SerializeField] private InventoryManager InventoryManager;
-    //±è¿øÁø - ¹Ì´Ï¸Ê GameObject Ãß°¡
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Ì´Ï¸ï¿½ GameObject ï¿½ß°ï¿½
     [SerializeField] private GameObject Minimap;
-    //±è¿øÁø - ÇöÀç Ä³¸¯ÅÍ°¡ À§Ä¡ÇÑ °÷ ÀúÀå
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     [SerializeField] private GameObject CurrentMap;
 
+    [SerializeField] private GameObject TextInteraction;
 
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
@@ -58,7 +59,7 @@ public class ThirdPlayerController : MonoBehaviour
 
     private void Awake()
     {
-        //KB - °´Ã¼»ý¼º½Ã Ä«¸Þ¶ó ¿ì¼±µµ Á¶Á¤, ÀÚ½ÅÀÇ ·ÎÄÃÄ³¸¯ÅÍ¸é ¿ì¼±µµ ³ôÈû
+        //KB - ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½ì¼±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ì¼±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         pv = GetComponent<PhotonView>();
         if (pv.IsMine) virtualCamera.Priority = 20;
         playerInputs = GetComponent<StarterAssetsInputs>();
@@ -67,40 +68,39 @@ public class ThirdPlayerController : MonoBehaviour
     }
     private void Update()
     {
-        //È­¸é Áß¾Ó 2Â÷¿ø º¤ÅÍ°ª
+        //È­ï¿½ï¿½ ï¿½ß¾ï¿½ 2ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
 
-        //ray¿ÀºêÁ§Æ® Ä«¸Þ¶ó¿¡¼­ ¸¶¿ì½º°¡ °¡¸£Å°´Â È­¸éÆ÷ÀÎÆ®¸¦ ray°´Ã¼¿¡ ÇÒ´ç
+        //rayï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ä«ï¿½Þ¶ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ rayï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ò´ï¿½
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        // À¯¼ºÇö
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (Physics.Raycast(ray, out hit))
         {
 
-            // raycast °Å¸®°¡ 2f ÀÌ³», È­¸é¿¡ UI¾øÀ»½Ã¿¡¸¸ È°¼ºÈ­
+            // raycast ï¿½Å¸ï¿½ï¿½ï¿½ 2f ï¿½Ì³ï¿½, È­ï¿½é¿¡ UIï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
             // 
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                //Debug.Log("Ãæµ¹°´Ã¼: " + hit.collider.name  + "\nÃæµ¹ÅÂ±×: " + hit.collider.tag);
-                // ÆÛÁñ ¿ÀºêÁ§Æ® ÀÏ½Ã
+                Debug.Log("ï¿½æµ¹ï¿½ï¿½Ã¼: " + hit.collider.name  + "\nï¿½æµ¹ï¿½Â±ï¿½: " + hit.collider.tag);
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ï½ï¿½
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
-                    // »óÈ£ÀÛ¿ë ¹öÆ° È°¼ºÈ­
-                    InvestigateValue = true;
 
-                    // »óÈ£ÀÛ¿ë ¸Þ¼¼Áö È°¼ºÈ­
+                    // ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
                     Popup.instance.OpenPopUp();
 
-                    // »óÈ£ÀÛ¿ë½Ã ÆÛÁñ È°¼ºÈ­
+                    // ï¿½ï¿½È£ï¿½Û¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
                     if (playerInputs.investigate == true)
                     {
+                        // ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½ï¿½Æ° È°ï¿½ï¿½È­
+                        InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
-                        playerInputs.investigate = true;
                         playerInputs.PlayerLockOn();
                     } 
 
-                    // Å°º¸µå RÅ° ÀÔ·Â ½Ã
+                    // Å°ï¿½ï¿½ï¿½ï¿½ RÅ° ï¿½Ô·ï¿½ ï¿½ï¿½
                     //if (Input.GetKeyDown(KeyCode.R))
                     //{
                     //    Puzzle.target1();
@@ -122,7 +122,7 @@ public class ThirdPlayerController : MonoBehaviour
 
                 }
             }
-            // raycast¿¡ ¹°Ã¼°¡ ¾øÀ» ½Ã 
+            // raycastï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
             else
             {
                 Popup.instance.ClosePopUp();
@@ -130,27 +130,25 @@ public class ThirdPlayerController : MonoBehaviour
         }
 
 
-        //±è¿øÁø - ÀÎº¥Åä¸® »óÅÂ½Ã ÀÎº¥Åä¸® UI È°¼ºÈ­
-        //±è¿øÁø - Áßº¹ UI ¹æÁö À§ÇØ ¹Ì´Ï¸Ê UI ºñÈ°¼º ÄÚµå Ãß°¡
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½Â½ï¿½ ï¿½Îºï¿½ï¿½ä¸® UI È°ï¿½ï¿½È­
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ßºï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´Ï¸ï¿½ UI ï¿½ï¿½È°ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ß°ï¿½
         if (playerInputs.inventory)
         {
             Inventory.SetActive(true);
-            playerInputs.minimap = false;
         }
         else
         {
             Inventory.SetActive(false);
         }
 
-        //±è¿øÁø - ¹Ì´Ï¸Ê »óÅÂ½Ã ¹Ì´Ï¸Ê UI È°¼ºÈ­
-        //±è¿øÁø - Áßº¹ UI ¹æÁö À§ÇØ ÀÎº¥Åä¸® UI ºñÈ°¼º ÄÚµå Ãß°¡
-        //±è¿øÁø - ÇöÀç UI°¡ Áßº¹µÇÁø ¾ÊÀ¸³ª Update ÇÔ¼ö Æ¯¼º»ó ±× ¼ø¼­¿¡ µû¶ó Map -> Inventory½Ã
-        //MapUI¿¡¼­ InventoryUI·Î UI°¡ ÀüÈ¯µÇ³ª Inventory -> MapÀ¸·Î´Â ÀüÈ¯µÇÁø ¾ÊÀ½. 
-        //»óÀÇÈÄ ÇÊ¿ä½Ã Inventory -> Map ÀüÈ¯±â´É Ãß°¡ ±¸Çö È¤Àº ÀüÈ¯À» ¾Æ¿¹ ¸·´Â ¹æÇâÀ¸·Î °¥°Í.
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Ì´Ï¸ï¿½ ï¿½ï¿½ï¿½Â½ï¿½ ï¿½Ì´Ï¸ï¿½ UI È°ï¿½ï¿½È­
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ßºï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® UI ï¿½ï¿½È°ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ß°ï¿½
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Update ï¿½Ô¼ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Map -> Inventoryï¿½ï¿½
+        //MapUIï¿½ï¿½ï¿½ï¿½ InventoryUIï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ç³ï¿½ Inventory -> Mapï¿½ï¿½ï¿½Î´ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. 
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ Inventory -> Map ï¿½ï¿½È¯ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ È¤ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         if (playerInputs.minimap)
         {
             Minimap.SetActive(true);
-            playerInputs.inventory = false;
         }
         else
         {
@@ -159,8 +157,8 @@ public class ThirdPlayerController : MonoBehaviour
 
     }
 
-    //±è¿øÁø - ¹Ì´Ï¸Ê ÀüÈ¯ ±¸¿ª ÁøÀÔ½Ã ¹Ì´Ï¸Ê ÀüÈ¯.
-    //±è¿øÁø - CurrentMapÀÌ Null »óÅÂÀÏ °æ¿ì ÃÖÃÊ ÁøÀÔÇÑ ÀüÈ¯±¸¿ªÀÇ TransMapÀ» CurrentMapÀ¸·Î ¼³Á¤.
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Ì´Ï¸ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½ ï¿½Ì´Ï¸ï¿½ ï¿½ï¿½È¯.
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ - CurrentMapï¿½ï¿½ Null ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ TransMapï¿½ï¿½ CurrentMapï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Maps")
@@ -197,30 +195,21 @@ public class ThirdPlayerController : MonoBehaviour
     }
 
 
-    //±è¿øÁø - ´Éµ¿Àû ¾ÆÀÌÅÛ È¹µæÀ» À§ÇØ OnTriggerEnter -> OnTriggerStay·Î º¯È¯
-    //       - cf) Enter·Î ÇÒ ½Ã ÃÖÃÊÁøÀÔÀÌ ±âÁØÀÌ¹Ç·Î ¾ÆÀÌÅÛ È¹µæÀ» À§ÇØ »óÈ£ÀÛ¿ë ¹öÆ°À» ´©¸¦½Ã È¹µæµÇÁö ¾Ê´Â °æ¿ì°¡ »ý±è. 
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Éµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ OnTriggerEnter -> OnTriggerStayï¿½ï¿½ ï¿½ï¿½È¯
+    //       - cf) Enterï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ì°¡ ï¿½ï¿½ï¿½ï¿½. 
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Items")
         {
-            if (playerInputs.investigate)
-            {
-                Debug.Log("Investigating");
-                other.GetComponent<EventObject>().getEventUI().SetActive(true);
-            }
-
-            //±è¿øÁø - ¾ÆÀÌÅÛ »óÈ£ÀÛ¿ë½Ã ½Àµæ
+            TextInteraction.SetActive(true);
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (playerInputs.interaction)
             {
-                //±è¿øÁø - »óÈ£ÀÛ¿ë½Ã ¶°ÀÖ´Â EventUI ¹®±¸ Á¦°Å.
-                other.GetComponent<EventObject>().getText().SetActive(false);
-                other.GetComponent<EventObject>().getEventUI().SetActive(false);
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½È£ï¿½Û¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ö´ï¿½ EventUI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+                TextInteraction.SetActive(false);
                 Debug.Log(other.GetComponent<ItemController>().Item);
                 InventoryManager.addItem(other.GetComponent<ItemController>().Item);
                 other.GetComponent<GetItem>().Get();
-
-                //Debug.Log("Item:" + other.GetComponent<ItemController>().Item);
-                
                 playerInputs.interaction = false;
             }
         }
@@ -230,7 +219,7 @@ public class ThirdPlayerController : MonoBehaviour
         
         if (other.tag == "Items")
         {
-            other.GetComponent<EventObject>().getEventUI().SetActive(false);
+            TextInteraction.SetActive(false);
         }
         if (other.tag == "Maps")
         {

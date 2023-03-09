@@ -12,4 +12,5 @@ public class Items : ScriptableObject
     public int value;
     public Sprite ItemIcon;
     public string ItemDetails;
+    public GameObject ItemModels;
 }

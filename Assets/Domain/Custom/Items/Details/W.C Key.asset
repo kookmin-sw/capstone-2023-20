@@ -17,3 +17,5 @@ MonoBehaviour:
   value: 0
   ItemIcon: {fileID: 21300000, guid: e89a2595f3b05ac4abae769f4554bf12, type: 3}
   ItemDetails: A Key that opens W.C.
+  ItemModels: {fileID: 7266890756948925651, guid: 0f597a54cf46b7747a1b2cb9d33f0caa,
+    type: 3}

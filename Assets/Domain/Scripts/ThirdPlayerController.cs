@@ -35,7 +35,10 @@ public class ThirdPlayerController : MonoBehaviour
     //김원진 - 현재 캐릭터가 위치한 곳 저장
     [SerializeField] private GameObject CurrentMap;
 
-    [SerializeField] private GameObject TextInteraction;
+    [SerializeField] private GameObject ItemInteraction;
+    [SerializeField] private GameObject LockInteraction;
+    [SerializeField] private GameObject LockView;
+    [SerializeField] private GameObject ItemView;
 
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
@@ -82,6 +85,7 @@ public class ThirdPlayerController : MonoBehaviour
             {
                 Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
+
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
 
@@ -104,7 +108,8 @@ public class ThirdPlayerController : MonoBehaviour
                     {
                         // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
                         GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
-
+                        playerInputs.investigate = false;
+                        playerInputs.interaction = false;
                     }
                 }
                 else
@@ -183,6 +188,11 @@ public class ThirdPlayerController : MonoBehaviour
                 }
             }
         }
+        
+        if (other.tag == "Locker")
+        {
+            LockInteraction.SetActive(true);
+        }
     }
 
     //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환
@@ -191,16 +201,43 @@ public class ThirdPlayerController : MonoBehaviour
     {
         if (other.tag == "Items")
         {
-            TextInteraction.SetActive(true);
+            ItemInteraction.SetActive(true);
             //김원진 - 아이템 상호작용시 습득
             if (playerInputs.interaction)
             {
                 //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
-                TextInteraction.SetActive(false);
+                ItemInteraction.SetActive(false);
+
                 Debug.Log(other.GetComponent<ItemController>().Item);
                 InventoryManager.addItem(other.GetComponent<ItemController>().Item);
                 other.GetComponent<GetItem>().Get();
                 playerInputs.interaction = false;
+            }
+        }
+        else if (other.tag == "Locker")
+        {
+            if(playerInputs.interaction)
+            {
+                if (other.GetComponent<Locker>().IsLock == false)
+                {
+                    other.GetComponent<Locker>().LockView();
+                    other.GetComponent<Locker>().InstantPadLock.transform.parent = ItemView.transform;
+                    GameObject InstantPadLock = ItemView.transform.Find("Combination PadLock(Clone)").gameObject;
+                    InstantPadLock.transform.localPosition = new Vector3(0, 0, 0.1f);
+                    InstantPadLock.transform.localRotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    
+                    LockView.SetActive(true);
+                    playerInputs.UILock = true;
+                    playerInputs.PlayerMoveLock();
+                }
+                playerInputs.interaction = false;
+                LockInteraction.SetActive(false);
+            }
+            if (!LockView.activeSelf)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+                other.GetComponent<Locker>().Viewing = false;
             }
         }
     }
@@ -209,7 +246,7 @@ public class ThirdPlayerController : MonoBehaviour
         
         if (other.tag == "Items")
         {
-            TextInteraction.SetActive(false);
+            ItemInteraction.SetActive(false);
         }
         if (other.tag == "Maps")
         {
@@ -233,6 +270,12 @@ public class ThirdPlayerController : MonoBehaviour
                 }
 
             }
+        }
+        if (other.tag == "Locker")
+        {
+            other.GetComponent<Locker>().DestroyView();
+            LockInteraction.SetActive(false);
+            LockView.SetActive(false);
         }
     }
 

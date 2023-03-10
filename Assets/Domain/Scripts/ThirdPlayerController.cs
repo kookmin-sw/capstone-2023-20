@@ -35,7 +35,10 @@ public class ThirdPlayerController : MonoBehaviour
     //����� - ���� ĳ���Ͱ� ��ġ�� �� ����
     [SerializeField] private GameObject CurrentMap;
 
-    [SerializeField] private GameObject TextInteraction;
+    [SerializeField] private GameObject ItemInteraction;
+    [SerializeField] private GameObject LockInteraction;
+    [SerializeField] private GameObject LockView;
+    [SerializeField] private GameObject ItemView;
 
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
@@ -83,7 +86,7 @@ public class ThirdPlayerController : MonoBehaviour
             // 
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                Debug.Log("�浹��ü: " + hit.collider.name  + "\n�浹�±�: " + hit.collider.tag);
+                //Debug.Log("�浹��ü: " + hit.collider.name  + "\n�浹�±�: " + hit.collider.tag);
                 // ���� ������Ʈ �Ͻ�
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
@@ -113,7 +116,8 @@ public class ThirdPlayerController : MonoBehaviour
                     if (playerInputs.investigate == true)
                     {
                         GameObject.Find(hit.collider.name).GetComponent<DoorOpen>().Activate();
-
+                        playerInputs.investigate = false;
+                        playerInputs.interaction = false;
                     }
                 }
                 else
@@ -192,6 +196,11 @@ public class ThirdPlayerController : MonoBehaviour
                 }
             }
         }
+        
+        if (other.tag == "Locker")
+        {
+            LockInteraction.SetActive(true);
+        }
     }
 
 
@@ -201,16 +210,42 @@ public class ThirdPlayerController : MonoBehaviour
     {
         if (other.tag == "Items")
         {
-            TextInteraction.SetActive(true);
+            ItemInteraction.SetActive(true);
             //����� - ������ ��ȣ�ۿ�� ����
             if (playerInputs.interaction)
             {
                 //����� - ��ȣ�ۿ�� ���ִ� EventUI ���� ����.
-                TextInteraction.SetActive(false);
+                ItemInteraction.SetActive(false);
                 Debug.Log(other.GetComponent<ItemController>().Item);
                 InventoryManager.addItem(other.GetComponent<ItemController>().Item);
                 other.GetComponent<GetItem>().Get();
                 playerInputs.interaction = false;
+            }
+        }
+        else if (other.tag == "Locker")
+        {
+            if(playerInputs.interaction)
+            {
+                if (other.GetComponent<Locker>().IsLock == false)
+                {
+                    other.GetComponent<Locker>().LockView();
+                    other.GetComponent<Locker>().InstantPadLock.transform.parent = ItemView.transform;
+                    GameObject InstantPadLock = ItemView.transform.Find("Combination PadLock(Clone)").gameObject;
+                    InstantPadLock.transform.localPosition = new Vector3(0, 0, 0.1f);
+                    InstantPadLock.transform.localRotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    
+                    LockView.SetActive(true);
+                    playerInputs.UILock = true;
+                    playerInputs.PlayerMoveLock();
+                }
+                playerInputs.interaction = false;
+                LockInteraction.SetActive(false);
+            }
+            if (!LockView.activeSelf)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+                other.GetComponent<Locker>().Viewing = false;
             }
         }
     }
@@ -219,7 +254,7 @@ public class ThirdPlayerController : MonoBehaviour
         
         if (other.tag == "Items")
         {
-            TextInteraction.SetActive(false);
+            ItemInteraction.SetActive(false);
         }
         if (other.tag == "Maps")
         {
@@ -243,6 +278,12 @@ public class ThirdPlayerController : MonoBehaviour
                 }
 
             }
+        }
+        if (other.tag == "Locker")
+        {
+            other.GetComponent<Locker>().DestroyView();
+            LockInteraction.SetActive(false);
+            LockView.SetActive(false);
         }
     }
 

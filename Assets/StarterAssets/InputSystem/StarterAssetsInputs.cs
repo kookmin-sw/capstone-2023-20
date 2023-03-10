@@ -25,6 +25,8 @@ namespace StarterAssets
 		//김원진 minimap - m키 누르면 minimap UI 활성화
 		public bool minimap;
 
+		public bool LookLock;
+		public bool MoveLock;
 		public bool UILock;
 
         [Header("Movement Settings")]
@@ -90,13 +92,19 @@ namespace StarterAssets
         // 조사중 일 때 못움직이게 하는게 아니라 조사를 하면 움직임을 아예 멈추게하도록 수정 필요함.
         public void MoveInput(Vector2 newMoveDirection)
 		{
-
-			move = newMoveDirection;
+			if (!MoveLock)
+			{
+                move = newMoveDirection;
+            }
 		} 
 
 		public void LookInput(Vector2 newLookDirection)
 		{
-			look = newLookDirection;
+			if (!LookLock)
+			{
+                look = newLookDirection;
+            }
+			
 		}
 
 		public void JumpInput(bool newJumpState)
@@ -188,6 +196,24 @@ namespace StarterAssets
                 cursorInputForLook = true;
             }
         }
+
+		public void PlayerMoveLock()
+		{
+			move = new Vector2(0, 0);
+			look = new Vector2(0, 0);
+			LookLock = true;
+			MoveLock = true;
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+        }
+
+		public void PlayerMoveUnlock()
+		{
+			LookLock = false;
+			MoveLock = false;
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+		}
 
         private void SetCursorState(bool newState)
 		{

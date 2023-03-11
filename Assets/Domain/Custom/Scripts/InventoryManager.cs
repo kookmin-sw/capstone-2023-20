@@ -12,8 +12,9 @@ public class InventoryManager : MonoBehaviour
 
     public Transform ItemContent;
     public GameObject InventoryItem;
-
+    public GameObject SelectedItem;
     public InventoryitemController[] InventoryItemControllers;
+    public GameObject ItemView;
 
    private void Awake()
    {
@@ -31,6 +32,12 @@ public class InventoryManager : MonoBehaviour
         Items.Remove(items);
         
     }
+    
+    public void viewItem()
+    {
+        SelectedItem.transform.parent = ItemView.transform;
+        SelectedItem.transform.localPosition = new Vector3(0, 0, 0);
+    }
 
     public void ListItems()
     {
@@ -42,17 +49,18 @@ public class InventoryManager : MonoBehaviour
         foreach(var item in Items)
         {
             GameObject obj = Instantiate(InventoryItem, ItemContent);
-            Debug.Log(obj.transform.Find("ItemIcon").GetComponent<Image>());
-
+            
 
             var ItemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var ItemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var ItemDetails = obj.transform.Find("ItemDetails").GetComponent<TextMeshProUGUI>();
+            
 
             ItemName.text = item.ItemName;
             ItemIcon.sprite = item.ItemIcon;
             ItemDetails.text = item.ItemDetails;
-            
+            obj.GetComponent<InventoryitemController>().ItemModel = item.ItemModels;
+
         }
     }
 }

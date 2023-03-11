@@ -17,3 +17,5 @@ MonoBehaviour:
   value: 0
   ItemIcon: {fileID: 21300000, guid: e6a663797ac61ee42a369bdd9fff2e61, type: 3}
   ItemDetails: Syringe that stores HP. Stores Hp about 15 points. Should Inject carefully.
+  ItemModels: {fileID: 3337699471446062087, guid: c99b77944b54a03439fc0bd0c46d98ed,
+    type: 3}

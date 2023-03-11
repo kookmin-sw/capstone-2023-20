@@ -17,3 +17,5 @@ MonoBehaviour:
   value: 0
   ItemIcon: {fileID: 21300000, guid: 004a69cd57042524f96431a832a8a689, type: 3}
   ItemDetails: A Flashlight. Can Flash a light with Pressing 'F' When used.
+  ItemModels: {fileID: 5377430525375964176, guid: e14724073f7c63e418a03f6f8e976097,
+    type: 3}

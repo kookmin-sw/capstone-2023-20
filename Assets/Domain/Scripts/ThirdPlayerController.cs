@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System.Threading;
 using System;
-    
+
 
 //���� - Asuna�뵵 ��Ʈ�ѷ� Ŭ���� (player Ȯ��� Ŭ����)
 public class ThirdPlayerController : MonoBehaviour
@@ -24,7 +24,7 @@ public class ThirdPlayerController : MonoBehaviour
     //카메라 root
     [SerializeField]
     private GameObject cameraRoot;
-    //카메라 
+    //카메라
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     //김원진 - 인벤토리 GameObject 추가
     [SerializeField] private GameObject Inventory;
@@ -35,7 +35,10 @@ public class ThirdPlayerController : MonoBehaviour
     //김원진 - 현재 캐릭터가 위치한 곳 저장
     [SerializeField] private GameObject CurrentMap;
 
-    [SerializeField] private GameObject TextInteraction;
+    [SerializeField] private GameObject ItemInteraction;
+    [SerializeField] private GameObject LockInteraction;
+    [SerializeField] private GameObject LockView;
+    [SerializeField] private GameObject ItemView;
 
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
@@ -94,7 +97,7 @@ public class ThirdPlayerController : MonoBehaviour
                         InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
                         playerInputs.PlayerLockOn();
-                    } 
+                    }
 
                 }
                 else if (hit.collider.CompareTag("EventObj"))
@@ -104,7 +107,8 @@ public class ThirdPlayerController : MonoBehaviour
                     {
                         // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
                         GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
-
+                        playerInputs.investigate = false;
+                        playerInputs.interaction = false;
                     }
                 }
                 else
@@ -113,7 +117,7 @@ public class ThirdPlayerController : MonoBehaviour
 
                 }
             }
-            // raycast에 물체가 없을 시 
+            // raycast에 물체가 없을 시
             else
             {
                 Popup.instance.ClosePopUp();
@@ -135,7 +139,7 @@ public class ThirdPlayerController : MonoBehaviour
         //김원진 - 미니맵 상태시 미니맵 UI 활성화
         //김원진 - 중복 UI 방지 위해 인벤토리 UI 비활성 코드 추가
         //김원진 - 현재 UI가 중복되진 않으나 Update 함수 특성상 그 순서에 따라 Map -> Inventory시
-        //MapUI에서 InventoryUI로 UI가 전환되나 Inventory -> Map으로는 전환되진 않음. 
+        //MapUI에서 InventoryUI로 UI가 전환되나 Inventory -> Map으로는 전환되진 않음.
         //상의후 필요시 Inventory -> Map 전환기능 추가 구현 혹은 전환을 아예 막는 방향으로 갈것.
         if (playerInputs.minimap)
         {
@@ -170,7 +174,7 @@ public class ThirdPlayerController : MonoBehaviour
                     TransMap.SetActive(true);
                     CurrentMap = TransMap;
                 }
-                
+
             }
             if(other.name == "Stair1")
             {
@@ -183,33 +187,64 @@ public class ThirdPlayerController : MonoBehaviour
                 }
             }
         }
+
+        if (other.tag == "Locker")
+        {
+            LockInteraction.SetActive(true);
+        }
     }
 
     //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환
-    //       - cf) Enter로 할 시 최초진입이 기준이므로 아이템 획득을 위해 상호작용 버튼을 누를시 획득되지 않는 경우가 생김. 
+    //       - cf) Enter로 할 시 최초진입이 기준이므로 아이템 획득을 위해 상호작용 버튼을 누를시 획득되지 않는 경우가 생김.
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Items")
         {
-            TextInteraction.SetActive(true);
+            ItemInteraction.SetActive(true);
             //김원진 - 아이템 상호작용시 습득
             if (playerInputs.interaction)
             {
                 //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
-                TextInteraction.SetActive(false);
+                ItemInteraction.SetActive(false);
                 Debug.Log(other.GetComponent<ItemController>().Item);
                 InventoryManager.addItem(other.GetComponent<ItemController>().Item);
                 other.GetComponent<GetItem>().Get();
                 playerInputs.interaction = false;
             }
         }
+        else if (other.tag == "Locker")
+        {
+            if(playerInputs.interaction)
+            {
+                if (other.GetComponent<Locker>().IsLock == false)
+                {
+                    other.GetComponent<Locker>().LockView();
+                    other.GetComponent<Locker>().InstantPadLock.transform.parent = ItemView.transform;
+                    GameObject InstantPadLock = ItemView.transform.Find("Combination PadLock(Clone)").gameObject;
+                    InstantPadLock.transform.localPosition = new Vector3(0, 0, 0.1f);
+                    InstantPadLock.transform.localRotation = Quaternion.Euler(new Vector3(0, 180, 0));
+
+                    LockView.SetActive(true);
+                    playerInputs.UILock = true;
+                    playerInputs.PlayerMoveLock();
+                }
+                playerInputs.interaction = false;
+                LockInteraction.SetActive(false);
+            }
+            if (!LockView.activeSelf)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+                other.GetComponent<Locker>().Viewing = false;
+            }
+        }
     }
     private void OnTriggerExit(Collider other)
     {
-        
+
         if (other.tag == "Items")
         {
-            TextInteraction.SetActive(false);
+            ItemInteraction.SetActive(false);
         }
         if (other.tag == "Maps")
         {
@@ -234,8 +269,13 @@ public class ThirdPlayerController : MonoBehaviour
 
             }
         }
+        if (other.tag == "Locker")
+        {
+            other.GetComponent<Locker>().DestroyView();
+            LockInteraction.SetActive(false);
+            LockView.SetActive(false);
+        }
     }
 
 
 }
-

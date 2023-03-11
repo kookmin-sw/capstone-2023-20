@@ -42,10 +42,10 @@ namespace Puzzles
                 transform.SetParent(puzzle.puzzlePieceSet.transform);
             }
 
+            // 퍼즐 클리어시 코드
             if (puzzle.IsClear())
             {
                 Debug.Log("Clear");
-                GameObject.Find("Puzzle2").GetComponent<Activate1>().Activate();
             }
         }
 

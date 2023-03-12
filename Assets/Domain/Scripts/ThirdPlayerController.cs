@@ -61,7 +61,7 @@ public class ThirdPlayerController : MonoBehaviour
     {
         //KB - ��ü������ ī�޶� �켱�� ����, �ڽ��� ����ĳ���͸� �켱�� ����
         pv = GetComponent<PhotonView>();
-        if (pv.IsMine) virtualCamera.Priority = 20;
+        if (pv.IsMine) virtualCamera.Priority += 10;
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();

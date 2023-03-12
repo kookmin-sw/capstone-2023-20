@@ -3147,7 +3147,6 @@ GameObject:
   - component: {fileID: 4079919205582287008}
   - component: {fileID: 4939969789357892556}
   - component: {fileID: 7008048694918821904}
-  - component: {fileID: 5988903934231497993}
   - component: {fileID: 2655993273688867196}
   - component: {fileID: 4739832367753883608}
   - component: {fileID: 369565989063905590}
@@ -3440,42 +3439,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &5988903934231497993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3817298006141453325}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 1
-    SynchronizeType: 0
-    Name: Speed
-  - Type: 4
-    SynchronizeType: 0
-    Name: Jump
-  - Type: 4
-    SynchronizeType: 0
-    Name: Grounded
-  - Type: 4
-    SynchronizeType: 0
-    Name: FreeFall
-  - Type: 1
-    SynchronizeType: 0
-    Name: MotionSpeed
-  - Type: 4
-    SynchronizeType: 0
-    Name: Investigate
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!114 &2655993273688867196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3511,7 +3474,6 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5988903934231497993}
   - {fileID: 2655993273688867196}
   sceneViewId: 0
   InstantiationId: 0

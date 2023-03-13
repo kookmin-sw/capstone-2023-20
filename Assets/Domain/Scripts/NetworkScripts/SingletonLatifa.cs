@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class SingletonLatifa : MonoBehaviour
 {
     private static SingletonLatifa instance;
-
     public static SingletonLatifa Instance
     {
         get

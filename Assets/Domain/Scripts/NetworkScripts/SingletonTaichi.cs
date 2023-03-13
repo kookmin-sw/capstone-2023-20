@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class SingletonTaichi : MonoBehaviour
@@ -27,7 +28,7 @@ public class SingletonTaichi : MonoBehaviour
 
     }
 
-    //±è±â¹ü - °´Ã¼ Áßº¹°Ë»ç
+    //±è±â¹ü - °´Ã¼ Áßº¹°Ë»ç,pvÇÒ´ç
     private void Awake()
     {
         var objs = FindObjectsOfType<SingletonTaichi>();

@@ -19,8 +19,7 @@ public class ThirdPlayerController : MonoBehaviour
     //포톤뷰 객체
     private PhotonView pv;
     //보통상태 시네머신 카메라
-    [SerializeField]
-    private CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera virtualCamera;
     //카메라 root
     [SerializeField]
     private GameObject cameraRoot;
@@ -63,7 +62,6 @@ public class ThirdPlayerController : MonoBehaviour
     private void Awake()
     {
         pv = GetComponent<PhotonView>();
-        if (pv.IsMine) virtualCamera.Priority = 20;
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();

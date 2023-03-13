@@ -3,34 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Pun.Demo.Cockpit.Forms;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
-{
+public class NetworkManager : MonoBehaviourPunCallbacks { 
     public PhotonView pv;
+
+
     private void Awake()
     {
         //마스터 클라이언트의 씬레벨 자동 동기화
-        PhotonNetwork.AutomaticallySyncScene = true;
-        CreatePlayer(PhotonNetwork.LocalPlayer.NickName);
+        //PhotonNetwork.AutomaticallySyncScene = true;
+        CreatePlayer(PhotonNetwork.LocalPlayer);
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties.ToString());
     }
-
-    [PunRPC]
-    private void CreatePlayer(string nickName)
+    private void CreatePlayer(Player player)
     {
-        if (nickName.Equals("Latifa"))
-        {
-            Transform point = GameObject.Find("SpwanPointLatifa").GetComponent<Transform>();
-            PhotonNetwork.Instantiate("PlayerLatifa", point.position, point.rotation);
- 
-        }
-        else if (nickName.Equals("Taichi"))
-        {
-            
-            Transform point = GameObject.Find("SpwanPointTaichi").GetComponent<Transform>();
-            PhotonNetwork.Instantiate("PlayerTaichi", point.position, point.rotation);
-        }
-        Debug.Log("캐릭터 생성" + nickName);
+        Debug.Log(GameObject.Find("Player" + player.NickName).ToString());
+        //GameObject.Find("Player" + player.NickName).GetComponent<PhotonView>().RequestOwnership();
+        GameObject.Find("Player" + player.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
     }
 
- 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        CreatePlayer(newPlayer);
+    }
 }

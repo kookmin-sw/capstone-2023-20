@@ -18,10 +18,7 @@ public class GuideUiManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maintxt = maintxt.Replace("\\n", "\n");
-        subtxt = subtxt.Replace("\\n", "\n");
-        SetMainPanelText();
-        SetSubPanelText();
+
     }
 
     // Update is called once per frame
@@ -31,15 +28,22 @@ public class GuideUiManager : MonoBehaviour
     }
     public void SetMainPanelText()
     {
+        maintxt = maintxt.Replace("\\n", "\n");
         MainTxt.SetText(maintxt.ToString());
     }
     public void SetSubPanelText()
     {
+        subtxt = subtxt.Replace("\\n", "\n");
         SubTxt.SetText(subtxt.ToString());
     }
-
+    public void SetPanelText()
+    {
+        SetMainPanelText();
+        SetSubPanelText();
+    }
     public void ActiveMainPanel()
     {
+        SetMainPanelText();
         MainPanel.SetActive(true);
     }
 

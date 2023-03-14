@@ -12,6 +12,7 @@ public class Timeline : MonoBehaviour
 
     private void Start()
     {
+        playableDirector = this.playableDirector;
         playableDirector.playOnAwake = false;
     }
 

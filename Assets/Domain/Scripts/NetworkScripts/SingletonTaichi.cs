@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class SingletonTaichi : MonoBehaviour
+public class SingletonTaichi : MonoBehaviourPunCallbacks
 {
     private static SingletonTaichi instance;
 
@@ -37,6 +37,11 @@ public class SingletonTaichi : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+      
         DontDestroyOnLoad(gameObject);
+    }
+    public override void OnLeftRoom()
+    {
+        Destroy(gameObject);
     }
 }

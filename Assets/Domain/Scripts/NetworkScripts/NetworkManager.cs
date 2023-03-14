@@ -3,28 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 using Photon.Pun.Demo.Cockpit.Forms;
 
 public class NetworkManager : MonoBehaviourPunCallbacks { 
     public PhotonView pv;
-
+    [SerializeField]
+    private GameObject titleUI;
+    [SerializeField]
+    private GameObject lobbyUI;
 
     private void Awake()
     {
-        //마스터 클라이언트의 씬레벨 자동 동기화
-        //PhotonNetwork.AutomaticallySyncScene = true;
-        CreatePlayer(PhotonNetwork.LocalPlayer);
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties.ToString());
+        
     }
-    private void CreatePlayer(Player player)
+
+    public void OnLevelWasLoaded(int level)
     {
-        Debug.Log(GameObject.Find("Player" + player.NickName).ToString());
-        //GameObject.Find("Player" + player.NickName).GetComponent<PhotonView>().RequestOwnership();
+        if(level != 0)
+        {
+            SetPlayer(PhotonNetwork.LocalPlayer);
+        }
+    }
+    private void SetPlayer(Player player)
+    {
+        Debug.Log("this LocalPlayer is "+GameObject.Find("Player" + player.NickName).ToString());
+        GameObject.Find("Player" + player.NickName).GetComponent<OwnershipTransfer>().OwnershipTransferLocalPlayer(player);
         GameObject.Find("Player" + player.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public void OnClickOutBtn()
     {
-        CreatePlayer(newPlayer);
+        Debug.Log("게임씬나가기");
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
+        titleUI.SetActive(false);
+        lobbyUI.SetActive(true);
     }
+
+  
 }

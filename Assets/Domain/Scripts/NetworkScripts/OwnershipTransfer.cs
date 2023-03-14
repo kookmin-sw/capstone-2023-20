@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -6,34 +7,44 @@ using UnityEngine;
 
 public class OwnershipTransfer : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
-    void Awake()
+    [SerializeField]
+    private PhotonView pv;
+    private void Awake()
     {
         PhotonNetwork.AddCallbackTarget(this);
     }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
     public void OwnershipTransferLocalPlayer(Player player)
     {
-        if (this.gameObject.name.Equals("Player" + player.NickName)) this.GetComponent<PhotonView>().RequestOwnership();
-        Debug.Log(this.gameObject.name.Equals("Player" + player.NickName));
-    }
-    public override void OnJoinedRoom()
-    {
-        OwnershipTransferLocalPlayer(PhotonNetwork.LocalPlayer);
+        
+        Debug.Log("호출한 오브젝트 명 : " +this.gameObject.name);
+        pv.RequestOwnership();
+
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
-        if (targetView != this.GetComponent<PhotonView>()) return;
-
-        base.photonView.TransferOwnership(requestingPlayer);
+        if (targetView != pv) return;
+        if (!this.gameObject.name.Equals("Player" + requestingPlayer.NickName)) return;
+        Debug.Log("Onreq : " + PhotonNetwork.LocalPlayer.NickName + "req Pl :"  + requestingPlayer.NickName);
+        //this.gameObject.GetComponent<PhotonView>().TransferOwnership(requestingPlayer);
+        pv.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
-        throw new System.NotImplementedException();
+        if (targetView != pv) return;
+        Debug.Log("Ontransfer : " + PhotonNetwork.LocalPlayer.NickName + "prev owner :" + previousOwner.NickName);
+        //throw new System.NotImplementedException();
     }
 
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Transfer failed");
+        //throw new System.NotImplementedException();
     }
 }

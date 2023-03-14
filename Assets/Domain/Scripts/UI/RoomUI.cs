@@ -192,6 +192,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
         }
         else
         {
+            
             foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
             {
                 if (player.NickName.Equals("선택안함")) startAble = false;
@@ -211,6 +212,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
                 LafitaSelectBtn.interactable = true;
                 TaichiSelectBtn.interactable = true;
             }
+            
         }
         StartBtn.interactable = startAble;
     }

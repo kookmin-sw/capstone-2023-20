@@ -25,6 +25,8 @@ public class ThirdPlayerController : MonoBehaviour
     private GameObject cameraRoot;
     //카메라
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+    //KKB - Option
+    [SerializeField] private GameObject Option;
     //김원진 - 인벤토리 GameObject 추가
     [SerializeField] private GameObject Inventory;
     //김원진 - 인벤토리 관리자 InventoryManager 추가
@@ -81,7 +83,7 @@ public class ThirdPlayerController : MonoBehaviour
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                //Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
@@ -146,6 +148,15 @@ public class ThirdPlayerController : MonoBehaviour
         else
         {
             Minimap.SetActive(false);
+        }
+        //KKB - option Input
+        if (playerInputs.option)
+        {
+            Option.SetActive(true);
+        }
+        else
+        {
+            Option.SetActive(false);
         }
 
     }

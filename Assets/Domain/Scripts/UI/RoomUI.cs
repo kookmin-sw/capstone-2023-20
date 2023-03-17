@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-using UnityEngine.SceneManagement;
+
 
 public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
 {
@@ -258,6 +258,6 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     {
         Debug.Log("게임 씬으로 이동");
         //SceneManager.LoadScene("testSceneKWJ");
-        SceneManager.LoadScene((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+        LoadingSceneController.LoadScene((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
     }
 }

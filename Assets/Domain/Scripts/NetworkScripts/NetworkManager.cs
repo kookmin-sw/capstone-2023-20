@@ -20,16 +20,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public void OnLevelWasLoaded(int level)
     {
-        if(level != 0)
+        if(level > 0)
         {
             SetPlayer(PhotonNetwork.LocalPlayer);
         }
     }
     private void SetPlayer(Player player)
     {
-        Debug.Log("this LocalPlayer is "+GameObject.Find("Player" + player.NickName).ToString());
-        GameObject.Find("Player" + player.NickName).GetComponent<OwnershipTransfer>().OwnershipTransferLocalPlayer(player);
-        GameObject.Find("Player" + player.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
+        if (GameObject.Find("Player" + player.NickName) != null)
+        {
+            GameObject.Find("Player" + player.NickName).GetComponent<OwnershipTransfer>().OwnershipTransferLocalPlayer(player);
+            GameObject.Find("Player" + player.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
+        }
     }
 
     public void OnClickOutBtn()

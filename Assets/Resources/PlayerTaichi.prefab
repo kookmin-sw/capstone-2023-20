@@ -1149,7 +1149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577298099980317628}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.375, z: -0.16666669}
+  m_LocalPosition: {x: 0, y: 1.3750002, z: -0.16666837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4673,8 +4673,8 @@ GameObject:
   - component: {fileID: 6991000905029361445}
   - component: {fileID: 2508791963683271684}
   - component: {fileID: 8884567820959786919}
-  - component: {fileID: 9038908353476148991}
   - component: {fileID: 5156270661453043217}
+  - component: {fileID: 4202450419424085811}
   - component: {fileID: 981693778722704448}
   - component: {fileID: 8053508464401518960}
   m_Layer: 8
@@ -4778,7 +4778,10 @@ MonoBehaviour:
   InventoryManager: {fileID: 6853607929203366282}
   Minimap: {fileID: 1402101848952756096}
   CurrentMap: {fileID: 0}
-  TextInteraction: {fileID: 8517207803468074431}
+  ItemInteraction: {fileID: 0}
+  LockInteraction: {fileID: 0}
+  LockView: {fileID: 0}
+  ItemView: {fileID: 0}
   InvestigateValue: 0
 --- !u!114 &8136392100763203430
 MonoBehaviour:
@@ -4863,6 +4866,8 @@ MonoBehaviour:
   interaction: 0
   inventory: 0
   minimap: 0
+  LookLock: 0
+  MoveLock: 0
   UILock: 0
   analogMovement: 0
   cursorLocked: 1
@@ -4982,42 +4987,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &9038908353476148991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6059449469735972586}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 1
-    SynchronizeType: 0
-    Name: Speed
-  - Type: 4
-    SynchronizeType: 0
-    Name: Jump
-  - Type: 4
-    SynchronizeType: 0
-    Name: Grounded
-  - Type: 4
-    SynchronizeType: 0
-    Name: FreeFall
-  - Type: 1
-    SynchronizeType: 0
-    Name: MotionSpeed
-  - Type: 4
-    SynchronizeType: 0
-    Name: Investigate
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!114 &5156270661453043217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5034,6 +5003,19 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &4202450419424085811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6059449469735972586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a138ad723cf4ec74baedf92d1e9c883c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pv: {fileID: 981693778722704448}
 --- !u!114 &981693778722704448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5053,7 +5035,6 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 9038908353476148991}
   - {fileID: 5156270661453043217}
   sceneViewId: 0
   InstantiationId: 0
@@ -5339,7 +5320,9 @@ MonoBehaviour:
   ItemContent: {fileID: 7990318946761819194}
   InventoryItem: {fileID: 3424938949494706469, guid: af8c1eb66f077214090c9f0c667d3b8f,
     type: 3}
+  SelectedItem: {fileID: 0}
   InventoryItemControllers: []
+  ItemView: {fileID: 0}
 --- !u!1 &6415263153059501361
 GameObject:
   m_ObjectHideFlags: 0
@@ -8181,12 +8164,6 @@ PrefabInstance:
 --- !u!224 &8517207803468074428 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5721627802026848139, guid: d435b4c65d9874542bee7c2ecd2ce030,
-    type: 3}
-  m_PrefabInstance: {fileID: 4131064699253514807}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8517207803468074431 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5721627802026848136, guid: d435b4c65d9874542bee7c2ecd2ce030,
     type: 3}
   m_PrefabInstance: {fileID: 4131064699253514807}
   m_PrefabAsset: {fileID: 0}

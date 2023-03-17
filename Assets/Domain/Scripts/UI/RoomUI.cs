@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-using UnityEngine.SceneManagement;
+
 
 public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
 {
@@ -33,9 +33,14 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
 
     public PhotonView pv;
 
+    private void Awake()
+    {
+    
+    }
 
     void Update()
     {
+
         if(Input.GetKeyDown(KeyCode.Return) && ChatInput.text != "")
         {
             OnClickSendChatBtn();
@@ -46,37 +51,28 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     }
     public override void OnJoinedRoom()
     {
-        lobbyUI.SetActive(false);
-        roomUI.SetActive(true);
-        Debug.Log("방 입장");
-        RoomRenewal();
+        //닉네임 설정 리팩토링(2주차)
+        if (PhotonNetwork.MasterClient.NickName.Equals("Taichi")) PhotonNetwork.LocalPlayer.NickName = "Latifa";
+        else PhotonNetwork.LocalPlayer.NickName = "Taichi";
 
-        string usingNick = ""; //방에서 이미 사용되는 캐릭터
-        foreach (int i in PhotonNetwork.CurrentRoom.Players.Keys)
+        if ((bool)PhotonNetwork.CurrentRoom.CustomProperties["InGame"]) //방 상태가 인게임 상태면 바로 게임시작
         {
-            if (!PhotonNetwork.CurrentRoom.Players[i].Equals(PhotonNetwork.LocalPlayer)) usingNick = PhotonNetwork.CurrentRoom.Players[i].NickName;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "GameReady", true } });
+            GameScene();
         }
-        foreach (int i in PhotonNetwork.CurrentRoom.Players.Keys)
+        else //방 
         {
-            if (PhotonNetwork.CurrentRoom.Players[i].Equals(PhotonNetwork.LocalPlayer))
-            {
-                if (usingNick.Equals("Taichi"))
-                {
-                    PhotonNetwork.LocalPlayer.NickName = "Latifa";
-                }
-                else if (usingNick.Equals("Latifa"))
-                {
-                    PhotonNetwork.LocalPlayer.NickName = "Taichi";
-                }
-            }
+            lobbyUI.SetActive(false);
+            roomUI.SetActive(true);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "GameReady", false } });
+            RoomRenewal();
+            ChatInput.text = "";
+            for (int i = 0; i < ChatLog.Length; i++) ChatLog[i].text = "";
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2) ChatRPC("<color=red>" + "서로 무슨 역할을 할지 조율하세요. 인게임에서는 오로지 보이스로만 소통이 가능합니다");
+            CharacterRenewal();
         }
-        ChatInput.text = "";
-        for (int i = 0; i < ChatLog.Length; i++) ChatLog[i].text = "";
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2) ChatRPC("<color=red>" + "서로 무슨 역할을 할지 조율하세요. 인게임에서는 오로지 보이스로만 소통이 가능합니다");
-        CharacterRenewal();
 
-        //플레이어 커스텀 프로퍼티
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "GameReady", false } });
+
 
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -196,6 +192,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
         }
         else
         {
+            
             foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
             {
                 if (player.NickName.Equals("선택안함")) startAble = false;
@@ -215,6 +212,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
                 LafitaSelectBtn.interactable = true;
                 TaichiSelectBtn.interactable = true;
             }
+            
         }
         StartBtn.interactable = startAble;
     }
@@ -233,19 +231,33 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
         {
             Debug.Log("게임스타트");
             pv.RPC("ChatRPC", RpcTarget.All, "<color=red>3초 후 게임이 시작됩니다.</color>");
+            Hashtable rp = PhotonNetwork.CurrentRoom.CustomProperties;
+            rp["InGame"] = true;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(rp);
             pv.RPC("GameStart", RpcTarget.All);
+            StartCoroutine(Count());
         }
     }
-
+    IEnumerator Count()
+    {
+        pv.RPC("ChatRPC", RpcTarget.All, "<color=red>3</color>");
+        yield return new WaitForSeconds(1.0f);
+        pv.RPC("ChatRPC", RpcTarget.All, "<color=red>2</color>");
+        yield return new WaitForSeconds(1.0f);
+        pv.RPC("ChatRPC", RpcTarget.All, "<color=red>1</color>");
+        yield return new WaitForSeconds(1.0f);
+    }
     [PunRPC]
     private void GameStart()
     {
+
         Invoke("GameScene", 3f);
     }
 
     private void GameScene()
     {
         Debug.Log("게임 씬으로 이동");
-        SceneManager.LoadScene("testSceneKWJ");
+        //SceneManager.LoadScene("testSceneKWJ");
+        LoadingSceneController.LoadScene((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
     }
 }

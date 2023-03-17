@@ -3,34 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
+using Photon.Pun.Demo.Cockpit.Forms;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
-{
+public class NetworkManager : MonoBehaviourPunCallbacks { 
     public PhotonView pv;
+    [SerializeField]
+    private GameObject titleUI;
+    [SerializeField]
+    private GameObject lobbyUI;
+
     private void Awake()
     {
-        //마스터 클라이언트의 씬레벨 자동 동기화
-        PhotonNetwork.AutomaticallySyncScene = true;
-        CreatePlayer(PhotonNetwork.LocalPlayer.NickName);
+        
     }
 
-    [PunRPC]
-    private void CreatePlayer(string nickName)
+    public void OnLevelWasLoaded(int level)
     {
-        if (nickName.Equals("Latifa"))
+        if(level > 0)
         {
-            Transform point = GameObject.Find("SpwanPointLatifa").GetComponent<Transform>();
-            PhotonNetwork.Instantiate("PlayerLatifa", point.position, point.rotation);
- 
+            SetPlayer(PhotonNetwork.LocalPlayer);
         }
-        else if (nickName.Equals("Taichi"))
+    }
+    private void SetPlayer(Player player)
+    {
+        if (GameObject.Find("Player" + player.NickName) != null)
         {
-            
-            Transform point = GameObject.Find("SpwanPointTaichi").GetComponent<Transform>();
-            PhotonNetwork.Instantiate("PlayerTaichi", point.position, point.rotation);
+            GameObject.Find("Player" + player.NickName).GetComponent<OwnershipTransfer>().OwnershipTransferLocalPlayer(player);
+            GameObject.Find("Player" + player.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
         }
-        Debug.Log("캐릭터 생성" + nickName);
     }
 
- 
+    public void OnClickOutBtn()
+    {
+        Debug.Log("게임씬나가기");
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
+        titleUI.SetActive(false);
+        lobbyUI.SetActive(true);
+    }
+
+  
 }

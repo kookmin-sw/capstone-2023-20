@@ -16,6 +16,7 @@ TagManager:
   - Maps
   - PuzzleObj
   - Locker
+  - LockerUnlocked
   layers:
   - Default
   - TransparentFX

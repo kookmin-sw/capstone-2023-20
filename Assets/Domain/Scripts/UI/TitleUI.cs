@@ -13,6 +13,7 @@ public class TitleUI : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        //Screen.SetResolution(760, 480, true);
     }
     public void OnClickOnlineBtn()
     {

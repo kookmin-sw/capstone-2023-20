@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Photon.Pun;
 using UnityEngine;
 
-public class SingletonTaichi : MonoBehaviourPunCallbacks
+public class SingletonTaichi : MonoBehaviour
 {
     private static SingletonTaichi instance;
 
@@ -28,7 +27,7 @@ public class SingletonTaichi : MonoBehaviourPunCallbacks
 
     }
 
-    //±è±â¹ü - °´Ã¼ Áßº¹°Ë»ç,pvÇÒ´ç
+    //±è±â¹ü - °´Ã¼ Áßº¹°Ë»ç
     private void Awake()
     {
         var objs = FindObjectsOfType<SingletonTaichi>();
@@ -37,11 +36,6 @@ public class SingletonTaichi : MonoBehaviourPunCallbacks
             Destroy(gameObject);
             return;
         }
-      
         DontDestroyOnLoad(gameObject);
-    }
-    public override void OnLeftRoom()
-    {
-        Destroy(gameObject);
     }
 }

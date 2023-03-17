@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 
-public class SingletonLatifa : MonoBehaviourPunCallbacks
+public class SingletonLatifa : MonoBehaviour
 {
     private static SingletonLatifa instance;
+
     public static SingletonLatifa Instance
     {
         get
@@ -38,9 +37,5 @@ public class SingletonLatifa : MonoBehaviourPunCallbacks
             return;
         }
         DontDestroyOnLoad(gameObject);
-    }
-    public override void OnLeftRoom()
-    {
-        Destroy(gameObject);
     }
 }

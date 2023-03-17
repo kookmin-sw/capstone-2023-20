@@ -5,8 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.Demo.Cockpit;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 
 public class LobbyUI : MonoBehaviourPunCallbacks
 {
@@ -86,25 +85,14 @@ public class LobbyUI : MonoBehaviourPunCallbacks
         multiple = (currentPage - 1) * Rooms.Length;
         for (int i = 0; i < Rooms.Length; i++)
         {
-            string RoomState = "(대기중)";
-            if (multiple + i < myList.Count && (bool)myList[multiple + i].CustomProperties["InGame"]) RoomState = "(게임중)";
             Rooms[i].interactable = (multiple + i < myList.Count) ? true : false;
-            Rooms[i].transform.GetChild(0).GetComponent<TMP_Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].Name + RoomState : "";
+            Rooms[i].transform.GetChild(0).GetComponent<TMP_Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
             Rooms[i].transform.GetChild(1).GetComponent<TMP_Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
         }
     }
     public void CreateRoom()
     {
-        RoomOptions ro = new RoomOptions();
-        ro.MaxPlayers = 2;
-        //ro.CleanupCacheOnLeave = false;
-
-        //초기 CurrentLevel은 1로 설정 추후 단계 클리어할때마다 1씩 증가시켜서 팅겼다가 다시 들어온 유저가 알맞는 레벨에 입장하도록하기위함,
-        Hashtable cp = new Hashtable();
-        cp.Add("InGame", false);
-        cp.Add("CurrentLevel", 1);
-        ro.CustomRoomProperties = cp;
-        PhotonNetwork.CreateRoom(RoomName.text, ro);
+        PhotonNetwork.CreateRoom(RoomName.text, new RoomOptions { MaxPlayers = 2 });
     }
 
     public override void OnJoinedLobby()
@@ -114,11 +102,8 @@ public class LobbyUI : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        //로비에 노출시킬 프로퍼티 설정
-        string[] PIL = { "InGame" };
-        PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(PIL);
-
         Debug.Log(RoomName.text + "생성 완료");
+        PhotonNetwork.LocalPlayer.NickName = "Taichi";
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {

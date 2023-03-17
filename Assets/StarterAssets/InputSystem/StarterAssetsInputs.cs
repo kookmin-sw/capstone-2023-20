@@ -25,9 +25,6 @@ namespace StarterAssets
 		//김원진 minimap - m키 누르면 minimap UI 활성화
 		public bool minimap;
 
-		//KKB options - esc key
-		public bool option;
-
 		public bool LookLock;
 		public bool MoveLock;
 		public bool UILock;
@@ -88,13 +85,6 @@ namespace StarterAssets
 		//김원진 - MinimapInput 함수에 버튼이 눌렸는지 안눌렸는지 값 넘겨주는 함수
 		public void OnMinimap(InputValue value){
 			MinimapInput(value.isPressed);
-		}
-
-		//KKB - 옵션창 입력 유무
-
-		public void OnOption(InputValue value)
-		{
-			OptionInput(value.isPressed);
 		}
 #endif
 
@@ -182,21 +172,6 @@ namespace StarterAssets
 			else if (minimap == true && UILock == true) {
 				UILock = false;
 				minimap = false;
-			}
-		}
-
-		//KKB - option(esc)
-		public void OptionInput(bool newOptionState)
-		{
-			if(!option && !UILock)
-			{
-				UILock = true;
-				option = newOptionState; 
-			}
-			else if (option && UILock)
-			{
-				UILock = false;
-				option = false;
 			}
 		}
 

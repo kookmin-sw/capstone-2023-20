@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8429,14 +8429,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1784460152}
-  - component: {fileID: 1784460158}
-  - component: {fileID: 1784460157}
   - component: {fileID: 1784460151}
   - component: {fileID: 1784460153}
   - component: {fileID: 1784460154}
   - component: {fileID: 1784460155}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: NetworkUIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8546,36 +8544,9 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 4
+  sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &1784460157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784460149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99ed3933152a6b4293567f13129dc71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pv: {fileID: 1784460155}
-  titleUI: {fileID: 1253385410}
-  lobbyUI: {fileID: 1084149252}
---- !u!114 &1784460158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784460149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 019a51eba65f29749b2f3be7d30e2066, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1822158994
 GameObject:
   m_ObjectHideFlags: 0

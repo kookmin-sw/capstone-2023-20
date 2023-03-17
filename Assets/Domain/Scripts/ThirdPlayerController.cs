@@ -19,14 +19,13 @@ public class ThirdPlayerController : MonoBehaviour
     //포톤뷰 객체
     private PhotonView pv;
     //보통상태 시네머신 카메라
-    public CinemachineVirtualCamera virtualCamera;
+    [SerializeField]
+    private CinemachineVirtualCamera virtualCamera;
     //카메라 root
     [SerializeField]
     private GameObject cameraRoot;
     //카메라
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    //KKB - Option
-    [SerializeField] private GameObject Option;
     //김원진 - 인벤토리 GameObject 추가
     [SerializeField] private GameObject Inventory;
     //김원진 - 인벤토리 관리자 InventoryManager 추가
@@ -64,6 +63,7 @@ public class ThirdPlayerController : MonoBehaviour
     private void Awake()
     {
         pv = GetComponent<PhotonView>();
+        if (pv.IsMine) virtualCamera.Priority = 20;
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
@@ -83,7 +83,7 @@ public class ThirdPlayerController : MonoBehaviour
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                //Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
@@ -148,15 +148,6 @@ public class ThirdPlayerController : MonoBehaviour
         else
         {
             Minimap.SetActive(false);
-        }
-        //KKB - option Input
-        if (playerInputs.option)
-        {
-            Option.SetActive(true);
-        }
-        else
-        {
-            Option.SetActive(false);
         }
 
     }

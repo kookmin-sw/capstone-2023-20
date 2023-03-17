@@ -76,15 +76,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Option",
-                    "type": "Button",
-                    "id": "7c0fa521-a29a-4aa7-bc4c-9f0a5692b9fe",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -316,17 +307,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Minimap",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "898c4479-43a2-49a8-a359-7b96d1230c60",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Option",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

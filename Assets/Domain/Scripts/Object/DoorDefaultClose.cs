@@ -7,12 +7,15 @@ using UnityEngine.Events;
 public class DoorDefaultClose : MonoBehaviour
 {
     Animator animator;
-
+    AudioSource audiosource;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        audiosource = GetComponent<AudioSource>();
+        audiosource.volume = 0.5f;
+        audiosource.playOnAwake = false;
     }
 
 
@@ -28,9 +31,15 @@ public class DoorDefaultClose : MonoBehaviour
         if (animator.GetBool("IsOpen") == false && animator.GetCurrentAnimatorStateInfo(0).IsName("Default"))
         {
             animator.SetBool("IsOpen", true);
+            audiosource.Play();
         }
         else if (animator.GetBool("IsOpen") == true && animator.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen"))
+        {
             animator.SetBool("IsOpen", false);
+            audiosource.Play();
+        }
+            
+      
 
 
     }

@@ -83,7 +83,7 @@ public class ThirdPlayerController : MonoBehaviour
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
             if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                //Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
@@ -107,6 +107,17 @@ public class ThirdPlayerController : MonoBehaviour
                     {
                         // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
                         GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
+                        playerInputs.investigate = false;
+                        playerInputs.interaction = false;
+                    }
+                }
+                else if (hit.collider.CompareTag("LockerUnlocked"))
+                {
+                    Popup.instance.OpenPopUp();
+                    if (playerInputs.investigate == true)
+                    {
+                        // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
+                        GameObject.Find(hit.collider.name).GetComponent<Cabinet>().Activate();
                         playerInputs.investigate = false;
                         playerInputs.interaction = false;
                     }
@@ -190,7 +201,9 @@ public class ThirdPlayerController : MonoBehaviour
 
         if (other.tag == "Locker")
         {
-            LockInteraction.SetActive(true);
+            if (other.GetComponent<Locker>().unLock == false) {
+                LockInteraction.SetActive(true);
+            }
         }
     }
 
@@ -228,9 +241,19 @@ public class ThirdPlayerController : MonoBehaviour
                     playerInputs.UILock = true;
                     playerInputs.PlayerMoveLock();
                 }
+                
                 playerInputs.interaction = false;
                 LockInteraction.SetActive(false);
             }
+            if (other.GetComponent<Locker>().unLock == true)
+            {
+                LockView.SetActive(false);
+                LockInteraction.gameObject.SetActive(true);
+                other.gameObject.transform.Find("door").gameObject.tag = "LockerUnlocked";
+                LockInteraction.SetActive(false);
+                Debug.Log("Here1");
+            }
+
             if (!LockView.activeSelf)
             {
                 playerInputs.UILock = false;

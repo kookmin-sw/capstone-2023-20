@@ -138,14 +138,14 @@ public class ThirdPlayerController : MonoBehaviour
 
         //김원진 - 인벤토리 상태시 인벤토리 UI 활성화
         //김원진 - 중복 UI 방지 위해 미니맵 UI 비활성 코드 추가
-        //if (playerInputs.inventory)
-        //{
-        //    Inventory.SetActive(true);
-        //}
-        //else
-        //{
-        //    Inventory.SetActive(false);
-        //}
+        if (playerInputs.inventory)
+        {
+            Inventory.SetActive(true);
+        }
+        else
+        {
+            Inventory.SetActive(false);
+        }
 
         //김원진 - 미니맵 상태시 미니맵 UI 활성화
         //김원진 - 중복 UI 방지 위해 인벤토리 UI 비활성 코드 추가

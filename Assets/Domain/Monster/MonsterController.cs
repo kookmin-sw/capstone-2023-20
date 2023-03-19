@@ -100,10 +100,12 @@ public class MonsterController : MonoBehaviour
                     _animator.SetBool("isWalk", false);
                     break;
                 case CurrentState.trace:
+                    nvAgent.speed = 5f;
                     nvAgent.destination = playerTransform.position;
                     _animator.SetBool("isWalk", true);
                     break;
                 case CurrentState.patrol:
+                    nvAgent.speed = 1f; // 최대 이동 속도
                     Patroling();
                     break;
             }
@@ -144,5 +146,16 @@ public class MonsterController : MonoBehaviour
             }
         }
     }
+    //void MakeWorldBounds()
+    //{
+    //    WorldBounds worldBounds = GameObject.FindObjectOfType<WorldBounds>();
+    //    Vector3 min = worldBounds.min.position;
+    //    Vector3 max = worldBounds.max.position;
 
+    //    Vector3 randomPosition = new Vector3{
+    //Random.Range(min.x, max.x),
+    //Random.Range(min.y, max.y),
+    //Random.Range(min.z, max.z) // 근데 우리맵은 층이 여러개라 될지 모르겠다
+    //}
+        
 }

@@ -9,6 +9,7 @@ public class Timeline : MonoBehaviour
 
     public PlayableDirector playableDirector;
     public TimelineAsset timeline;
+    public bool isPlay = false;
 
     private void Start()
     {
@@ -16,6 +17,16 @@ public class Timeline : MonoBehaviour
         playableDirector.playOnAwake = false;
     }
 
+    public void PlayMustOne()
+    {
+        // 성현 - 한번만 재생하기 위함.
+        if (isPlay == false)
+        {
+            isPlay = true;
+            playableDirector.Play();
+        }
+
+    }
     public void Play()
     {
         playableDirector.Play();

@@ -27,6 +27,9 @@ public class MonsterController : MonoBehaviour
     private float IdleTIme = 3f;
     private float chkTime = 0f;
 
+    //몬스터 시야
+    public AiSensor Sensor;
+    bool inSight = false;
 
     [SerializeField] Transform[] m_ptPoints = null; // 정찰 위치들을 담을 배열
     int m_ptPointsCnt = 0;
@@ -41,7 +44,7 @@ public class MonsterController : MonoBehaviour
         nvAgent = this.gameObject.GetComponent<NavMeshAgent>();
         _animator = this.gameObject.GetComponent<Animator>();
         view = GameObject.Find("Monster").GetComponent<MonsterView>();
-
+        Sensor = GameObject.Find("MonsterSensor").GetComponent<AiSensor>();
 
         // 추적 대상의 위치를 설정하면 바로 추적 시작
         // nvAgent.destination = playerTransform.position;
@@ -72,9 +75,9 @@ public class MonsterController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
 
             //float dist = Vector3.Distance(playerTransform.position, _transform.position);
+            inSight = Sensor.isInSight;
 
-
-            if (view.isCollision == true)
+            if (inSight)
             {
                 Debug.Log("trace");
                 curState = CurrentState.trace;
@@ -101,7 +104,6 @@ public class MonsterController : MonoBehaviour
                     _animator.SetBool("isWalk", true);
                     break;
                 case CurrentState.patrol:
-
                     Patroling();
                     break;
             }

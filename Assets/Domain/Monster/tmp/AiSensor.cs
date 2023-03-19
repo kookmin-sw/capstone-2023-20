@@ -12,6 +12,8 @@ public class AiSensor : MonoBehaviour
     public int scanFrequency = 30;
     public LayerMask layers;
     public LayerMask occlusionLayers;
+
+    public bool isInSight = false;
     public List<GameObject> Objects
     {
         get
@@ -49,11 +51,13 @@ public class AiSensor : MonoBehaviour
     {
         count = Physics.OverlapSphereNonAlloc(transform.position, distance, colliders, layers, QueryTriggerInteraction.Collide);
         objects.Clear();
+        isInSight = false;
         for(int i=0; i< count; ++i)
         {
             GameObject obj = colliders[i].gameObject;
             if (IsInSight(obj))
             {
+                isInSight= true;
                 objects.Add(obj);
             }
         }
@@ -63,7 +67,7 @@ public class AiSensor : MonoBehaviour
         Vector3 origin = transform.position;
         Vector3 dest = obj.transform.position;
         Vector3 direction = dest - origin;
-        if(direction.y <0 || direction.y > height)
+        if(direction.y < 0 || direction.y > height)
         {
             return false;
         }
@@ -179,11 +183,11 @@ public class AiSensor : MonoBehaviour
         }
 
 
-        Gizmos.color = Color.green;
-        foreach (var obj in Objects)
-        {
-            Gizmos.DrawSphere(obj.transform.position, 0.2f);
-        }
+        //Gizmos.color = Color.green;
+        //foreach (var obj in Objects)
+        //{
+        //    Gizmos.DrawSphere(obj.transform.position, 10f);
+        //}
 
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
+using StarterAssets;
+using Photon.Pun;
 
 public class Option : MonoBehaviour
 {
@@ -18,14 +20,24 @@ public class Option : MonoBehaviour
     private Slider bgm; 
     [SerializeField]
     private Slider sfx;
+    [SerializeField]
+    private Slider sensitivity;
+
+
+    private StarterAssetsInputs Input;
 
     private GameObject manager;
-    private const float sensitivityMin = 10.0f;
-    private const float sensitivityMax = 100.0f;
+    private const float sensitivityMin = 0.1f;
+    private const float sensitivityMax = 10.0f;
 
-    private void Awake()
+    private void Start()
     {
         manager = GameObject.Find("NetworkManager");   
+    }
+
+    public void SetInputSystem(StarterAssetsInputs newinput)
+    {
+        Input = newinput;
     }
     public void SetSoundVoice()
     {
@@ -59,7 +71,11 @@ public class Option : MonoBehaviour
 
     public void SetSensitivity()
     {
-       
+        float arg = sensitivity.value;
+        if (arg == 0) arg = sensitivityMin;
+        Input.SetSensitivity(arg);
+        int perc = (int)sensitivity.value * 10;
+        sensitivity.GetComponentInChildren<TMP_Text>().text = perc.ToString() + '%';
     }
 
     //warning

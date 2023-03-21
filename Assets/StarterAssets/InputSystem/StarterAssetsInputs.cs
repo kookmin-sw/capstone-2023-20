@@ -28,6 +28,9 @@ namespace StarterAssets
 		//KKB options - esc key
 		public bool option;
 
+		//KKB mouseSensitive
+		private float sensitivity = 1f;
+
 		public bool LookLock;
 		public bool MoveLock;
 		public bool UILock;
@@ -56,7 +59,7 @@ namespace StarterAssets
 		{
 			if(cursorInputForLook)
 			{
-				LookInput(value.Get<Vector2>());
+				LookInput(value.Get<Vector2>() * sensitivity);
 			}
 		}
 
@@ -251,6 +254,13 @@ namespace StarterAssets
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
 
-	}
+		//KKB - dpi 조정 함수
+		public void SetSensitivity(float newSensitivity)
+		{
+			sensitivity = newSensitivity;
+		}
+
+
+    }
 	
 }

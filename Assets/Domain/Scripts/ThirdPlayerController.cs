@@ -40,7 +40,7 @@ public class ThirdPlayerController : MonoBehaviour
     [SerializeField] private GameObject LockInteraction;
     [SerializeField] private GameObject LockView;
     [SerializeField] private GameObject ItemView;
-
+    [SerializeField] private GameObject CCTVView;
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
     private Animator animator;
@@ -121,6 +121,21 @@ public class ThirdPlayerController : MonoBehaviour
                         playerInputs.investigate = false;
                         playerInputs.interaction = false;
                     }
+                }
+                else if (hit.collider.CompareTag("LockerItem"))
+                {
+                    ItemInteraction.SetActive(true);
+                    Debug.Log("LockerItem");
+                    if(playerInputs.investigate == true)
+                    {
+                        ItemInteraction.SetActive(false);
+                        Debug.Log(hit.collider.GetComponent<ItemController>().Item);
+                        InventoryManager.addItem(hit.collider.GetComponent<ItemController>().Item);
+                        hit.collider.GetComponent<GetItem>().Get();
+                        playerInputs.interaction = false;
+                    }
+                    
+
                 }
                 else
                 {
@@ -214,6 +229,10 @@ public class ThirdPlayerController : MonoBehaviour
                 LockInteraction.SetActive(true);
             }
         }
+        if (other.tag == "CCTV")
+        {
+            LockInteraction.SetActive(true);
+        }
     }
 
     //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환
@@ -236,7 +255,7 @@ public class ThirdPlayerController : MonoBehaviour
         }
         else if (other.tag == "Locker")
         {
-            if(playerInputs.interaction)
+            if (playerInputs.interaction)
             {
                 if (other.GetComponent<Locker>().IsLock == false)
                 {
@@ -250,9 +269,15 @@ public class ThirdPlayerController : MonoBehaviour
                     playerInputs.UILock = true;
                     playerInputs.PlayerMoveLock();
                 }
-                
+
                 playerInputs.interaction = false;
                 LockInteraction.SetActive(false);
+            }
+            if (!LockView.activeSelf)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+                other.GetComponent<Locker>().Viewing = false;
             }
             if (other.GetComponent<Locker>().unLock == true)
             {
@@ -260,10 +285,33 @@ public class ThirdPlayerController : MonoBehaviour
                 LockInteraction.gameObject.SetActive(true);
                 other.gameObject.transform.Find("door").gameObject.tag = "LockerUnlocked";
                 LockInteraction.SetActive(false);
-                Debug.Log("Here1");
+                //김원진 - Locker 주변에서 UI 켰을경우
+                if (playerInputs.inventory)
+                {
+                    playerInputs.UILock = true;
+                }
+                if (playerInputs.minimap)
+                {
+                    playerInputs.UILock = true;
+                }
             }
+            
 
-            if (!LockView.activeSelf)
+
+        }
+        else if (other.tag == "CCTV")
+        {
+            LockInteraction.SetActive(true);
+            if (playerInputs.interaction)
+            {
+                CCTVView.SetActive(true);
+                playerInputs.UILock = true;
+                playerInputs.PlayerMoveLock();
+                LockInteraction.SetActive(false);
+                playerInputs.interaction = false;
+            }
+            
+            if (!CCTVView.activeSelf)
             {
                 playerInputs.UILock = false;
                 playerInputs.PlayerMoveUnlock();
@@ -306,6 +354,10 @@ public class ThirdPlayerController : MonoBehaviour
             other.GetComponent<Locker>().DestroyView();
             LockInteraction.SetActive(false);
             LockView.SetActive(false);
+        }
+        if (other.tag == "CCTV")
+        {
+            LockInteraction.SetActive(false);
         }
     }
 

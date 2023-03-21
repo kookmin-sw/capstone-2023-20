@@ -17,6 +17,8 @@ TagManager:
   - PuzzleObj
   - Locker
   - LockerUnlocked
+  - CCTV
+  - LockerItem
   layers:
   - Default
   - TransparentFX

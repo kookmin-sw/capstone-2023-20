@@ -7,11 +7,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun.Demo.Cockpit.Forms;
 
 public class NetworkManager : MonoBehaviourPunCallbacks { 
-    public PhotonView pv;
-    [SerializeField]
-    private GameObject titleUI;
-    [SerializeField]
-    private GameObject lobbyUI;
+    public  PhotonView pv;
 
     private void Awake()
     {
@@ -20,27 +16,27 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public void OnLevelWasLoaded(int level)
     {
-        if(level > 0)
+        if(level ==1 ) 
         {
-            SetPlayer(PhotonNetwork.LocalPlayer);
+            CreatePlayer(PhotonNetwork.LocalPlayer);
         }
     }
-    private void SetPlayer(Player player)
+    private void CreatePlayer(Player player)
     {
-        if (GameObject.Find("Player" + player.NickName) != null)
-        {
-            GameObject.Find("Player" + player.NickName).GetComponent<OwnershipTransfer>().OwnershipTransferLocalPlayer(player);
-            GameObject.Find("Player" + player.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
-        }
+        Transform pos = GameObject.Find("SpwanPoint" + player.NickName).transform;
+        PhotonNetwork.Instantiate("Player" + player.NickName, pos.position, pos.rotation);
     }
 
-    public void OnClickOutBtn()
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        LeaveRoom();
+    }
+
+    public void LeaveRoom()
     {
         Debug.Log("게임씬나가기");
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(0);
-        titleUI.SetActive(false);
-        lobbyUI.SetActive(true);
     }
 
   

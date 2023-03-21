@@ -169,7 +169,26 @@ namespace StarterAssets
             }
 
 
-        }
+        }	
+		//KKB - option(esc)
+		public void OptionInput(bool newOptionState)
+		{
+			if(!option && !UILock)
+			{
+				UILock = true;
+                move = new Vector2(0, 0);
+                option = newOptionState;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+			else if (option && UILock)
+			{
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                UILock = false;
+				option = false;
+			}
+		}
 
 		//김원진 - 미니맵 함수 추가
 		//김원진 - 미니맵이 열려있을때 누르면 닫히도록 함.
@@ -185,20 +204,7 @@ namespace StarterAssets
 			}
 		}
 
-		//KKB - option(esc)
-		public void OptionInput(bool newOptionState)
-		{
-			if(!option && !UILock)
-			{
-				UILock = true;
-				option = newOptionState; 
-			}
-			else if (option && UILock)
-			{
-				UILock = false;
-				option = false;
-			}
-		}
+	
 
 
         public void PlayerLockOn()

@@ -6,12 +6,17 @@ using UnityEngine;
 public class PadLockPassword : MonoBehaviour
 {
     MoveRuller _moveRull;
-
+    private Locker Locker;
     public int[] _numberPassword = {0,0,0,0};
 
     private void Awake()
     {
         _moveRull = FindObjectOfType<MoveRuller>();
+    }
+
+    public void setLocker(Locker Locker)
+    {
+        this.Locker = Locker;
     }
 
     public void Password()
@@ -27,6 +32,8 @@ public class PadLockPassword : MonoBehaviour
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>()._isSelect = false;
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
             }
+
+            Locker.Unlock();
 
         }
     }

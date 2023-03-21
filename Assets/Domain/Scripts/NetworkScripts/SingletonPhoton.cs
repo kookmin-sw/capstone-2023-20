@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 
 //김기범 - 게임매니저 싱글톤임을 보장하는 클래스
-public class SingletonPhoton : MonoBehaviour
+public class SingletonPhoton : MonoBehaviourPunCallbacks
 {
     private static SingletonPhoton instance;
 
@@ -39,5 +40,9 @@ public class SingletonPhoton : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+    }
+    public override void OnLeftRoom()
+    {
+        Destroy(gameObject);
     }
 }

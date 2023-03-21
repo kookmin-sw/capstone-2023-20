@@ -13,6 +13,7 @@ public class TitleUI : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        if (PhotonNetwork.InLobby) OnJoinedLobby();
     }
     public void OnClickOnlineBtn()
     {

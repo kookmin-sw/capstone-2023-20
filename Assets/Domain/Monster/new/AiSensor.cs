@@ -8,7 +8,7 @@ public class AiSensor : MonoBehaviour
     public float distance = 10;
     public float angle = 30;
     public float height = 1.9f;
-    public Color meshColor = Color.red; // 센서의 색
+    public Color meshColor = Color.red; 
     public int scanFrequency = 30;
     public LayerMask layers;
     public LayerMask occlusionLayers;

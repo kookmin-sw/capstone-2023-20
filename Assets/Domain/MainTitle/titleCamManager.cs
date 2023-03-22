@@ -68,6 +68,8 @@ public class titleCamManager : MonoBehaviour
         {
             Debug.Log("cam1end");
             fadein = true;
+            cam2.SetActive(false);
+            cam3.SetActive(true);
         }
         else if (cam1Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {

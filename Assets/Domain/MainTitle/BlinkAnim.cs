@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class BlinkAnim : MonoBehaviour
 {
     Text text;
+    public GameObject cam1;
+    private Animator cam1Anim;
 
     void Awake()
     {

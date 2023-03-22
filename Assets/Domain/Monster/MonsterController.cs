@@ -37,6 +37,9 @@ public class MonsterController : MonoBehaviour
     //view
     MonsterView view;
 
+    //debug
+    public GameObject alarm;
+
     void Start()
     {
         _transform = this.gameObject.GetComponent<Transform>();
@@ -97,12 +100,12 @@ public class MonsterController : MonoBehaviour
             switch (curState)
             {
                 case CurrentState.idle:
-                    _animator.SetBool("isWalk", false);
+                    _animator.SetBool("isIdle", true);
                     break;
                 case CurrentState.trace:
-                    nvAgent.speed = 5f;
+                    nvAgent.speed = 10f;
                     nvAgent.destination = playerTransform.position;
-                    _animator.SetBool("isWalk", true);
+                    _animator.SetBool("isRun", true);
                     break;
                 case CurrentState.patrol:
                     nvAgent.speed = 1f; // 최대 이동 속도
@@ -117,11 +120,14 @@ public class MonsterController : MonoBehaviour
     {
         if (nvAgent.remainingDistance < 2f)
         {
-            _animator.SetBool("isWalk", false);
+            alarm.SetActive(true);
+            //Debug.Log("patrol_idle");
+            _animator.SetBool("isIdle", true);
             chkTime += Time.deltaTime;
         }
         if (chkTime > IdleTIme)
         {
+            alarm.SetActive(false);
             Debug.Log(chkTime);
             chkTime = 0;
             _animator.SetBool("isWalk", true);

@@ -26,24 +26,24 @@ public class GuideUiManager : MonoBehaviour
     {
         
     }
-    public void SetMainPanelText()
+    public void SetMainPanelText(string maintxt)
     {
         maintxt = maintxt.Replace("\\n", "\n");
         MainTxt.SetText(maintxt.ToString());
     }
-    public void SetSubPanelText()
+    public void SetSubPanelText(string subtxt)
     {
         subtxt = subtxt.Replace("\\n", "\n");
         SubTxt.SetText(subtxt.ToString());
     }
-    public void SetPanelText()
+    public void SetPanelText(string maintxt, string subtxt)
     {
-        SetMainPanelText();
-        SetSubPanelText();
+        SetMainPanelText(maintxt);
+        SetSubPanelText(subtxt);
     }
-    public void ActiveMainPanel()
+    public void ActiveMainPanel(string maintxt)
     {
-        SetMainPanelText();
+        SetMainPanelText(maintxt);
         MainPanel.SetActive(true);
     }
 

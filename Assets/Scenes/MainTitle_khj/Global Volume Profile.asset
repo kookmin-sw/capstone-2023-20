@@ -142,7 +142,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.71
+    m_Value: 1.12
   contrast:
     m_OverrideState: 1
     m_Value: 100
@@ -151,7 +151,7 @@ MonoBehaviour:
     m_Value: {r: 0, g: 0.36078432, b: 0.9372549, a: 1}
   hueShift:
     m_OverrideState: 1
-    m_Value: 17
+    m_Value: 19
   saturation:
     m_OverrideState: 1
-    m_Value: -20
+    m_Value: -48

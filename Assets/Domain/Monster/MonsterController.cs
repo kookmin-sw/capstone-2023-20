@@ -17,19 +17,26 @@ public class MonsterController : MonoBehaviour
     private Animator _animator;
 
     // 추적 사정거리
-    public float traceDist = 15.0f;
+    public float traceDist = 7.0f;
     // 공격 사정거리
-    public float attackDist = 3.2f;
+    //public float attackDist = 3.2f;
 
-    // 사망 여부
+    // 사망 여부 + 추가필요 플레이어 상태 등
     private bool isDead = false;
+    //
     private bool isIdle = true;
-    private float IdleTIme = 3f;
+    [SerializeField]
+    private float IdleTIme = 7f;
     private float chkTime = 0f;
+    [SerializeField]
+    private float traceSpeed = 3f;
+    [SerializeField]
+    private float patrolSpeed = 2f;
 
     //몬스터 시야
     public AiSensor Sensor;
     bool inSight = false;
+    bool isLost = false;
 
     [SerializeField] Transform[] m_ptPoints = null; // 정찰 위치들을 담을 배열
     int m_ptPointsCnt = 0;
@@ -58,18 +65,9 @@ public class MonsterController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, traceDist);
-        switch (curState)
-        {
-            case CurrentState.trace:
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, 1f);
-                break;
-            case CurrentState.patrol:
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(transform.position, 3f);
-                break;
-        }
+        //Gizmos.DrawWireSphere(transform.position, traceDist);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 7f);
     }
     IEnumerator CheckState()
     {
@@ -82,6 +80,7 @@ public class MonsterController : MonoBehaviour
 
             if (inSight)
             {
+                isLost= true;
                 Debug.Log("trace");
                 curState = CurrentState.trace;
             }
@@ -99,16 +98,23 @@ public class MonsterController : MonoBehaviour
         {
             switch (curState)
             {
-                case CurrentState.idle:
-                    _animator.SetBool("isIdle", true);
-                    break;
+                //case CurrentState.idle:
+                //    _animator.SetBool("isIdle", true);
+                //    break;
                 case CurrentState.trace:
-                    nvAgent.speed = 10f;
+                    nvAgent.speed = traceSpeed;
                     nvAgent.destination = playerTransform.position;
                     _animator.SetBool("isRun", true);
+                    _animator.SetBool("isIdle", false);
+                    _animator.SetBool("isWalk", false);
                     break;
                 case CurrentState.patrol:
-                    nvAgent.speed = 1f; // 최대 이동 속도
+                    if(isLost)
+                    {
+                        isLost= false;
+                        nvAgent.ResetPath();
+                    }
+                    nvAgent.speed = patrolSpeed; // 최대 이동 속도
                     Patroling();
                     break;
             }
@@ -118,37 +124,44 @@ public class MonsterController : MonoBehaviour
     }
     void Patroling()
     {
-        if (nvAgent.remainingDistance < 2f)
+        Debug.Log("remainingDist > "+nvAgent.remainingDistance);
+        //idle
+        if (nvAgent.remainingDistance < 3f && chkTime < IdleTIme)
         {
             alarm.SetActive(true);
             //Debug.Log("patrol_idle");
             _animator.SetBool("isIdle", true);
+            _animator.SetBool("isWalk", false);
+            _animator.SetBool("isRun", false);
             chkTime += Time.deltaTime;
+            //nvAgent.ResetPath();
         }
         if (chkTime > IdleTIme)
         {
             alarm.SetActive(false);
-            Debug.Log(chkTime);
+            Debug.Log("chkTime : " + chkTime);
             chkTime = 0;
-            _animator.SetBool("isWalk", true);
-            if (nvAgent.remainingDistance < 2f)
+            if (nvAgent.remainingDistance < 3f)
             {
+                Debug.Log("pointCnt : "+ m_ptPointsCnt);
+                _animator.SetBool("isWalk", true);
+                _animator.SetBool("isIdle", false);
                 nvAgent.SetDestination(m_ptPoints[m_ptPointsCnt].position);
-                Debug.Log(m_ptPointsCnt);
                 m_ptPointsCnt++;
 
                 if (m_ptPointsCnt >= m_ptPoints.Length) //포인트를 끝까지 돌면 다시 0으로 초기화
-                    m_ptPointsCnt = 0;
-                if (!nvAgent.pathPending)
-                {
-                    if (nvAgent.remainingDistance <= nvAgent.stoppingDistance)
-                    {
-                        if (!nvAgent.hasPath || nvAgent.velocity.sqrMagnitude == 0f)
-                        {
-                            curState = CurrentState.idle;
-                        }
-                    }
-                }
+                    m_ptPointsCnt = 0;//왜그래
+                //if (!nvAgent.pathPending)
+                //{
+                //    if (nvAgent.remainingDistance <= nvAgent.stoppingDistance)
+                //    {
+                //        if (!nvAgent.hasPath || nvAgent.velocity.sqrMagnitude == 0f) // 도착
+                //        {
+                //            curState = CurrentState.patrol;
+                //            _animator.SetBool("isIdle", true);
+                //        }
+                //    }
+                //}
             }
         }
     }

@@ -29,28 +29,28 @@ MonoBehaviour:
   active: 1
   redOutRedIn:
     m_OverrideState: 0
-    m_Value: 100
+    m_Value: 160
   redOutGreenIn:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: -8
   redOutBlueIn:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 35
   greenOutRedIn:
     m_OverrideState: 1
-    m_Value: -16
+    m_Value: 84
   greenOutGreenIn:
     m_OverrideState: 1
-    m_Value: 88
+    m_Value: 60
   greenOutBlueIn:
     m_OverrideState: 1
-    m_Value: 37
+    m_Value: 65
   blueOutRedIn:
     m_OverrideState: 1
-    m_Value: 83
+    m_Value: 71
   blueOutGreenIn:
     m_OverrideState: 1
-    m_Value: 20
+    m_Value: 53
   blueOutBlueIn:
     m_OverrideState: 1
-    m_Value: 134
+    m_Value: 5

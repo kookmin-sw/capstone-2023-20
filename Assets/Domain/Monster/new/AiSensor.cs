@@ -86,7 +86,7 @@ public class AiSensor : MonoBehaviour
         {
             return false;
         }
-        Debug.Log("inSight");
+        //Debug.Log("inSight");
         return true;
     }
     private void OnValidate()

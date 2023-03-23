@@ -21,7 +21,7 @@ public class TitleUI : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-
+   
 
     public void ClickExitBtn()
     {

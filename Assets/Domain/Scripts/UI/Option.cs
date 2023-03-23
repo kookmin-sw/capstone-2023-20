@@ -10,8 +10,7 @@ using Photon.Pun;
 
 public class Option : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject warning;
+    
     [SerializeField]
     private AudioMixer mixer;
     [SerializeField]
@@ -22,17 +21,20 @@ public class Option : MonoBehaviour
     private Slider sfx;
     [SerializeField]
     private Slider sensitivity;
-
-
+    [SerializeField]
     private StarterAssetsInputs Input;
 
     private GameObject manager;
     private const float sensitivityMin = 0.1f;
     private const float sensitivityMax = 10.0f;
+    private GameObject warning;
+    private GameObject backGround;
 
     private void Start()
     {
-        manager = GameObject.Find("NetworkManager");   
+        manager = GameObject.Find("NetworkManager");
+        warning = this.transform.GetChild(0).gameObject;
+        backGround = this.transform.GetChild(1).gameObject;
     }
 
     public void SetInputSystem(StarterAssetsInputs newinput)
@@ -60,12 +62,17 @@ public class Option : MonoBehaviour
 
     public void OnClickOut()
     {
-        warning.SetActive(true);
+        //백그라운드 옵션
+        backGround.gameObject.SetActive(false);
+        //경고창
+        warning.gameObject.SetActive(true);
         
     }
 
     public void QuickOption()
     {
+        warning.SetActive(false);
+        backGround.SetActive(true);
         gameObject.SetActive(false);
     }
 
@@ -73,6 +80,7 @@ public class Option : MonoBehaviour
     {
         float arg = sensitivity.value;
         if (arg == 0) arg = sensitivityMin;
+
         Input.SetSensitivity(arg);
         int perc = (int)sensitivity.value * 10;
         sensitivity.GetComponentInChildren<TMP_Text>().text = perc.ToString() + '%';
@@ -87,5 +95,6 @@ public class Option : MonoBehaviour
     public void OnBackBtn()
     {
         warning.SetActive(false);
+        backGround.SetActive(true);
     }
 }

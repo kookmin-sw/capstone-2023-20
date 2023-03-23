@@ -7,12 +7,16 @@ using UnityEngine.Events;
 public class DoorDefaultClose : MonoBehaviour
 {
     public UnityEvent Event;
+
     Animator animator;
     AudioSource audiosource;
     public AudioClip DoorOpen;
     public AudioClip DoorLocked;
+
     [SerializeField]
     private bool LockState = false;
+
+    int count = 0;
 
 
     // Start is called before the first frame update
@@ -60,11 +64,32 @@ public class DoorDefaultClose : MonoBehaviour
 
     }
     // 다른 오브젝트와 상호작용용 함수
-    public void InteractActivate()
+    public void InteractActivate(bool OncePlay)
     {
+        // 잠김상태가 해제되었을 때만
         if (LockState == false)
         {
-            Event.Invoke();
+            if (OncePlay)
+            {
+                if (count == 0)
+                {
+                    Event.Invoke();
+                    count++;
+                }
+
+            }
+            else
+            {
+                Event.Invoke();
+            }
+        }
+    }
+
+    public void UnLockDoor()
+    {
+        if (LockState == true)
+        {
+            LockState = false;
         }
     }
 

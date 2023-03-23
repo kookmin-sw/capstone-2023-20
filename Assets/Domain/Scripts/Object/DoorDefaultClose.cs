@@ -90,6 +90,8 @@ public class DoorDefaultClose : MonoBehaviour
         if (LockState == true)
         {
             LockState = false;
+            audiosource.clip = DoorLocked;
+            audiosource.Play();
         }
     }
 

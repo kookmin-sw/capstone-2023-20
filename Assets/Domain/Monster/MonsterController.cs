@@ -126,9 +126,9 @@ public class MonsterController : MonoBehaviour
     {
         Debug.Log("remainingDist > "+nvAgent.remainingDistance);
         //idle
-        if (nvAgent.remainingDistance < 3f && chkTime < IdleTIme)
+        if (nvAgent.remainingDistance < 1f && chkTime < IdleTIme)
         {
-            alarm.SetActive(true);
+            //alarm.SetActive(true);
             //Debug.Log("patrol_idle");
             _animator.SetBool("isIdle", true);
             _animator.SetBool("isWalk", false);
@@ -141,16 +141,22 @@ public class MonsterController : MonoBehaviour
             alarm.SetActive(false);
             Debug.Log("chkTime : " + chkTime);
             chkTime = 0;
-            if (nvAgent.remainingDistance < 3f)
+            if (nvAgent.remainingDistance < 1f)
             {
                 Debug.Log("pointCnt : "+ m_ptPointsCnt);
                 _animator.SetBool("isWalk", true);
                 _animator.SetBool("isIdle", false);
-                nvAgent.SetDestination(m_ptPoints[m_ptPointsCnt].position);
-                m_ptPointsCnt++;
 
-                if (m_ptPointsCnt >= m_ptPoints.Length) //포인트를 끝까지 돌면 다시 0으로 초기화
-                    m_ptPointsCnt = 0;//왜그래
+                Vector3 RandomPos;
+                RandomPoint(out RandomPos);
+                Debug.DrawRay(RandomPos, Vector3.up, Color.green, 3.0f);
+
+                nvAgent.SetDestination(RandomPos);
+                //nvAgent.SetDestination(m_ptPoints[m_ptPointsCnt].position);
+                //m_ptPointsCnt++;
+
+                //if (m_ptPointsCnt >= m_ptPoints.Length) //포인트를 끝까지 돌면 다시 0으로 초기화
+                //    m_ptPointsCnt = 0;//왜그래
                 //if (!nvAgent.pathPending)
                 //{
                 //    if (nvAgent.remainingDistance <= nvAgent.stoppingDistance)
@@ -165,6 +171,26 @@ public class MonsterController : MonoBehaviour
             }
         }
     }
+    bool RandomPoint(out Vector3 randomPosResult)
+    {
+        float range = 10f;
+        Vector3 randomPoint = _transform.position + Random.insideUnitSphere * range; //random point in a sphere 
+        float maxDist = 1.0f;
+        NavMeshHit hit;
+        //samplepos 이용해서 장애물 있는 위치에는 포인트 생성 안함, bake 된 위치에
+        //NavMeshPermalink : AI 에이전트가 걸어다닐 수 있는 표면. 네비게이션 경로를 계산할 수 있는 표면이 된다.
+        //navmesh.allareas에 해당하는 navmesh 중 maxDist 반경 내에서 randomPoint에서 가장 가까운 위치 hit에 리턴
+        if (NavMesh.SamplePosition(randomPoint, out hit, maxDist, NavMesh.AllAreas)) //documentation: https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+        {
+            //the 1.0f is the max distance from the random point to a point on the navmesh, might want to increase if range is big
+            //or add a for loop like in the documentation
+            randomPosResult = hit.position;
+            return true;
+        }
+
+        randomPosResult = _transform.position; // 제자리
+        return false;
+    }
     //void MakeWorldBounds()
     //{
     //    WorldBounds worldBounds = GameObject.FindObjectOfType<WorldBounds>();
@@ -176,5 +202,5 @@ public class MonsterController : MonoBehaviour
     //Random.Range(min.y, max.y),
     //Random.Range(min.z, max.z) // 근데 우리맵은 층이 여러개라 될지 모르겠다
     //}
-        
+
 }

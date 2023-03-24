@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51773b774ee90446895b7f3fa199329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberPassword: 04000000080000000100000002000000
+  _numberPassword: 00000000040000000000000009000000
 --- !u!114 &3404402356410622301
 MonoBehaviour:
   m_ObjectHideFlags: 0

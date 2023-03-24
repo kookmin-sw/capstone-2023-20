@@ -27,9 +27,11 @@ public class InventoryManager : MonoBehaviour
         ListItems();
     }
 
-    public void removeItem(Items items)
+    public void removeItem(string itemname)
     {
-        Items.Remove(items);
+        Items itemRemover = Items.Find(x => x.ItemName == itemname);
+        Items.Remove(itemRemover);
+        ListItems();
         
     }
     

@@ -42,7 +42,7 @@ public class MonsterController : MonoBehaviour
     int m_ptPointsCnt = 0;
 
     //view
-    MonsterView view;
+    //MonsterView view;
 
     //debug
     public GameObject alarm;
@@ -53,7 +53,7 @@ public class MonsterController : MonoBehaviour
         playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         nvAgent = this.gameObject.GetComponent<NavMeshAgent>();
         _animator = this.gameObject.GetComponent<Animator>();
-        view = GameObject.Find("Monster").GetComponent<MonsterView>();
+        //view = GameObject.Find("Monster").GetComponent<MonsterView>();
         Sensor = GameObject.Find("MonsterSensor").GetComponent<AiSensor>();
 
         // 추적 대상의 위치를 설정하면 바로 추적 시작

@@ -116,7 +116,7 @@ public class ThirdPlayerController : MonoBehaviour
                             playerInputs.interaction = false;
                         }
                     }
-                    
+
                 }
                 else if (hit.collider.CompareTag("LockerUnlocked"))
                 {
@@ -141,10 +141,10 @@ public class ThirdPlayerController : MonoBehaviour
                         hit.collider.GetComponent<GetItem>().Get();
                         playerInputs.interaction = false;
                     }
-                    
+
 
                 }
-                
+
                 else
                 {
                     Popup.instance.ClosePopUp();
@@ -166,7 +166,7 @@ public class ThirdPlayerController : MonoBehaviour
         //김원진 - 중복 UI 방지 위해 미니맵 UI 비활성 코드 추가
         if (playerInputs.inventory)
         {
-           Inventory.SetActive(true);
+            Inventory.SetActive(true);
         }
         else
         {
@@ -195,7 +195,7 @@ public class ThirdPlayerController : MonoBehaviour
         //{
         //    Option.SetActive(false);
         //}
-        
+
     }
 
 
@@ -308,7 +308,7 @@ public class ThirdPlayerController : MonoBehaviour
                     playerInputs.UILock = true;
                 }
             }
-            
+
 
 
         }
@@ -323,7 +323,7 @@ public class ThirdPlayerController : MonoBehaviour
                 LockInteraction.SetActive(false);
                 playerInputs.interaction = false;
             }
-            
+
             if (!CCTVView.activeSelf)
             {
                 playerInputs.UILock = false;

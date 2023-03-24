@@ -11,6 +11,15 @@ public class Activate1 : MonoBehaviour
     {
         state = false;
     }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("exit");
+            if (state)
+                Deactivate();
+        }
+    }
 
     // Update is called once per frame
     public void Activate()

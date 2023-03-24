@@ -17,6 +17,9 @@ TagManager:
   - PuzzleObj
   - Locker
   - LockerUnlocked
+  - CCTV
+  - LockerItem
+  - LockedDoor
   layers:
   - Default
   - TransparentFX
@@ -27,7 +30,7 @@ TagManager:
   - Minimap
   - Icons
   - Player
-  - PostProcessing
+  - 
   - 
   - 
   - 

@@ -54,7 +54,7 @@ public class InventoryitemController : MonoBehaviour
 
         if (ItemName == "Phone" || ItemName=="HP" )
         {
-            InventoryManager.Instance.removeItem(item);
+            InventoryManager.Instance.removeItem(ItemName);
             Destroy(gameObject);
         }
         else

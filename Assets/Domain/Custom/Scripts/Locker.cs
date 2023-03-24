@@ -34,6 +34,5 @@ public class Locker : MonoBehaviour
         DestroyView();
         Destroy(this.gameObject.transform.Find("Combination PadLock").gameObject);
         // 캐비넷 상호작용 추가
-        this.gameObject.transform.Find("Clipboard").tag = "Items";
     }
 }

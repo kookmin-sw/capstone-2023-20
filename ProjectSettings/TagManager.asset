@@ -19,6 +19,7 @@ TagManager:
   - LockerUnlocked
   - CCTV
   - LockerItem
+  - LockedDoor
   layers:
   - Default
   - TransparentFX

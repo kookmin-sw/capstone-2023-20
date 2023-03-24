@@ -31,6 +31,7 @@ public class CCTVScreenTransition : MonoBehaviour
 
     public void transRight()
     {
+        Debug.Log("Right");
         CurrentIndex++;
         if (CurrentIndex >= 9)
         {
@@ -44,6 +45,7 @@ public class CCTVScreenTransition : MonoBehaviour
 
     public void transLeft()
     {
+        Debug.Log("Left");
         CurrentIndex--;
         if (CurrentIndex < 0)
         {

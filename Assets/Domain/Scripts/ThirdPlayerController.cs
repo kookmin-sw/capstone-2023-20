@@ -38,13 +38,15 @@ public class ThirdPlayerController : MonoBehaviour
 
     [SerializeField] private GameObject ItemInteraction;
     [SerializeField] private GameObject LockInteraction;
+    [SerializeField] private GameObject UnlockInteraction;
     [SerializeField] private GameObject LockView;
     [SerializeField] private GameObject ItemView;
     [SerializeField] private GameObject CCTVView;
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
     private Animator animator;
-
+    private bool CurrentDoorLock = false;
+    private bool isCollision = false;
 
     float hitDistance = 2f;
     public bool InvestigateValue = false;
@@ -103,13 +105,18 @@ public class ThirdPlayerController : MonoBehaviour
                 else if (hit.collider.CompareTag("EventObj"))
                 {
                     Popup.instance.OpenPopUp();
+                    // 김원진 - 잠긴 문인지 확인
                     if (playerInputs.investigate == true)
                     {
-                        // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
-                        GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
-                        playerInputs.investigate = false;
-                        playerInputs.interaction = false;
+                        if (CurrentDoorLock == false)
+                        {
+                            // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
+                            GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
+                            playerInputs.investigate = false;
+                            playerInputs.interaction = false;
+                        }
                     }
+                    
                 }
                 else if (hit.collider.CompareTag("LockerUnlocked"))
                 {
@@ -137,16 +144,20 @@ public class ThirdPlayerController : MonoBehaviour
                     
 
                 }
+                
                 else
                 {
                     Popup.instance.ClosePopUp();
-
                 }
             }
             // raycast에 물체가 없을 시
             else
             {
                 Popup.instance.ClosePopUp();
+            }
+            if (isCollision == false)
+            {
+                playerInputs.interaction = false;
             }
         }
 
@@ -184,13 +195,15 @@ public class ThirdPlayerController : MonoBehaviour
         //{
         //    Option.SetActive(false);
         //}
-
+        
     }
+
 
     //김원진 - 미니맵 전환 구역 진입시 미니맵 전환.
     //김원진 - CurrentMap이 Null 상태일 경우 최초 진입한 전환구역의 TransMap을 CurrentMap으로 설정.
     private void OnTriggerEnter(Collider other)
     {
+        isCollision = true;
         if(other.tag == "Maps")
         {
             Debug.Log("Entering : " + other);
@@ -315,13 +328,26 @@ public class ThirdPlayerController : MonoBehaviour
             {
                 playerInputs.UILock = false;
                 playerInputs.PlayerMoveUnlock();
-                other.GetComponent<Locker>().Viewing = false;
+            }
+        }
+        else if (other.tag == "LockedDoor")
+        {
+            CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
+            if (playerInputs.interaction)
+            {
+                if (InventoryManager.Items.Find(x => x.ItemName == "Announce Room Key"))
+                {
+                    UnlockInteraction.SetActive(true);
+                    other.GetComponent<DoorLock>().DoorUnlock();
+                    CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
+                    InventoryManager.removeItem("Announce Room Key");
+                }
             }
         }
     }
     private void OnTriggerExit(Collider other)
     {
-
+        isCollision= false;
         if (other.tag == "Items")
         {
             ItemInteraction.SetActive(false);
@@ -358,6 +384,12 @@ public class ThirdPlayerController : MonoBehaviour
         if (other.tag == "CCTV")
         {
             LockInteraction.SetActive(false);
+        }
+
+        if (other.tag == "LockedDoor")
+        {
+            UnlockInteraction.SetActive(false);
+            CurrentDoorLock = false;
         }
     }
 

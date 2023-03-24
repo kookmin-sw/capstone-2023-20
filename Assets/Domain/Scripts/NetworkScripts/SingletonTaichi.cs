@@ -40,6 +40,7 @@ public class SingletonTaichi : MonoBehaviourPunCallbacks
       
         DontDestroyOnLoad(gameObject);
     }
+    //KKB - 방을 나가면 해당 객체 파괴
     public override void OnLeftRoom()
     {
         Destroy(gameObject);

@@ -5,43 +5,48 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using Photon.Pun.Demo.Cockpit.Forms;
+using StarterAssets;
 
 public class NetworkManager : MonoBehaviourPunCallbacks { 
-    public PhotonView pv;
+    public  PhotonView pv;
+    private GameObject LocalPlayer;
     [SerializeField]
-    private GameObject titleUI;
-    [SerializeField]
-    private GameObject lobbyUI;
-
+    private GameObject gameOverMsg;
     private void Awake()
     {
-        
+       
     }
 
     public void OnLevelWasLoaded(int level)
     {
-        if(level > 0)
+        if(level ==1 ) 
         {
-            SetPlayer(PhotonNetwork.LocalPlayer);
+            CreatePlayer(PhotonNetwork.LocalPlayer);
+
         }
     }
-    private void SetPlayer(Player player)
+    private void CreatePlayer(Player player)
     {
-        if (GameObject.Find("Player" + player.NickName) != null)
-        {
-            GameObject.Find("Player" + player.NickName).GetComponent<OwnershipTransfer>().OwnershipTransferLocalPlayer(player);
-            GameObject.Find("Player" + player.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
-        }
+        Transform pos = GameObject.Find("SpwanPoint" + player.NickName).transform;
+        LocalPlayer = PhotonNetwork.Instantiate("Player" + player.NickName, pos.position, pos.rotation);
+
+        //로컬플레이어의 starterAssetsInputs을 Option에 주입;
+        /*LocalPlayer.transform.GetChild(5).GetChild(0).gameObject.GetComponent<Option>().SetInputSystem(LocalPlayer.GetComponent<StarterAssetsInputs>());*/ 
     }
 
-    public void OnClickOutBtn()
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        gameOverMsg.SetActive(true);
+        Invoke("LeaveRoom",3f);
+    }
+
+    public void LeaveRoom()
     {
         Debug.Log("게임씬나가기");
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(0);
-        titleUI.SetActive(false);
-        lobbyUI.SetActive(true);
     }
+
 
   
 }

@@ -28,6 +28,9 @@ namespace StarterAssets
 		//KKB options - esc key
 		public bool option;
 
+		//KKB mouseSensitive
+		private float sensitivity = 1f;
+
 		public bool LookLock;
 		public bool MoveLock;
 		public bool UILock;
@@ -56,7 +59,7 @@ namespace StarterAssets
 		{
 			if(cursorInputForLook)
 			{
-				LookInput(value.Get<Vector2>());
+				LookInput(value.Get<Vector2>() * sensitivity);
 			}
 		}
 
@@ -169,7 +172,26 @@ namespace StarterAssets
             }
 
 
-        }
+        }	
+		//KKB - option(esc)
+		public void OptionInput(bool newOptionState)
+		{
+			if(!option && !UILock)
+			{
+				UILock = true;
+                move = new Vector2(0, 0);
+                option = newOptionState;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+			else if (option && UILock)
+			{
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                UILock = false;
+				option = false;
+			}
+		}
 
 		//김원진 - 미니맵 함수 추가
 		//김원진 - 미니맵이 열려있을때 누르면 닫히도록 함.
@@ -185,20 +207,7 @@ namespace StarterAssets
 			}
 		}
 
-		//KKB - option(esc)
-		public void OptionInput(bool newOptionState)
-		{
-			if(!option && !UILock)
-			{
-				UILock = true;
-				option = newOptionState; 
-			}
-			else if (option && UILock)
-			{
-				UILock = false;
-				option = false;
-			}
-		}
+	
 
 
         public void PlayerLockOn()
@@ -245,6 +254,13 @@ namespace StarterAssets
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
 
-	}
+		//KKB - dpi 조정 함수
+		public void SetSensitivity(float newSensitivity)
+		{
+			sensitivity = newSensitivity;
+		}
+
+
+    }
 	
 }

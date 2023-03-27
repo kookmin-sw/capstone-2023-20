@@ -29,7 +29,7 @@ namespace StarterAssets
 		public bool option;
 
 		//KKB mouseSensitive
-		private float sensitivity = 1f;
+		private float sensitivity = 5f;
 
 		public bool LookLock;
 		public bool MoveLock;

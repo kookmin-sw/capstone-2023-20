@@ -29,10 +29,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     {
         Transform pos = GameObject.Find("SpwanPoint" + player.NickName).transform;
         LocalPlayer = PhotonNetwork.Instantiate("Player" + player.NickName, pos.position, pos.rotation);
-
-        //로컬플레이어의 starterAssetsInputs을 Option에 주입;
-        /*LocalPlayer.transform.GetChild(5).GetChild(0).gameObject.GetComponent<Option>().SetInputSystem(LocalPlayer.GetComponent<StarterAssetsInputs>());*/ 
+        LocalPlayer.GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
     }
+
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {

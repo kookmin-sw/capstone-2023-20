@@ -32,25 +32,25 @@ MonoBehaviour:
     m_Value: 160
   redOutGreenIn:
     m_OverrideState: 1
-    m_Value: -8
+    m_Value: -38
   redOutBlueIn:
     m_OverrideState: 1
-    m_Value: 35
+    m_Value: 41
   greenOutRedIn:
     m_OverrideState: 1
-    m_Value: 84
+    m_Value: 38
   greenOutGreenIn:
     m_OverrideState: 1
-    m_Value: 60
+    m_Value: 10
   greenOutBlueIn:
     m_OverrideState: 1
-    m_Value: 65
+    m_Value: 38
   blueOutRedIn:
     m_OverrideState: 1
-    m_Value: 71
+    m_Value: 56
   blueOutGreenIn:
     m_OverrideState: 1
-    m_Value: 53
+    m_Value: 35
   blueOutBlueIn:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 25

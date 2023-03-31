@@ -147,27 +147,29 @@ public class MonsterController : MonoBehaviour
                 _animator.SetBool("isWalk", true);
                 _animator.SetBool("isIdle", false);
 
-                Vector3 RandomPos;
-                RandomPoint(out RandomPos);
-                Debug.DrawRay(RandomPos, Vector3.up, Color.green, 3.0f);
+                //Vector3 RandomPos;
+                //RandomPoint(out RandomPos);
+                //Debug.DrawRay(RandomPos, Vector3.up, Color.green, 3.0f);
 
-                nvAgent.SetDestination(RandomPos);
-                //nvAgent.SetDestination(m_ptPoints[m_ptPointsCnt].position);
-                //m_ptPointsCnt++;
+                //nvAgent.SetDestination(RandomPos);
 
-                //if (m_ptPointsCnt >= m_ptPoints.Length) //포인트를 끝까지 돌면 다시 0으로 초기화
-                //    m_ptPointsCnt = 0;//왜그래
-                //if (!nvAgent.pathPending)
-                //{
-                //    if (nvAgent.remainingDistance <= nvAgent.stoppingDistance)
-                //    {
-                //        if (!nvAgent.hasPath || nvAgent.velocity.sqrMagnitude == 0f) // 도착
-                //        {
-                //            curState = CurrentState.patrol;
-                //            _animator.SetBool("isIdle", true);
-                //        }
-                //    }
-                //}
+                //waypoint
+                nvAgent.SetDestination(m_ptPoints[m_ptPointsCnt].position);
+                m_ptPointsCnt++;
+
+                if (m_ptPointsCnt >= m_ptPoints.Length) //포인트를 끝까지 돌면 다시 0으로 초기화
+                    m_ptPointsCnt = 0;//왜그래
+                if (!nvAgent.pathPending)
+                {
+                    if (nvAgent.remainingDistance <= nvAgent.stoppingDistance)
+                    {
+                        if (!nvAgent.hasPath || nvAgent.velocity.sqrMagnitude == 0f) // 도착
+                        {
+                            curState = CurrentState.patrol;
+                            _animator.SetBool("isIdle", true);
+                        }
+                    }
+                }
             }
         }
     }

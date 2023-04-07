@@ -1,5 +1,0 @@
-Thank you for downloading the Streaming Microphone asset!
-
-Please use the Prefab object included in the package.
-
-If you have any comments or suggestions, feel free to contact me at kevinjongeneel@j2gamestudios.com

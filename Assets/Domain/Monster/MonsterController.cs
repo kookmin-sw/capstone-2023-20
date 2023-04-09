@@ -138,7 +138,7 @@ public class MonsterController : MonoBehaviour
         }
         if (chkTime > IdleTIme)
         {
-            alarm.SetActive(false);
+            //alarm.SetActive(false);
             Debug.Log("chkTime : " + chkTime);
             chkTime = 0;
             if (nvAgent.remainingDistance < 1f)

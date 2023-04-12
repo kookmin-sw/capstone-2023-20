@@ -18,6 +18,9 @@ TagManager:
   - Locker
   - LockerUnlocked
   - LockerItem
+  - CCTV
+  - LockedDoor
+  - Taichi
   layers:
   - Default
   - TransparentFX

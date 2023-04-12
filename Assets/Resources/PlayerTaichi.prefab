@@ -2329,7 +2329,7 @@ GameObject:
   - component: {fileID: 7003188583768590135}
   m_Layer: 8
   m_Name: PlayerTaichi
-  m_TagString: Player
+  m_TagString: Taichi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12366,6 +12366,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2512371987626257989}
     m_Modifications:
+    - target: {fileID: 786515328725837716, guid: e870d3e0ddbbd61438c894f18fc25942,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3808523616618599376, guid: e870d3e0ddbbd61438c894f18fc25942,
         type: 3}
       propertyPath: m_Name
@@ -12474,6 +12479,11 @@ PrefabInstance:
     - target: {fileID: 6341735739690818123, guid: e870d3e0ddbbd61438c894f18fc25942,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302883836040235232, guid: e870d3e0ddbbd61438c894f18fc25942,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

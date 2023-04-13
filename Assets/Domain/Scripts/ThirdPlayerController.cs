@@ -88,11 +88,9 @@ public class ThirdPlayerController : MonoBehaviour
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
 
-                    // 상호작용 버튼 활성화
-                popup.OpenPopUp();
-
-                        // 상호작용 메세지 활성화
-                        if (playerInputs.investigate == true)
+                    // 상호작용 메시지 활성화
+                    popup.OpenPopUp();
+                    if (playerInputs.investigate == true)
                     {
                         InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();

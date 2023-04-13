@@ -58,6 +58,9 @@ public class ThirdPlayerController : MonoBehaviour
 
     Vector3 mouseWorldPosition = Vector3.zero;
 
+    // 팝업창
+    public Popup popup;
+
     private void Start()
     {
         outline = new Material(Shader.Find("Custom/OutLine"));
@@ -69,6 +72,7 @@ public class ThirdPlayerController : MonoBehaviour
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
+        popup = GetComponentInChildren<Popup>();
     }
     private void Update()
     {
@@ -91,10 +95,10 @@ public class ThirdPlayerController : MonoBehaviour
                 {
 
                     // 상호작용 버튼 활성화
-                    Popup.instance.OpenPopUp();
+                popup.OpenPopUp();
 
-                    // 상호작용 메세지 활성화
-                    if (playerInputs.investigate == true)
+                        // 상호작용 메세지 활성화
+                        if (playerInputs.investigate == true)
                     {
                         InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
@@ -104,7 +108,7 @@ public class ThirdPlayerController : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("EventObj"))
                 {
-                    Popup.instance.OpenPopUp();
+                    popup.OpenPopUp();
                     // 김원진 - 잠긴 문인지 확인
                     if (playerInputs.investigate == true)
                     {
@@ -120,7 +124,7 @@ public class ThirdPlayerController : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("LockerUnlocked"))
                 {
-                    Popup.instance.OpenPopUp();
+                    popup.OpenPopUp();
                     if (playerInputs.investigate == true)
                     {
                         // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
@@ -147,13 +151,13 @@ public class ThirdPlayerController : MonoBehaviour
 
                 else
                 {
-                    Popup.instance.ClosePopUp();
+                    popup.ClosePopUp();
                 }
             }
             // raycast에 물체가 없을 시
             else
             {
-                Popup.instance.ClosePopUp();
+                popup.ClosePopUp();
             }
             if (isCollision == false)
             {

@@ -21,6 +21,7 @@ TagManager:
   - CCTV
   - LockedDoor
   - Taichi
+  - Latifa
   layers:
   - Default
   - TransparentFX

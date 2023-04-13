@@ -59,7 +59,7 @@ public class ThirdPlayerController : MonoBehaviour
     Vector3 mouseWorldPosition = Vector3.zero;
 
     // 팝업창
-    public Popup popup;
+    private Popup popup;
 
     private void Start()
     {

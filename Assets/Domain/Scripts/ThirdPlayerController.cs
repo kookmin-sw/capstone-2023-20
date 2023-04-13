@@ -51,11 +51,6 @@ public class ThirdPlayerController : MonoBehaviour
     float hitDistance = 2f;
     public bool InvestigateValue = false;
 
-    Material outline;
-
-    Renderer renderers;
-    List<Material> materialList = new List<Material>();
-
     Vector3 mouseWorldPosition = Vector3.zero;
 
     // 팝업창
@@ -63,7 +58,6 @@ public class ThirdPlayerController : MonoBehaviour
 
     private void Start()
     {
-        outline = new Material(Shader.Find("Custom/OutLine"));
     }
 
     private void Awake()

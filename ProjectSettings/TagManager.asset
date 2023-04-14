@@ -18,6 +18,10 @@ TagManager:
   - Locker
   - LockerUnlocked
   - LockerItem
+  - CCTV
+  - LockedDoor
+  - Taichi
+  - Latifa
   layers:
   - Default
   - TransparentFX

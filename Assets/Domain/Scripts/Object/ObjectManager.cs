@@ -22,12 +22,12 @@ public class ObjectManager : MonoBehaviour
 
     public void Activate()
     {
-        Event.Invoke();
         if(PlayCount == 0)
         {
             OncePlayEvent.Invoke();
             PlayCount++;
         }
+        Event.Invoke();
     }
 
 

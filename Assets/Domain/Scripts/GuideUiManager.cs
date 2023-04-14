@@ -8,12 +8,18 @@ using static System.Net.Mime.MediaTypeNames;
 
 public class GuideUiManager : MonoBehaviour
 {
+
+    //ΩÃ±€≈Ê¿∏∑Œ ±∏º∫
+    private static GuideUiManager _instance;
+
     public GameObject MainPanel;
     public GameObject SubPanel;
     public TMP_Text MainTxt;
     public TMP_Text SubTxt;
     public string maintxt;
     public string subtxt;
+
+
 
     // Start is called before the first frame update
     void Start()

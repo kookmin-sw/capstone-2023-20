@@ -1,7 +1,7 @@
 ---
 name: Develop issue template
 about: Develop issue template
-title: "[Develop] Assignees : IssueNumber - summary"
+title: "[Develop] week_Assignees : IssueNumber - summary"
 labels: ''
 assignees: ''
 

@@ -63,6 +63,9 @@ public class DoorDefaultClose : MonoBehaviour
         }
 
     }
+
+
+
     // 다른 오브젝트와 상호작용용 함수
     public void InteractActivate(bool OncePlay)
     {

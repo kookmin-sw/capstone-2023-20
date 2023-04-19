@@ -25,4 +25,5 @@ public class colliderActive : MonoBehaviour
 
         }
     }
+
 }

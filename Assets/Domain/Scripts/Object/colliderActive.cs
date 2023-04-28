@@ -19,10 +19,11 @@ public class colliderActive : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Taichi" || other.tag == "Latifa")
         {
             gameObject.GetComponent<ObjectManager>().Activate();
 
         }
     }
+
 }

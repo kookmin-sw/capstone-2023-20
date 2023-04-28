@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TaichiObjectUi : MonoBehaviour
 {
-    public GameObject taichi;
-    public GuideUiManager UiManager;
-    public Timeline[] Timelines;
-    public Timeline Both;
-    public Timeline Main;
-    public Timeline Sub;
+    private GameObject taichi;
+    private GuideUiManager UiManager;
+    private Timeline[] Timelines;
+    private Timeline Both;
+    private Timeline Main;
+    private Timeline Sub;
 
     public string maintxt;
     public string subtxt;
@@ -54,12 +54,36 @@ public class TaichiObjectUi : MonoBehaviour
     //}
     public void SetGuideUi()
     {
-        UiManager.SetMainPanelText(maintxt);
-        UiManager.SetSubPanelText(subtxt);
+        if (subtxt.Length > 0)
+        {
+            UiManager.SetMainPanelText(maintxt);
+            UiManager.SetSubPanelText(subtxt);
+        }
+        else
+            UiManager.SetMainPanelText(maintxt);
 
     }
+    public void SetMaintxt()
+    {
+        UiManager.SetMainPanelText(maintxt);
+    }
+
     public void TimeLineActive()
     {
-        Both.Play();
+        if (maintxt.Length > 0 && subtxt.Length > 0)
+            Both.Play();
+        else if (maintxt.Length > 0)
+            Main.Play();
+        else
+            Sub.Play();
+    }
+    public void MainTimeLineActive()
+    {
+        Main.Play();
+    }
+    public void SubTimeLineActive()
+    {
+        Sub.Play();
+        Debug.Log("play");
     }
 }

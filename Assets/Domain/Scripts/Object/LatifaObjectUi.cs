@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class LatifaObjectUi : MonoBehaviour
 {
-    public GameObject latifa;
-    public GuideUiManager UiManager;
-    public Timeline[] Timelines;
-    public Timeline Both;
-    public Timeline Main;
-    public Timeline Sub;
+    private GameObject latifa;
+    private GuideUiManager UiManager;
+    private Timeline[] Timelines;
+    private Timeline Both;
+    private Timeline Main;
+    private Timeline Sub;
 
     public string maintxt;
     public string subtxt;
@@ -32,7 +32,6 @@ public class LatifaObjectUi : MonoBehaviour
         Timelines = latifa.GetComponentsInChildren<Timeline>();
         if (Timelines.Length > 0)
         {
-            Debug.Log(Timelines[1]);
             // 원하는 스크립트를 선택하여 사용
             Both = Timelines[0];
             Main = Timelines[1];
@@ -54,12 +53,30 @@ public class LatifaObjectUi : MonoBehaviour
     //}
     public void SetGuideUi()
     {
-        UiManager.SetMainPanelText(maintxt);
-        UiManager.SetSubPanelText(subtxt);
+        if (subtxt.Length > 0)
+        {
+            UiManager.SetMainPanelText(maintxt);
+            UiManager.SetSubPanelText(subtxt);
+        }
+        else
+            UiManager.SetMainPanelText(maintxt);
 
     }
     public void TimeLineActive()
     {
-        Both.Play();
+        if (maintxt.Length > 0 && subtxt.Length > 0)
+            Both.Play();
+        else if (maintxt.Length > 0)
+            Main.Play();
+        else
+            Sub.Play();
+    }
+    public void MainTimeLineActive()
+    {
+        Main.Play();
+    }
+    public void SubTimeLineActive()
+    {
+        Sub.Play();
     }
 }

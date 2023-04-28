@@ -175,6 +175,9 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     {
         PhotonNetwork.LocalPlayer.NickName = "선택안함";
         ChatRPC("<color=yellow>캐릭터선택을 취소했습니다</color>");
+        Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+        cp["GameReady"] = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
         CharacterRenewal();
     }
 

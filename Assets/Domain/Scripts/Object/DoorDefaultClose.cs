@@ -15,7 +15,8 @@ public class DoorDefaultClose : MonoBehaviour
 
     [SerializeField]
     private bool LockState = false;
-
+    [SerializeField]
+    private DoorDefaultClose ConnectedDoor;
     int count = 0;
 
 
@@ -47,11 +48,13 @@ public class DoorDefaultClose : MonoBehaviour
             //성현 - 상호작용을 연속으로 입력할 시 문이 동작하기 전에 state가 다시 변경하는 것을 방지
             if (animator.GetBool("IsOpen") == false && animator.GetCurrentAnimatorStateInfo(0).IsName("Default"))
             {
+                Debug.Log("Default");
                 animator.SetBool("IsOpen", true);
                 audiosource.Play();
             }
             else if (animator.GetBool("IsOpen") == true && animator.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen"))
             {
+                Debug.Log("Open");
                 animator.SetBool("IsOpen", false);
                 audiosource.Play();
             }
@@ -60,6 +63,7 @@ public class DoorDefaultClose : MonoBehaviour
         {
             audiosource.clip = DoorLocked;
             audiosource.Play();
+
         }
 
     }
@@ -96,6 +100,11 @@ public class DoorDefaultClose : MonoBehaviour
             audiosource.clip = DoorLocked;
             audiosource.Play();
         }
+        if (LockState == false && ConnectedDoor != null) {
+            ConnectedDoor.UnLockDoor();
+            Debug.Log(ConnectedDoor + "Unlocked");
+        }
+
     }
 
     //private void OnTriggerEnter(Collider other)

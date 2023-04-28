@@ -36,8 +36,6 @@ public class ThirdPlayerController : MonoBehaviour
     //김원진 - 현재 캐릭터가 위치한 곳 저장
     [SerializeField] private GameObject CurrentMap;
 
-    [SerializeField] private GameObject ItemInteraction;
-    [SerializeField] private GameObject LockInteraction;
     [SerializeField] private GameObject UnlockInteraction;
     [SerializeField] private GameObject LockView;
     [SerializeField] private GameObject ItemView;
@@ -89,7 +87,7 @@ public class ThirdPlayerController : MonoBehaviour
                 {
 
                     // 상호작용 메시지 활성화
-                    popup.OpenPopUp();
+                    popup.OpenPopUpInteract();
                     if (playerInputs.investigate == true)
                     {
                         InvestigateValue = true;
@@ -100,7 +98,7 @@ public class ThirdPlayerController : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("EventObj"))
                 {
-                    popup.OpenPopUp();
+                    popup.OpenPopUpInteract();
                     // 김원진 - 잠긴 문인지 확인
                     if (playerInputs.investigate == true)
                     {
@@ -116,7 +114,7 @@ public class ThirdPlayerController : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("LockerUnlocked"))
                 {
-                    popup.OpenPopUp();
+                    popup.OpenPopUpInteract();
                     if (playerInputs.investigate == true)
                     {
                         // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
@@ -125,13 +123,25 @@ public class ThirdPlayerController : MonoBehaviour
                         playerInputs.interaction = false;
                     }
                 }
+                else if (hit.collider.CompareTag("Items"))
+                {
+                    popup.OpenPopUpItem();
+                    //김원진 - 아이템 상호작용시 습득
+                    if (playerInputs.interaction)
+                    {
+                        //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
+                        InventoryManager.addItem(hit.collider.GetComponent<ItemController>().Item);
+                        hit.collider.GetComponent<GetItem>().Get();
+                        playerInputs.interaction = false;
+                    }
+                }
                 else if (hit.collider.CompareTag("LockerItem"))
                 {
-                    ItemInteraction.SetActive(true);
-                    Debug.Log("LockerItem");
-                    if(playerInputs.investigate == true)
+                    popup.OpenPopUpItem();
+                    if (playerInputs.investigate == true)
                     {
-                        ItemInteraction.SetActive(false);
+                        //ItemInteraction.SetActive(false);
+                        popup.ClosePopUpItem();
                         Debug.Log(hit.collider.GetComponent<ItemController>().Item);
                         InventoryManager.addItem(hit.collider.GetComponent<ItemController>().Item);
                         hit.collider.GetComponent<GetItem>().Get();
@@ -140,16 +150,22 @@ public class ThirdPlayerController : MonoBehaviour
 
 
                 }
-
+                else if (hit.collider.CompareTag("Locker"))
+                {
+                    //popup.OpenPopUpInteract();
+                }
+                
                 else
                 {
-                    popup.ClosePopUp();
+                    popup.ClosePopUpInteract();
+                    popup.ClosePopUpItem();
                 }
             }
             // raycast에 물체가 없을 시
             else
             {
-                popup.ClosePopUp();
+                popup.ClosePopUpInteract();
+                popup.ClosePopUpItem();
             }
             if (isCollision == false)
             {
@@ -232,38 +248,18 @@ public class ThirdPlayerController : MonoBehaviour
             }
         }
 
-        if (other.tag == "Locker")
-        {
-            if (other.GetComponent<Locker>().unLock == false) {
-                LockInteraction.SetActive(true);
-            }
-        }
-        if (other.tag == "CCTV")
-        {
-            LockInteraction.SetActive(true);
-        }
+        
     }
 
     //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환
     //       - cf) Enter로 할 시 최초진입이 기준이므로 아이템 획득을 위해 상호작용 버튼을 누를시 획득되지 않는 경우가 생김.
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Items")
+
+        if (other.tag == "Locker")
         {
-            ItemInteraction.SetActive(true);
-            //김원진 - 아이템 상호작용시 습득
-            if (playerInputs.interaction)
-            {
-                //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
-                ItemInteraction.SetActive(false);
-                Debug.Log(other.GetComponent<ItemController>().Item);
-                InventoryManager.addItem(other.GetComponent<ItemController>().Item);
-                other.GetComponent<GetItem>().Get();
-                playerInputs.interaction = false;
-            }
-        }
-        else if (other.tag == "Locker")
-        {
+            popup.OpenPopUpInteract();
+            Debug.Log("Locker Interaction");
             if (playerInputs.interaction)
             {
                 if (other.GetComponent<Locker>().IsLock == false)
@@ -280,7 +276,7 @@ public class ThirdPlayerController : MonoBehaviour
                 }
 
                 playerInputs.interaction = false;
-                LockInteraction.SetActive(false);
+                popup.ClosePopUpInteract();
             }
             if (!LockView.activeSelf)
             {
@@ -291,9 +287,9 @@ public class ThirdPlayerController : MonoBehaviour
             if (other.GetComponent<Locker>().unLock == true)
             {
                 LockView.SetActive(false);
-                LockInteraction.gameObject.SetActive(true);
+                popup.OpenPopUpInteract();
                 other.gameObject.transform.Find("door").gameObject.tag = "LockerUnlocked";
-                LockInteraction.SetActive(false);
+                popup.ClosePopUpInteract();
                 //김원진 - Locker 주변에서 UI 켰을경우
                 if (playerInputs.inventory)
                 {
@@ -310,13 +306,13 @@ public class ThirdPlayerController : MonoBehaviour
         }
         else if (other.tag == "CCTV")
         {
-            LockInteraction.SetActive(true);
+            popup.OpenPopUpInteract();
             if (playerInputs.interaction)
             {
                 CCTVView.SetActive(true);
                 playerInputs.UILock = true;
                 playerInputs.PlayerMoveLock();
-                LockInteraction.SetActive(false);
+                popup.ClosePopUpInteract();
                 playerInputs.interaction = false;
             }
 
@@ -337,6 +333,7 @@ public class ThirdPlayerController : MonoBehaviour
                     other.GetComponent<DoorLock>().DoorUnlock();
                     CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
                     InventoryManager.removeItem("Announce Room Key");
+                    other.gameObject.transform.parent.gameObject.GetComponent<DoorDefaultClose>().UnLockDoor();
                 }
             }
         }
@@ -346,7 +343,8 @@ public class ThirdPlayerController : MonoBehaviour
         isCollision= false;
         if (other.tag == "Items")
         {
-            ItemInteraction.SetActive(false);
+            //ItemInteraction.SetActive(false);
+            popup.ClosePopUpItem();
         }
         if (other.tag == "Maps")
         {
@@ -374,12 +372,12 @@ public class ThirdPlayerController : MonoBehaviour
         if (other.tag == "Locker")
         {
             other.GetComponent<Locker>().DestroyView();
-            LockInteraction.SetActive(false);
+            //popup.ClosePopUpInteract();
             LockView.SetActive(false);
         }
         if (other.tag == "CCTV")
         {
-            LockInteraction.SetActive(false);
+            popup.ClosePopUpInteract();
         }
 
         if (other.tag == "LockedDoor")

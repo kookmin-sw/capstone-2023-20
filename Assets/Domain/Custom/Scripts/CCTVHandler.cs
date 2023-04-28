@@ -9,7 +9,7 @@ public class CCTVHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && hasEntered==false)
+        if ((other.tag == "Latifa" || other.tag == "Taichi") && hasEntered==false)
         {
             Debug.Log("Entered");
             CCTV.SetActive(true);
@@ -20,7 +20,7 @@ public class CCTVHandler : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if ((other.tag == "Latifa" || other.tag == "Taichi"))
         {
             CCTV.SetActive(false);
         }

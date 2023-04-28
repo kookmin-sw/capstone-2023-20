@@ -17,13 +17,13 @@ public class Cabinet : MonoBehaviour
     {
         if (Locker.unLock == true)
         {
-            if (animator.GetBool("IsOpen") == true && animator.GetCurrentAnimatorStateInfo(0).IsName("Default"))
+            if (animator.GetBool("IsOpen") == false && animator.GetCurrentAnimatorStateInfo(0).IsName("Default"))
             {
-                animator.SetBool("IsOpen", false);
+                animator.SetBool("IsOpen", true);
                 Debug.Log("?");
             }
-            else if (animator.GetBool("IsOpen") == false && animator.GetCurrentAnimatorStateInfo(0).IsName("DoorClose"))
-                animator.SetBool("IsOpen", true);
+            else if (animator.GetBool("IsOpen") == true && animator.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen"))
+                animator.SetBool("IsOpen", false);
 
         }
     }

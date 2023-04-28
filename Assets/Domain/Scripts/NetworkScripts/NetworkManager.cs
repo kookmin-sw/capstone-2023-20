@@ -11,7 +11,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public  PhotonView pv;
     private GameObject LocalPlayer;
     [SerializeField]
-    private GameObject gameOverMsg;
+    private GameObject CloseGameMsg;
     private void Awake()
     {
        
@@ -22,7 +22,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         if(level ==1 ) 
         {
             CreatePlayer(PhotonNetwork.LocalPlayer);
-
+            
         }
     }
     private void CreatePlayer(Player player)
@@ -30,22 +30,30 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         Transform pos = GameObject.Find("SpwanPoint" + player.NickName).transform;
         LocalPlayer = PhotonNetwork.Instantiate("Player1" + player.NickName, pos.position, pos.rotation);
         LocalPlayer.GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
+        DontDestroyOnLoad(LocalPlayer);
+        Debug.Log(LocalPlayer.name + " 생성완료 크레이트플레이어");
     }
 
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        gameOverMsg.SetActive(true);
+        CloseGameMsg.SetActive(true);
         Invoke("LeaveRoom",3f);
     }
 
     public void LeaveRoom()
     {
-        Debug.Log("게임씬나가기");
+        Debug.Log(LocalPlayer.name + " 파괴하고 방 나가기");
         PhotonNetwork.LeaveRoom();
+        Destroy(LocalPlayer);
+       
         SceneManager.LoadScene(0);
+    }
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+        Debug.Log("cause" + cause.ToString());
     }
 
 
-  
 }

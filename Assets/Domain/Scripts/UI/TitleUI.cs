@@ -19,6 +19,8 @@ public class TitleUI : MonoBehaviourPunCallbacks
     {
         Debug.Log("온라인 버튼 클릭");
         PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.AutomaticallySyncScene = true;
+        // PhotonNetwork.MaxResendsBeforeDisconnect = 8;
     }
 
    

@@ -677,7 +677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419592033743734884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.000002063397, y: 1.3750001, z: -0.16666736}
+  m_LocalPosition: {x: 0, y: 1.375, z: -0.16666669}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2317,7 +2317,6 @@ GameObject:
   - component: {fileID: 2512371987626257989}
   - component: {fileID: 1052175127762019046}
   - component: {fileID: 2233146266482489387}
-  - component: {fileID: 3256833199841961629}
   - component: {fileID: 2907889046901965739}
   - component: {fileID: 2728887461071729373}
   - component: {fileID: 1188061636232981433}
@@ -2397,18 +2396,6 @@ CharacterController:
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.93, z: 0}
---- !u!114 &3256833199841961629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067254537627966986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fc3f92b379c7c94dab5e8d8b3daec2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2907889046901965739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5279,7 +5266,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6801277938098409716
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7053,7 +7040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7670766061719293713
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7497,7 +7484,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8342602051593565835
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8839,7 +8826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3859036085335976390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12455,6 +12442,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CCTVCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367217719760260844, guid: 517d0cdde34b4cc4abe7164311144a73,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8973857635646768380, guid: 517d0cdde34b4cc4abe7164311144a73,
         type: 3}

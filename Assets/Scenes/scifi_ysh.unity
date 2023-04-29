@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.634
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.048737004, g: 0.064021, b: 0.07679345, a: 0.634}
+  m_IndirectSpecularColor: {r: 0.048728652, g: 0.06396015, b: 0.076886415, a: 0.634}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2767,7 +2767,7 @@ PrefabInstance:
     - target: {fileID: 4365172222235423551, guid: fd4abddfd1e04d64aa11ff8dde1fc0f8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.15
+      value: 24.033
       objectReference: {fileID: 0}
     - target: {fileID: 4365172222235423551, guid: fd4abddfd1e04d64aa11ff8dde1fc0f8,
         type: 3}
@@ -7889,8 +7889,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7956,8 +7956,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 729, y: 417}
-  m_SizeDelta: {x: 285.8351, y: 33.3868}
+  m_AnchoredPosition: {x: 714.0884, y: 410.329}
+  m_SizeDelta: {x: 315.658, y: 46.729}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &377128045
 GameObject:
@@ -30277,6 +30277,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8955304396222365708, guid: 7edc777e59e77d64092707410ac1d361,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8955304396272748605, guid: 7edc777e59e77d64092707410ac1d361,
         type: 3}
       propertyPath: m_Layer
@@ -43758,7 +43763,7 @@ PrefabInstance:
     - target: {fileID: 4365172222235423551, guid: fd4abddfd1e04d64aa11ff8dde1fc0f8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.916
+      value: 23.972
       objectReference: {fileID: 0}
     - target: {fileID: 4365172222235423551, guid: fd4abddfd1e04d64aa11ff8dde1fc0f8,
         type: 3}
@@ -59265,7 +59270,7 @@ PrefabInstance:
     - target: {fileID: 4365172222235423551, guid: fd4abddfd1e04d64aa11ff8dde1fc0f8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 4365172222235423551, guid: fd4abddfd1e04d64aa11ff8dde1fc0f8,
         type: 3}

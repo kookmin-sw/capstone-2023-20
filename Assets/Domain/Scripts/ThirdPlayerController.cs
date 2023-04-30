@@ -77,10 +77,11 @@ public class ThirdPlayerController : MonoBehaviour
         // ������
         if (Physics.Raycast(ray, out hit))
         {
-
+            //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.blue);
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
-            if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
+            if ((hit.distance < hitDistance) && (!EventSystem.current.IsPointerOverGameObject()))
             {
+
                 Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))

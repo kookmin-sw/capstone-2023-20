@@ -3,18 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using StarterAssets;
 
 public class Puzzle : MonoBehaviour
 {
     public bool state;
     public GameObject target;
     private ThirdPlayerController ThirdPlayerController;
+    private StarterAssetsInputs playerInputs;
 
     // Start is called before the first frame update
     void Start()
     {
         this.state = false;
         ThirdPlayerController = FindObjectOfType<ThirdPlayerController>();
+        playerInputs = FindObjectOfType<StarterAssetsInputs>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("exit");
+            if (state)
+                Activate();
+
+        }
     }
 
     // Update is called once per frame
@@ -30,6 +45,8 @@ public class Puzzle : MonoBehaviour
         {
             target.SetActive(false);
             this.state = false;
+            playerInputs.PlayerLockOn();
+            ThirdPlayerController.InvestigateValue = false;
         }
 
     }

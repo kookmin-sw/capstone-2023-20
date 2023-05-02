@@ -91,9 +91,9 @@ public class ThirdPlayerController : MonoBehaviour
                     popup.OpenPopUpInteract();
                     if (playerInputs.investigate == true)
                     {
-                        InvestigateValue = true;
+                        //InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
-                        playerInputs.PlayerLockOn();
+
                     }
 
                 }

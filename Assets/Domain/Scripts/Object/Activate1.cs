@@ -24,9 +24,18 @@ public class Activate1 : MonoBehaviour
     // Update is called once per frame
     public void Activate()
     {
-        target.SetActive(true);
-        print("생겨나");
-        state = true;
+        if (state == false)
+        {
+            target.SetActive(true);
+            print("생겨나");
+            state = true;
+        }
+        else
+        {
+            target.SetActive(false);
+            print("사라져");
+            state = false;
+        }
     }
 
     public void Deactivate()

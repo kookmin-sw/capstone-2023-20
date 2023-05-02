@@ -5,10 +5,12 @@ using UnityEngine.Events;
 
 public class ObjectManager : MonoBehaviour
 {
+    public UnityEvent FirstEvent;
     public UnityEvent Event;
     public UnityEvent OncePlayEvent;
 
     int PlayCount = 0;
+    int FirstCount = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +24,23 @@ public class ObjectManager : MonoBehaviour
 
     public void Activate()
     {
-        if(PlayCount == 0)
+        Debug.Log(FirstEvent.GetPersistentEventCount());
+        if (FirstEvent.GetPersistentEventCount() > 0  && FirstCount == 0)
         {
-            OncePlayEvent.Invoke();
-            PlayCount++;
+            FirstEvent.Invoke();
+            FirstCount++;
+        
         }
-        Event.Invoke();
+        else
+        {
+            if (PlayCount == 0)
+            {
+                OncePlayEvent.Invoke();
+                PlayCount++;
+            }
+            Event.Invoke();
+        }
+
     }
 
 

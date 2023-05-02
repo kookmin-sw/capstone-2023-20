@@ -52,7 +52,7 @@ namespace Puzzles
         // Start is called before the first frame update
         void Start()
         {
-            piece_no = gameObject.name[gameObject.name.Length - 1] - '0';
+            //piece_no = gameObject.name[gameObject.name.Length - 1] - '0';
         }
     }
 

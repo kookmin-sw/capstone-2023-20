@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.634
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.048737004, g: 0.064021, b: 0.07679345, a: 0.634}
+  m_IndirectSpecularColor: {r: 0.048728652, g: 0.06396015, b: 0.076886415, a: 0.634}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9661,9 +9661,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event:
     m_PersistentCalls:
-      m_Calls: []
-  OncePlayEvent:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 434006585}
         m_TargetAssemblyTypeName: Activate1, Assembly-CSharp
@@ -9677,6 +9674,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1054395831}
+        m_TargetAssemblyTypeName: TimeAttack, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OncePlayEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &436085414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24628,6 +24640,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54070283720161105, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
         type: 3}
+      propertyPath: m_InputType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54070283720161105, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_ContentType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54070283720161105, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_GlobalPointSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 54070283720161105, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 434006580}
@@ -24731,6 +24758,51 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4795018545004445351, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795018545004445351, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855663395482272498, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855663395482272498, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855663395482272498, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 434006580}
+    - target: {fileID: 4855663395482272498, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855663395482272498, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CheckPassword
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855663395482272498, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PasswordController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855663395482272498, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6544396032891788423, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
         type: 3}
       propertyPath: m_UiScaleMode
@@ -24750,6 +24822,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ReferenceResolution.y
       value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104841180062621681, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_text
+      value: Enter Password...
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104841180062621681, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104841180062621681, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104841180062621681, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825619798267161087, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153301155112971855, guid: fec0b93bb0c53f443bf3177dd2a03d4c,
         type: 3}

@@ -12,6 +12,7 @@ public class Puzzle : MonoBehaviour
     public GameObject target;
     private ThirdPlayerController ThirdPlayerController;
     private StarterAssetsInputs playerInputs;
+    private CanvasRenderModeChanger changer;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class Puzzle : MonoBehaviour
         this.state = false;
         ThirdPlayerController = FindObjectOfType<ThirdPlayerController>();
         playerInputs = FindObjectOfType<StarterAssetsInputs>();
+        changer = GetComponent<CanvasRenderModeChanger>();
     }
 
     private void Update()
@@ -27,7 +29,11 @@ public class Puzzle : MonoBehaviour
         {
             Debug.Log("exit");
             if (state)
+            {
                 Activate();
+                changer.Activate();
+
+            }
 
         }
     }
@@ -39,6 +45,8 @@ public class Puzzle : MonoBehaviour
         {
             target.SetActive(true);
             this.state = true;
+            playerInputs.PlayerLockOn();
+            ThirdPlayerController.InvestigateValue = true;
 
         }
         else

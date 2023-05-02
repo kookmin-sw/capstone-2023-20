@@ -11,7 +11,7 @@ public class AiSensor : MonoBehaviour
     public Color meshColor = Color.red; 
     public int scanFrequency = 30;
     public LayerMask layers;
-    public LayerMask occlusionLayers;
+    public LayerMask occlusionLayers; // Àå¾Ö¹°
 
     public bool isInSight = false;
     public List<GameObject> Objects

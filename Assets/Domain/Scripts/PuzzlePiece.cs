@@ -46,6 +46,7 @@ namespace Puzzles
             if (puzzle.IsClear())
             {
                 Debug.Log("Clear");
+                puzzle.GetComponent<ObjectManager>().Activate();
             }
         }
 

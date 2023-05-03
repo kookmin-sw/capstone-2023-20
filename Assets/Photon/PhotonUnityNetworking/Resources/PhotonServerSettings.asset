@@ -48,6 +48,7 @@ MonoBehaviour:
   - CreatePlayer
   - Leave
   - SetStage
+  - SetStateText
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

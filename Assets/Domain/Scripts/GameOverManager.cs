@@ -8,7 +8,7 @@ using TMPro;
 
 public class GameOverManager : MonoBehaviour
 {
-    private int stage;
+    static int stage;
     private PhotonView pv;
     [SerializeField]
     private TMP_Text stateText;
@@ -24,7 +24,7 @@ public class GameOverManager : MonoBehaviour
         
     }
 
-    void OnClickRestart()
+    public void OnClickRestart()
     {
         PhotonNetwork.LocalPlayer.SetCustomProperties
     (new Hashtable { { "GameReady", true } });
@@ -37,12 +37,12 @@ public class GameOverManager : MonoBehaviour
         if (gameStart)
         {
             Debug.Log("게임스타트");
-            pv.RPC("SetState", RpcTarget.All, "<color=yellow>스테이지 재도전</color>");
+            pv.RPC("SetState", RpcTarget.All, "<color=yellow>스테이지 재도전 준비중</color>");
             Hashtable rp = PhotonNetwork.CurrentRoom.CustomProperties;
             rp["InGame"] = true;
             PhotonNetwork.CurrentRoom.SetCustomProperties(rp);
             pv.RPC("Load", RpcTarget.All);
-            StartCoroutine(Count());
+            LoadingSceneController.LoadScene(stage);
         }
         else
         {
@@ -51,14 +51,11 @@ public class GameOverManager : MonoBehaviour
         }
     }
 
-    IEnumerator Count()
-    {
-        yield return new WaitForSeconds(3.0f);
-    }
 
-    private void Load()
+    public static void LoadGameOver(int arg)
     {
-        LoadingSceneController.LoadScene(stage);
+        stage = arg;
+        PhotonNetwork.LoadLevel("GameOver");
     }
 
     [PunRPC]
@@ -67,10 +64,5 @@ public class GameOverManager : MonoBehaviour
         stateText.text = arg;
     }
 
-    [PunRPC]
-    void SetStage(int idx)
-    {
-        stage = idx;
-    }
 
 }

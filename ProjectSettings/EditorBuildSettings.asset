@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 9d4c57b2f667f8d4eb822fb721095f47
+  - enabled: 1
+    path: Assets/GameOver.unity
+    guid: 2aca2c65cded55e49b5c3c803263fa59
   - enabled: 0
     path: Assets/MainBuilding_kwj.unity
     guid: 647f7fc6e527ad148bbb9e1015422738

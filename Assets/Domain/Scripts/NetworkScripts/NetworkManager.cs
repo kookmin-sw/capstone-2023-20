@@ -17,6 +17,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
        
     }
 
+    
+    private void Update()
+    {
+        testGameOver();
+    }
+
+    //게임오버창 테스트
+
+    private void testGameOver()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            GameOverManager.LoadGameOver((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+        }
+    }
+
     public void OnLevelWasLoaded(int level)
     {
         if(level ==1 ) 

@@ -31,7 +31,8 @@ public class Puzzle : MonoBehaviour
             if (state)
             {
                 Activate();
-                changer.Activate();
+                if (changer != null)
+                    changer.Activate();
 
             }
 

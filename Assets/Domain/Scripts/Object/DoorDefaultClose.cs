@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
 using UnityEngine.Events;
+using Photon.Pun;
 
 public class DoorDefaultClose : MonoBehaviour
 {
@@ -92,6 +93,7 @@ public class DoorDefaultClose : MonoBehaviour
         }
     }
 
+    //[PunRPC]
     public void UnLockDoor()
     {
         if (LockState == true)

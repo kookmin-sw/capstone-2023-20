@@ -66,6 +66,14 @@ public class ThirdPlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         popup = GetComponentInChildren<Popup>();
     }
+
+    // 오브젝트 함수 호출
+    [PunRPC]
+    void SyncFunc(String name)
+    {
+        GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate();
+    }
+
     private void Update()
     {
 
@@ -106,7 +114,10 @@ public class ThirdPlayerController : MonoBehaviour
                         if (CurrentDoorLock == false)
                         {
                             // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
+
                             GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
+                            //동기화용 함수실행
+                            pv.RPC("SyncFunc", RpcTarget.Others, hit.collider.name);
                             playerInputs.investigate = false;
                             playerInputs.interaction = false;
                         }

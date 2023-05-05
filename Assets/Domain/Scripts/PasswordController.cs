@@ -17,7 +17,7 @@ public class PasswordController : MonoBehaviour
     {
         string password = passwordInputField.text;
 
-        if (password == "mypassword")
+        if (password == "1")
         {
             Debug.Log("암호가 일치합니다!");
             objectmanager.Activate();

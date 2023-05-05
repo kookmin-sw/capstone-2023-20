@@ -9,7 +9,7 @@ public class DoorDefaultClose : MonoBehaviour
 {
     public UnityEvent Event;
 
-    Animator animator;
+    public Animator animator;
     AudioSource audiosource;
     public AudioClip DoorOpen;
     public AudioClip DoorLocked;

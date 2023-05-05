@@ -10,10 +10,10 @@ public class TimeAttack : MonoBehaviour
     private float done = 10.0F;
 
     public TMP_Text gui_text;
-
+    public ObjectManager objectManager;
 
     // 전체 제한 시간을 설정해준다.
-    float setTime = 180;
+    float setTime = 10;
 
     int min;
     float sec;
@@ -26,6 +26,7 @@ public class TimeAttack : MonoBehaviour
     void Start()
     {
         gameActive = false;
+        objectManager = GetComponent<ObjectManager>();
 
     }
 
@@ -62,6 +63,9 @@ public class TimeAttack : MonoBehaviour
             {
                 // UI 텍스트를 0초로 고정시킴.
                 gui_text.text = "남은 시간 : 0초";
+                objectManager.Activate();
+                gameActive = false;
+
             }
         }
     }
@@ -69,5 +73,6 @@ public class TimeAttack : MonoBehaviour
     public void StartGame()
     {
         gameActive = true;
+        setTime = 10;
     }
 }

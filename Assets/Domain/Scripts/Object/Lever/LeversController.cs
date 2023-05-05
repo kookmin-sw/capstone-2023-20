@@ -28,17 +28,21 @@ public class LeversController : MonoBehaviour
             lever.tag = "EventObj";
         }
     }
+    public void Initiate()
+    {
+        OrderNumber = 0;
+        foreach (GameObject lever in levers)
+        {
+            lever.GetComponent<lever>().SwichOff1s();
+        }
+    }
     public void NumberCheck(int num)
     {
         if (num != OrderNumber)
         {
             //게임 초기화
             Debug.Log("순서 틀림");
-            OrderNumber = 0;
-            foreach (GameObject lever in levers)
-            {
-                lever.GetComponent<lever>().SwichOff1s();
-            }
+            Initiate();
 
         }
         else if (num == ClearNumber)

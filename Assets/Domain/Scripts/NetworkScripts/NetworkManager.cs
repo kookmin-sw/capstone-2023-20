@@ -20,18 +20,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     
     private void Update()
     {
-        testGameOver();
+        
     }
 
-    //게임오버창 테스트
+    //게임오버창 테스트(완료) 게임오버시 아래 코드를 포함한 함수를 RPC로 호출..(몬스터한테사망, 타임오버등)
+  /*  GameOverManager.LoadGameOver((int) PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);*/
 
-    private void testGameOver()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            GameOverManager.LoadGameOver((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
-        }
-    }
+ 
 
     public void OnLevelWasLoaded(int level)
     {
@@ -44,7 +39,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     private void CreatePlayer(Player player)
     {
         Transform pos = GameObject.Find("SpwanPoint" + player.NickName).transform;
-        LocalPlayer = PhotonNetwork.Instantiate("Player1" + player.NickName, pos.position, pos.rotation);
+        LocalPlayer = PhotonNetwork.Instantiate("Player" + player.NickName, pos.position, pos.rotation);
         LocalPlayer.GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
         DontDestroyOnLoad(LocalPlayer);
         Debug.Log(LocalPlayer.name + " 생성완료 크레이트플레이어");

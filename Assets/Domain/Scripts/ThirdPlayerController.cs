@@ -199,14 +199,16 @@ public class ThirdPlayerController : MonoBehaviour
             Minimap.SetActive(false);
         }
         //KKB - option Input
-        //if (playerInputs.option)
-        //{
-        //    Option.SetActive(true);
-        //}
-        //else
-        //{
-        //    Option.SetActive(false);
-        //}
+        if (playerInputs.option)
+        {
+            playerInputs.PlayerMoveLock();
+            Option.SetActive(true);
+        }
+        else
+        {
+            playerInputs.PlayerMoveUnlock();
+            Option.SetActive(false);
+        }
 
     }
 

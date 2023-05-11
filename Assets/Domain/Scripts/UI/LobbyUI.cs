@@ -117,6 +117,7 @@ public class LobbyUI : MonoBehaviourPunCallbacks
         //로비에 노출시킬 프로퍼티 설정
         string[] PIL = { "InGame" };
         PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(PIL);
+       
 
         Debug.Log(RoomName.text + "생성 완료");
     }

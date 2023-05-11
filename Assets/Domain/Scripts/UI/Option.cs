@@ -26,7 +26,7 @@ public class Option : MonoBehaviour
 
     private GameObject manager;
     private const float sensitivityMin = 0.1f;
-    private const float sensitivityMax = 10.0f;
+
     private GameObject warning;
     private GameObject backGround;
 
@@ -80,7 +80,6 @@ public class Option : MonoBehaviour
     {
         float arg = sensitivity.value;
         if (arg == 0) arg = sensitivityMin;
-
         Input.SetSensitivity(arg);
         int perc = (int)sensitivity.value * 10;
         sensitivity.GetComponentInChildren<TMP_Text>().text = perc.ToString() + '%';

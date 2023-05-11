@@ -13,21 +13,41 @@ public class LoadingSceneController : MonoBehaviour
     private Image progressBar;
     [SerializeField]
     private TMP_Text tip;
+    [SerializeField]
+    private TMP_Text explain;
+    [SerializeField]
+    private GameObject[] BGI;
+
 
     static int nextLevel;
+    //타이틀, 본관, 체육관, 연구실, 게임오버씬, 로딩씬 순으로 빌드
+    static string[] levels = { "MainTitle", "MainBuilding", "Stage2", "Stage3","" };
+    static string[] tips = { 
+        "2인으로 플레이가 가능합니다.", 
+        "현재와 미래의 학교는 연결되어 있는 건가..?", 
+        "체육관에 공이 널부러져 있다..", 
+        "이 연구실은 뭘까?", 
+         };
+    static string[] explains = { 
+        "타이틀로 이동 중...", 
+        "본관으로 들어가는 중..", 
+        "체육관으로 들어가는 중..", 
+        "의문의 연구실로 들어가는 중.."
+    };
 
-    static string[] levels = { "MainTitle", "MainBuilding", "Stage2", "Stage3" };
-    static string[] tips = { "tip1", "tip2", "tip3", "tip4", "tip5" };
-    public static void LoadScene(int level)
+    public static void LoadScene()
     {
-        nextLevel = level;
+        nextLevel = (int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentRoom"];
         PhotonNetwork.LoadLevel("LoadingScene");
 
     }
 
     void Start()
     {
-        tip.text = "Tips : " + tips[nextLevel + 1];
+        Debug.Log("nextlevel : " + nextLevel);
+        tip.text = "Tips : " + tips[nextLevel];
+        explain.text = explains[nextLevel];
+        BGI[nextLevel - 1].SetActive(true);
         
         if (PhotonNetwork.IsMasterClient)
         {
@@ -42,17 +62,18 @@ public class LoadingSceneController : MonoBehaviour
             Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
             return;
         }
-        PhotonNetwork.LoadLevel(levels[nextLevel]);
+        StartCoroutine(LoadSceneProcess());
     }
 
-    /*IEnumerator LoadSceneProcess()
+    IEnumerator LoadSceneProcess()
     {
-        AsyncOperation op;
-        //op.allowSceneActivation = false; //로딩 시간이 너무 짧은걸 방지(아마 스쿨씬이 커서 필요없을 수도 있음
-        while (!op.isDone)
+
+        PhotonNetwork.LoadLevel(levels[nextLevel]);
+        while (PhotonNetwork.LevelLoadingProgress < 1f)
         {
-            progressBar.fillAmount = op.progress;
+            progressBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
             yield return null;
         }
-    }*/
+        BGI[nextLevel + 1].SetActive(false);
+    }
 }

@@ -253,14 +253,34 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     [PunRPC]
     private void GameStart()
     {
-
-        Invoke("GameScene", 3f);
+       
+        if (PhotonNetwork.IsMasterClient) Invoke("GameScene", 3f);
     }
 
     private void GameScene()
     {
         Debug.Log("게임 씬으로 이동");
-        //SceneManager.LoadScene("testSceneKWJ");
-        LoadingSceneController.LoadScene((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("PhotonNetwork : Trying to Load a level but we are not the master Client");
+            return;
+        }
+        Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
+        if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+        cp.Add("CurrentLevel", 1);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        
+        LoadingSceneController.LoadScene();
+        
     }
 }
+//씬을 로드할때 사용되는 로직
+/*  Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+        if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+        cp.Add("CurrentLevel", 1);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("CurrentLevel"))
+        {
+            int level = (int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"];
+            LoadingSceneController.LoadScene(level);
+        }*/

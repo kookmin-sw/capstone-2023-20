@@ -12,6 +12,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     private GameObject LocalPlayer;
     [SerializeField]
     private GameObject CloseGameMsg;
+
     private void Awake()
     {
        
@@ -20,12 +21,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            pv.RPC("MoveGameOverScene", RpcTarget.All);
+        }
     }
 
-    //게임오버창 테스트(완료) 게임오버시 아래 코드를 포함한 함수를 RPC로 호출..(몬스터한테사망, 타임오버등)
-  /*  GameOverManager.LoadGameOver((int) PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);*/
-
+    //게임오버씬으로 이동하는 퍼블릭함수(죽거나, 시간초과나면 이 함수 호출)
+    public void GameOver()
+    {
+        pv.RPC("MoveGameOverScene", RpcTarget.All);
+    }
+    [PunRPC]
+    private void MoveGameOverScene()
+    {
+        LocalPlayer.GetComponent<StarterAssetsInputs>().PlayerMoveLock();
+        GameOverManager.LoadGameOver((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+    }
  
 
     public void OnLevelWasLoaded(int level)
@@ -51,13 +63,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         CloseGameMsg.SetActive(true);
         Invoke("LeaveRoom",3f);
     }
-
+    
     public void LeaveRoom()
     {
+        LocalPlayer.GetComponent<StarterAssetsInputs>().PlayerMoveLock(); //마우스 커서 되돌림.
         Debug.Log(LocalPlayer.name + " 파괴하고 방 나가기");
         PhotonNetwork.LeaveRoom();
         Destroy(LocalPlayer);
-       
         SceneManager.LoadScene(0);
     }
     public override void OnDisconnected(DisconnectCause cause)

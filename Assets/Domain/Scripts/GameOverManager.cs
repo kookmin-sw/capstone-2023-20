@@ -42,7 +42,7 @@ public class GameOverManager : MonoBehaviour
             rp["InGame"] = true;
             PhotonNetwork.CurrentRoom.SetCustomProperties(rp);
             pv.RPC("Load", RpcTarget.All);
-            LoadingSceneController.LoadScene(stage);
+            LoadingSceneController.LoadScene();
         }
         else
         {

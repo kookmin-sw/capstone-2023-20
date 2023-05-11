@@ -8,6 +8,7 @@ public class lever : MonoBehaviour
     public bool state = false;
     public DoorDefaultClose[] DDC;
     public LeversController LeverController;
+    public GameObject image;
 
     // Start is called before the first frame update
     void Start()
@@ -44,4 +45,17 @@ public class lever : MonoBehaviour
             state = false;
         }
     }
+
+    public void ImageActive()
+    {
+        image.SetActive(true);
+    }
+
+
+    public void ImageInActive()
+    {
+        image.SetActive(false);
+
+    }
+
 }

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
 
 public class LeversController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject[] levers;
+    public lever[] levers;
     public int OrderNumber = 0;
     private int ClearNumber;
     void Start()
@@ -28,13 +30,33 @@ public class LeversController : MonoBehaviour
             lever.tag = "EventObj";
         }
     }
+        
     public void Initiate()
     {
         OrderNumber = 0;
-        foreach (GameObject lever in levers)
+        List<int> numbers = new List<int>() { 0, 1, 2, 3 };
+        List<int> pickedNumbers = new List<int>();
+
+        foreach (lever lever in levers)
         {
-            lever.GetComponent<lever>().SwichOff1s();
+            lever.SwichOff1s();
+            lever.ImageInActive();
         }
+
+        //레버마다 넘버 랜덤으로 부여
+        foreach (lever lever in levers)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
+            int pickedNumber = numbers[randomIndex];
+            numbers.RemoveAt(randomIndex);
+            pickedNumbers.Add(pickedNumber);
+
+            lever.number = pickedNumber;
+
+        }
+        // 레버 넘버순으로 재정렬
+        levers = levers.OrderBy(o => o.number).ToArray();;
+        levers[0].ImageActive();
     }
     public void NumberCheck(int num)
     {
@@ -52,7 +74,9 @@ public class LeversController : MonoBehaviour
 
         else
         {
+            levers[OrderNumber].ImageInActive();
             OrderNumber++;
+            levers[OrderNumber].ImageActive();
         }
     }
 }

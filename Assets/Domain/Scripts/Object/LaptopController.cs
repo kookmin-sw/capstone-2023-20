@@ -10,6 +10,7 @@ public class LaptopController : MonoBehaviour
     public UnityEvent Event;
 
     public Animator animator;
+    public TimeAttack timer;
     AudioSource audiosource;
 
     int count = 0;
@@ -22,10 +23,18 @@ public class LaptopController : MonoBehaviour
         audiosource = GetComponent<AudioSource>();
     }
 
+    void Awake()
+    {
+
+    }
 
     // Update is called once per frame
     void Update()
     {
+        if (timer.gameActive == true)
+        {
+            animator.SetBool("pass", true);
+        }
 
     }
     public void Activate()

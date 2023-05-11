@@ -13,7 +13,8 @@ public class TimeAttack : MonoBehaviour
     public ObjectManager objectManager;
 
     // 전체 제한 시간을 설정해준다.
-    float setTime = 10;
+    public float time;
+    float setTime;
 
     int min;
     float sec;
@@ -73,6 +74,6 @@ public class TimeAttack : MonoBehaviour
     public void StartGame()
     {
         gameActive = true;
-        setTime = 10;
+        setTime = time;
     }
 }

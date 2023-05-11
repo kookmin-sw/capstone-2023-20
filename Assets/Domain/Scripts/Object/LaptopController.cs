@@ -34,7 +34,10 @@ public class LaptopController : MonoBehaviour
         if (timer.gameActive == true)
         {
             animator.SetBool("pass", true);
+            animator.speed = 3.0f;
         }
+        else
+            animator.speed = 1.0f;
 
     }
     public void Activate()

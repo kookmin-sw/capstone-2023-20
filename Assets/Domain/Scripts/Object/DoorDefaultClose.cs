@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
 using UnityEngine.Events;
+using Photon.Pun;
 
 public class DoorDefaultClose : MonoBehaviour
 {
     public UnityEvent Event;
 
-    Animator animator;
+    public Animator animator;
     AudioSource audiosource;
     public AudioClip DoorOpen;
     public AudioClip DoorLocked;
@@ -92,6 +93,7 @@ public class DoorDefaultClose : MonoBehaviour
         }
     }
 
+    //[PunRPC]
     public void UnLockDoor()
     {
         if (LockState == true)

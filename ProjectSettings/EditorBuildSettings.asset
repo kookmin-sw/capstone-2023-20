@@ -36,14 +36,8 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadingScene.unity
     guid: 9d4c57b2f667f8d4eb822fb721095f47
   - enabled: 0
-    path: Assets/MainBuilding_kwj.unity
+    path: Assets/Scenes/MainBuilding_kwj.unity
     guid: 647f7fc6e527ad148bbb9e1015422738
-  - enabled: 0
-    path: Assets/Scenes/MainBuilding_ysh.unity
-    guid: da1256378110ec04ba006b46bec7d376
-  - enabled: 0
-    path: Assets/Scenes/scifi_ysh.unity
-    guid: b43c67551d7df4246b0540a921d9e404
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}

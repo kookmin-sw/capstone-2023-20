@@ -5142,7 +5142,7 @@ MonoBehaviour:
     type: 3}
   SelectedItem: {fileID: 0}
   InventoryItemControllers: []
-  ItemView: {fileID: 0}
+  ItemView: {fileID: 3945796500857882253}
 --- !u!1 &8955304396350487857
 GameObject:
   m_ObjectHideFlags: 0

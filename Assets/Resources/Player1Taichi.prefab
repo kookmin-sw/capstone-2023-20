@@ -1956,8 +1956,6 @@ MonoBehaviour:
   InventoryManager: {fileID: 0}
   Minimap: {fileID: 0}
   CurrentMap: {fileID: 0}
-  ItemInteraction: {fileID: 0}
-  LockInteraction: {fileID: 0}
   UnlockInteraction: {fileID: 0}
   LockView: {fileID: 0}
   ItemView: {fileID: 0}

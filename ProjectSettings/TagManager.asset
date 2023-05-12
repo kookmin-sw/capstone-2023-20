@@ -22,7 +22,8 @@ TagManager:
   - LockedDoor
   - Taichi
   - Latifa
-  - Door
+  - Rug
+  - SecretDoor
   layers:
   - Default
   - TransparentFX
@@ -33,9 +34,9 @@ TagManager:
   - Minimap
   - Icons
   - Player
-  - Latifa
-  - Taichi
-  - Lamp
+  - 
+  - 
+  - 
   - 
   - 
   - 

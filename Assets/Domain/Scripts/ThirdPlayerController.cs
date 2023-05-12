@@ -67,6 +67,14 @@ public class ThirdPlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         popup = GetComponentInChildren<Popup>();
     }
+
+    // 오브젝트 함수 호출
+    [PunRPC]
+    void SyncFunc(String name)
+    {
+        GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate();
+    }
+
     private void Update()
     {
 
@@ -78,9 +86,9 @@ public class ThirdPlayerController : MonoBehaviour
         // ������
         if (Physics.Raycast(ray, out hit))
         {
-
+            //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.blue);
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
-            if (hit.distance < hitDistance )
+            if ((hit.distance < hitDistance) && (!EventSystem.current.IsPointerOverGameObject()))
             {
                 Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
@@ -91,9 +99,9 @@ public class ThirdPlayerController : MonoBehaviour
                     popup.OpenPopUpInteract();
                     if (playerInputs.investigate == true)
                     {
-                        InvestigateValue = true;
+                        //InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
-                        playerInputs.PlayerLockOn();
+
                     }
 
                 }
@@ -106,7 +114,10 @@ public class ThirdPlayerController : MonoBehaviour
                         if (CurrentDoorLock == false)
                         {
                             // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
+
                             GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
+                            //동기화용 함수실행
+                            pv.RPC("SyncFunc", RpcTarget.Others, hit.collider.name);
                             playerInputs.investigate = false;
                             playerInputs.interaction = false;
                         }
@@ -273,7 +284,7 @@ public class ThirdPlayerController : MonoBehaviour
             }
         }
 
-        
+
     }
 
     //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환

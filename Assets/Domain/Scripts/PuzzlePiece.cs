@@ -1,3 +1,5 @@
+using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +11,19 @@ namespace Puzzles
         public int snapOffset = 30;
         public JigsawPuzzle puzzle;
         public int piece_no;
+        public PhotonView pv;
+
+        public GameObject manager;
+        private GameObject latifa;
+
+
+
+        void Start()
+        {
+
+            //pv = GameObject.Find("NetworkManager").GetComponent<PhotonView>();
+            manager = GameObject.Find("PopupManager");
+        }
 
         bool CheckSnapPuzzle()
         {
@@ -32,7 +47,18 @@ namespace Puzzles
         public void OnDrag(PointerEventData eventData)
         {
             transform.position = eventData.position;
+            latifa = GameObject.FindGameObjectWithTag("Latifa");
+            pv = latifa.GetComponent<PhotonView>();
         }
+
+
+        [PunRPC]
+        public void ObjectFunc(string a)
+        {
+            manager.GetComponent<ObjectManager>().SyncActivate();
+        }
+
+
 
         public void OnEndDrag(PointerEventData eventData)
         {
@@ -46,14 +72,14 @@ namespace Puzzles
             if (puzzle.IsClear())
             {
                 Debug.Log("Clear");
+                puzzle.GetComponent<ObjectManager>().Activate();
+                pv.RPC("ObjectFunc", RpcTarget.Others, "a");
             }
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            piece_no = gameObject.name[gameObject.name.Length - 1] - '0';
-        }
+
+
+
     }
 
 }

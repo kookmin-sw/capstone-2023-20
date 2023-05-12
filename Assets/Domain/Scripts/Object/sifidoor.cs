@@ -42,7 +42,6 @@ public class sifidoor : MonoBehaviour
     {
         if (other.tag == "Taichi" || other.tag == "Latifa")
         {
-            Debug.Log("abc");
             animator.SetBool("IsOpen", true);
             audiosource.Play();
         }

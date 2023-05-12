@@ -73,6 +73,11 @@ public class MonsterController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
 
             //float dist = Vector3.Distance(playerTransform.position, _transform.position);
+            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            if (distanceToPlayer < 0.5f)
+            {
+                PlayerDeath();
+            }
             inSight = Sensor.isInSight;
             rayChkDoor(); // 문열기
             if (inSight)
@@ -120,7 +125,7 @@ public class MonsterController : MonoBehaviour
         {
             //Debug.Log("patrolIdle remainingDist > " + nvAgent.remainingDistance);
             //alarm.SetActive(true);
-            Debug.Log("patrol_idle");
+            //Debug.Log("patrol_idle");
             chkTime += Time.deltaTime;
             //nvAgent.ResetPath();
         }
@@ -202,5 +207,9 @@ public class MonsterController : MonoBehaviour
             }
 
         }
+    }
+    void PlayerDeath()
+    {
+        //플레이어 사망
     }
 }

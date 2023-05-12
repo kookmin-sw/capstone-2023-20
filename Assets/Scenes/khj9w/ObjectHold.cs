@@ -4,56 +4,88 @@ using UnityEngine;
 
 public class ObjectHold : MonoBehaviour
 {
-    public GameObject Object;
-    public Transform PlayerTransform;
+    public GameObject heldObject;
+    public Transform playerTransform;
     public float range = 3f;
-    public float Go = 100f;
-    public Camera Camera;
+    public float throwForce = 100f;
+    public Camera mainCamera;
+    public DollsObjectMatching dollsObjectMatching; // 추가: DollsObjectMatching 스크립트 참조
 
-    void Start()
+    private Collider objectCollider;
+    private Rigidbody objectRigidbody;
+    private Vector3 originalPosition;
+    private Transform originalParent;
+
+    private void Start()
     {
+        mainCamera = Camera.main;
+        playerTransform = GameObject.Find("HoldPlayerTransform").transform;
+        objectCollider = heldObject.GetComponent<Collider>();
+        objectRigidbody = heldObject.GetComponent<Rigidbody>();
+        originalPosition = heldObject.transform.position;
+        originalParent = heldObject.transform.parent;
 
+        // 추가: DollsObjectMatching 스크립트 가져오기
+        dollsObjectMatching = FindObjectOfType<DollsObjectMatching>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKey("r"))
+        if (Input.GetKey(KeyCode.R))
         {
-            Debug.Log("r");
             StartPickUp();
         }
 
-        if (Input.GetKeyUp("r"))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             Drop();
         }
     }
 
-    void StartPickUp()
+    private void StartPickUp()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out hit, range))
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
         {
-            Debug.Log(hit.transform.name);
-
             HoldTarget target = hit.transform.GetComponent<HoldTarget>();
             if (target != null)
             {
+                Debug.Log("Pick up");
+                heldObject = hit.transform.gameObject;
                 PickUp();
             }
         }
     }
 
-    void PickUp()
+    private void PickUp()
     {
-//Gun.GetComponent<Rigidbody>().isKinematic = true;
-        Object.transform.SetParent(PlayerTransform);
+        heldObject.transform.SetParent(playerTransform);
+        objectCollider.enabled = false;
     }
 
-    void Drop()
+    private void Drop()
     {
-        PlayerTransform.DetachChildren();
-        //Gun.GetComponent<Rigidbody>().isKinematic = false;
-    }
+        heldObject.transform.SetParent(originalParent);
+        objectCollider.enabled = true;
 
+        RaycastHit hit;
+        if (Physics.Raycast(heldObject.transform.position, Vector3.down, out hit))
+        {
+            heldObject.transform.position = hit.point;
+        }
+        else
+        {
+            heldObject.transform.position = originalPosition;
+        }
+
+        objectRigidbody.velocity = mainCamera.transform.forward * throwForce;
+        heldObject = null;
+
+        // 추가: DollsObjectMatching 스크립트의 OnItemPositionChanged 함수 호출
+        if (dollsObjectMatching != null)
+        {
+            Debug.Log("onitemchange");
+            dollsObjectMatching.OnItemPositionChanged();
+        }
+    }
 }

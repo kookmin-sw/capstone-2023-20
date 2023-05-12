@@ -18,5 +18,6 @@ public class ScreenCenter : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(center);
         Debug.DrawRay(transform.position, transform.forward * 10f, Color.red);
+
     }
 }

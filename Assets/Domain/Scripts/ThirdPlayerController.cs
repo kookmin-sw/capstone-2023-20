@@ -40,6 +40,7 @@ public class ThirdPlayerController : MonoBehaviour
     [SerializeField] private GameObject LockView;
     [SerializeField] private GameObject ItemView;
     [SerializeField] private GameObject CCTVView;
+    [SerializeField] private GameObject KeyPad;
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
     private Animator animator;
@@ -81,7 +82,7 @@ public class ThirdPlayerController : MonoBehaviour
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
             if (hit.distance < hitDistance )
             {
-                //Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
@@ -154,7 +155,31 @@ public class ThirdPlayerController : MonoBehaviour
                 {
                     //popup.OpenPopUpInteract();
                 }
-                
+                else if (hit.collider.CompareTag("Rug"))
+                {
+                    popup.OpenPopUpInteract();
+                    if (playerInputs.investigate == true)
+                    {
+                        Debug.Log(GameObject.Find(hit.collider.name));
+                        Destroy(GameObject.Find(hit.collider.name));
+                        popup.ClosePopUpItem();
+                        playerInputs.investigate = false;
+                    }
+                }
+
+                else if (hit.collider.CompareTag("SecretDoor"))
+                {
+                    popup.OpenPopUpInteract();
+                    if(playerInputs.investigate == true)
+                    {
+                        playerInputs.UILock = true;
+                        playerInputs.PlayerMoveLock();
+                        KeyPad.SetActive(true);
+                        playerInputs.investigate = false;
+                    }
+                }
+
+
                 else
                 {
                     popup.ClosePopUpInteract();
@@ -333,7 +358,7 @@ public class ThirdPlayerController : MonoBehaviour
                     other.GetComponent<DoorLock>().DoorUnlock();
                     CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
                     InventoryManager.removeItem("Announce Room Key");
-                    other.gameObject.transform.parent.gameObject.GetComponent<DoorDefaultClose>().UnLockDoor();
+                    //other.gameObject.transform.parent.gameObject.GetComponent<DoorDefaultClose>().UnLockDoor();
                 }
             }
         }

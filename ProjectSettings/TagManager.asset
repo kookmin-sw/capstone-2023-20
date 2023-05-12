@@ -22,6 +22,8 @@ TagManager:
   - LockedDoor
   - Taichi
   - Latifa
+  - Rug
+  - SecretDoor
   layers:
   - Default
   - TransparentFX

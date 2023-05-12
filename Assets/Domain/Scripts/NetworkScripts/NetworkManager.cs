@@ -28,7 +28,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     private void CreatePlayer(Player player)
     {
         Transform pos = GameObject.Find("SpwanPoint" + player.NickName).transform;
-        LocalPlayer = PhotonNetwork.Instantiate("Player1" + player.NickName, pos.position, pos.rotation);
+        LocalPlayer = PhotonNetwork.Instantiate("Player" + player.NickName, pos.position, pos.rotation);
         LocalPlayer.GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
         DontDestroyOnLoad(LocalPlayer);
         Debug.Log(LocalPlayer.name + " 생성완료 크레이트플레이어");

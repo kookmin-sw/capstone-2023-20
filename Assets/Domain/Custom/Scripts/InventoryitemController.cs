@@ -14,11 +14,26 @@ public class InventoryitemController : MonoBehaviour
     public GameObject ItemTooltip;
     public GameObject SelectedItem;
     public GameObject TempView;
+    public Texture TaichiTexture;
+    public Texture LatifaTexture;
     private string ItemName = "";
     private string ItemDetails = "";
     public GameObject ItemModel;
     private GameObject itemPrefab;
     
+    
+    private void Start()
+    {
+        if (InventoryManager.Instance.gameObject.name == "InventoryManagerLatifa")
+        {
+            ItemView.gameObject.transform.Find("Viewport").gameObject.transform.Find("Content").gameObject.transform.Find("RawImage").gameObject.GetComponent<RawImage>().texture = LatifaTexture;
+        }
+        else
+        {
+            ItemView.gameObject.transform.Find("Viewport").gameObject.transform.Find("Content").gameObject.transform.Find("RawImage").gameObject.GetComponent<RawImage>().texture = TaichiTexture;
+        }
+    }
+
     // 아이템(인벤토리)가 비활성화됐을 경우 ItemView와 ItemTooltip 모두 비활성화
     private void Update()
     {
@@ -63,17 +78,14 @@ public class InventoryitemController : MonoBehaviour
                 ItemModel = GameObject.Find("phoneView");
                 itemPrefab = Instantiate(ItemModel, new Vector3(1500, 1500, 1500), Quaternion.Euler(new Vector3(0,0,180)));
             }
-            else if (ItemName == "HP")
-            {
-                ItemModel = GameObject.Find("syringeView");
-                itemPrefab = Instantiate(ItemModel, new Vector3(1500, 1500, 1500), Quaternion.Euler(new Vector3(90,20,0)));
-            }
-            else if (ItemName == "W.C. Key")
+            else if (ItemName == "Attend")
             {
                 Debug.Log("ItemModel: " + ItemModel);
-                itemPrefab = Instantiate(ItemModel, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+                itemPrefab = Instantiate(ItemModel, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(90, 0, 0)));
+                Debug.Log("MOVED! : "+itemPrefab.gameObject.name+ itemPrefab.gameObject.transform.localPosition);
                 Debug.Log(itemPrefab);
             }
+            
 
             Debug.Log("ItemModel: " + ItemModel);
             SelectedItem = itemPrefab;

@@ -15,6 +15,7 @@ public class Locker : MonoBehaviour
         if (!Viewing && !IsLock)
         {
             InstantPadLock = Instantiate(PadLock, new Vector3(0,0,0), Quaternion.Euler(new Vector3(0,180,0)));
+            Debug.Log("Here");
             InstantPadLock.GetComponent<PadLockPassword>().setLocker(this);
             IsLock= true;
             Viewing= true;

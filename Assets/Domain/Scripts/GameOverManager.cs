@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
+using StarterAssets;
 
 public class GameOverManager : MonoBehaviour
 {
@@ -13,11 +14,19 @@ public class GameOverManager : MonoBehaviour
     [SerializeField]
     private TMP_Text stateText;
     private void Awake()
-    {
-        PhotonNetwork.CurrentRoom.SetCustomProperties
-            (new Hashtable { { "InGame", false } });
-        PhotonNetwork.LocalPlayer.SetCustomProperties
-            (new Hashtable { { "GameReady", false } });
+    { 
+        Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
+        if (cp.ContainsKey("InGame")) cp.Remove("InGame"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+        if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
+        cp.Add("InGame", false);
+        cp.Add("GameOver", true); //게임오버상태인지 아닌지
+        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        cp = PhotonNetwork.LocalPlayer.CustomProperties;
+        if (cp.ContainsKey("GameReady")) cp.Remove("GameReady");
+        cp.Add("GameReady", false);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
+        pv = gameObject.GetPhotonView();
+
     }
     private void Update()
     {
@@ -37,12 +46,11 @@ public class GameOverManager : MonoBehaviour
         if (gameStart)
         {
             Debug.Log("게임스타트");
-            pv.RPC("SetState", RpcTarget.All, "<color=yellow>스테이지 재도전 준비중</color>");
+            pv.RPC("SetStateText", RpcTarget.All, "<color=yellow>스테이지 재도전 준비중</color>");
             Hashtable rp = PhotonNetwork.CurrentRoom.CustomProperties;
             rp["InGame"] = true;
             PhotonNetwork.CurrentRoom.SetCustomProperties(rp);
             pv.RPC("Load", RpcTarget.All);
-            LoadingSceneController.LoadScene();
         }
         else
         {
@@ -51,11 +59,17 @@ public class GameOverManager : MonoBehaviour
         }
     }
 
-
-    public static void LoadGameOver(int arg)
+    [PunRPC]
+    void Load()
     {
-        stage = arg;
+        if(PhotonNetwork.IsMasterClient) LoadingSceneController.LoadScene();
+    }
+
+    public static void LoadGameOver()
+    {
+        stage = (int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"];
         PhotonNetwork.LoadLevel("GameOver");
+
     }
 
     [PunRPC]

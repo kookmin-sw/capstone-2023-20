@@ -21,12 +21,12 @@ public class LoadingSceneController : MonoBehaviour
 
     static int nextLevel;
     //타이틀, 본관, 체육관, 연구실, 게임오버씬, 로딩씬 순으로 빌드
-    static string[] levels = { "MainTitle", "MainBuilding", "Stage2", "Stage3","" };
+    static string[] levels = { "MainTitle","PhotonTest-KKB" ,"MainBuilding", "Stage2", "Stage3","" };
     static string[] tips = { 
         "2인으로 플레이가 가능합니다.", 
         "현재와 미래의 학교는 연결되어 있는 건가..?", 
-        "체육관에 공이 널부러져 있다..", 
-        "이 연구실은 뭘까?", 
+        "왜 이렇게 체육관에 공이 널부러져 있지?..", 
+        "연구실 팁은 뭘 줘야될까...", 
          };
     static string[] explains = { 
         "타이틀로 이동 중...", 
@@ -37,14 +37,14 @@ public class LoadingSceneController : MonoBehaviour
 
     public static void LoadScene()
     {
-        nextLevel = (int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentRoom"];
         PhotonNetwork.LoadLevel("LoadingScene");
 
     }
 
     void Start()
     {
-        Debug.Log("nextlevel : " + nextLevel);
+        nextLevel = (int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"];
+        Debug.Log("nextlevel == " + nextLevel);
         tip.text = "Tips : " + tips[nextLevel];
         explain.text = explains[nextLevel];
         BGI[nextLevel - 1].SetActive(true);
@@ -74,6 +74,6 @@ public class LoadingSceneController : MonoBehaviour
             progressBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
             yield return null;
         }
-        BGI[nextLevel + 1].SetActive(false);
+        BGI[nextLevel - 1].SetActive(false);
     }
 }

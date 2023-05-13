@@ -201,12 +201,12 @@ public class ThirdPlayerController : MonoBehaviour
         //KKB - option Input
         if (playerInputs.option)
         {
-            playerInputs.PlayerMoveLock();
+            //playerInputs.PlayerMoveLock();
             Option.SetActive(true);
         }
         else
         {
-            playerInputs.PlayerMoveUnlock();
+            //playerInputs.PlayerMoveUnlock();
             Option.SetActive(false);
         }
 

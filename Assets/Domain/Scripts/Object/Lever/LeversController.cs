@@ -34,8 +34,8 @@ public class LeversController : MonoBehaviour
     public void Initiate()
     {
         OrderNumber = 0;
-        List<int> numbers = new List<int>() { 0, 1, 2, 3 };
-        List<int> pickedNumbers = new List<int>();
+        //List<int> numbers = new List<int>() { 0, 1, 2, 3 };
+        //List<int> pickedNumbers = new List<int>();
 
         foreach (lever lever in levers)
         {
@@ -43,20 +43,27 @@ public class LeversController : MonoBehaviour
             lever.ImageInActive();
         }
 
-        //레버마다 넘버 랜덤으로 부여
-        foreach (lever lever in levers)
+        ////레버마다 넘버 랜덤으로 부여
+        //foreach (lever lever in levers)
+        //{
+        //    int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
+        //    int pickedNumber = numbers[randomIndex];
+        //    numbers.RemoveAt(randomIndex);
+        //    pickedNumbers.Add(pickedNumber);
+
+        //    lever.number = pickedNumber;
+
+        //}
+        //// 레버 넘버순으로 재정렬
+        //levers = levers.OrderBy(o => o.number).ToArray();;
+        foreach ( lever lever in levers )
         {
-            int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
-            int pickedNumber = numbers[randomIndex];
-            numbers.RemoveAt(randomIndex);
-            pickedNumbers.Add(pickedNumber);
-
-            lever.number = pickedNumber;
-
+            lever.number = OrderNumber;
+            OrderNumber++;
         }
-        // 레버 넘버순으로 재정렬
-        levers = levers.OrderBy(o => o.number).ToArray();;
+
         levers[0].ImageActive();
+        OrderNumber = 0;
     }
     public void NumberCheck(int num)
     {

@@ -256,15 +256,16 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
         Debug.Log("게임 씬으로 이동");
         Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
         if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+        if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
         cp.Add("CurrentLevel", 1);
         cp.Add("GameOver", false); //게임오버상태인지 아닌지
         PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
         if (!PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("PhotonNetwork : Trying to Load a level but we are not the master Client");
+            Debug.Log("PhotonNetwork : Trying to Load a level but we are not the master Client at RoomUI");
             return;
         }
-        LoadingSceneController.LoadScene();
+        else LoadingSceneController.LoadScene();
         
     }
 }

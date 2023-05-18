@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -13,6 +14,7 @@ public class GameOverManager : MonoBehaviour
     private PhotonView pv;
     [SerializeField]
     private TMP_Text stateText;
+
     private void Awake()
     { 
         Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -26,6 +28,9 @@ public class GameOverManager : MonoBehaviour
         cp.Add("GameReady", false);
         PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
         pv = gameObject.GetPhotonView();
+
+        //플레이어 캐릭터 파괴
+        PhotonNetwork.Destroy(GameObject.Find("Player" + PhotonNetwork.LocalPlayer.NickName));
 
     }
     private void Update()
@@ -62,7 +67,8 @@ public class GameOverManager : MonoBehaviour
     [PunRPC]
     void Load()
     {
-        if(PhotonNetwork.IsMasterClient) LoadingSceneController.LoadScene();
+        Debug.Log("currentLevel at GameOver : " + PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+        if (PhotonNetwork.IsMasterClient) LoadingSceneController.LoadScene();
     }
 
     public static void LoadGameOver()

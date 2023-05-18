@@ -23,6 +23,7 @@ namespace Puzzles
 
             //pv = GameObject.Find("NetworkManager").GetComponent<PhotonView>();
             manager = GameObject.Find("PopupManager");
+
         }
 
         bool CheckSnapPuzzle()
@@ -47,8 +48,7 @@ namespace Puzzles
         public void OnDrag(PointerEventData eventData)
         {
             transform.position = eventData.position;
-            latifa = GameObject.FindGameObjectWithTag("Latifa");
-            pv = latifa.GetComponent<PhotonView>();
+            pv = GameObject.FindWithTag("Latifa").GetComponent<PhotonView>();
         }
 
 
@@ -73,7 +73,7 @@ namespace Puzzles
             {
                 Debug.Log("Clear");
                 puzzle.GetComponent<ObjectManager>().Activate();
-                pv.RPC("ObjectFunc", RpcTarget.Others, "a");
+                pv.RPC("SyncFunc", RpcTarget.Others, "PopupManager");
             }
         }
 

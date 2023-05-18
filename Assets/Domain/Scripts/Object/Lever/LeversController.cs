@@ -10,10 +10,13 @@ public class LeversController : MonoBehaviour
     public lever[] levers;
     public int OrderNumber = 0;
     private int ClearNumber;
+    private ObjectManager objectmanager;
+
     void Start()
     {
         //levers = GameObject.Find("Shield Metall");
         ClearNumber = levers.Length - 1;
+        objectmanager = GetComponent<ObjectManager>();
     }
 
     // Update is called once per frame
@@ -70,6 +73,7 @@ public class LeversController : MonoBehaviour
         else if (num == ClearNumber)
         {
             Debug.Log("clear");
+            objectmanager.Activate();
         }
 
         else

@@ -26,7 +26,7 @@ public class PasswordController : MonoBehaviour
     {
         string password = passwordInputField.text;
 
-        if (password == "1")
+        if (password == "91912399")
         {
             Debug.Log("암호가 일치합니다!");
             pv.RPC("SyncFunc", RpcTarget.All, "display1");

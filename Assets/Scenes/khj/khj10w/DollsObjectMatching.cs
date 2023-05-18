@@ -67,7 +67,7 @@ public class DollsObjectMatching : MonoBehaviour
                     matchedObjectCount++;
             }
 
-            Debug.Log("cnt > " + matchedObjectCount);
+            //Debug.Log("cnt > " + matchedObjectCount);
 
             if (matchedObjectCount >= 6)
             {

@@ -45,9 +45,6 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
         {
             OnClickSendChatBtn();
         }
-
-        
-
     }
     public override void OnJoinedRoom()
     {
@@ -71,14 +68,10 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) ChatRPC("<color=red>" + "서로 무슨 역할을 할지 조율하세요. 인게임에서는 오로지 보이스로만 소통이 가능합니다");
             CharacterRenewal();
         }
-
-
-
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         RoomRenewal();
-     
         ChatRPC("<color=yellow>" + "방에 새로운 플레이어가 참가하셨습니다.</color>");
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
             ChatRPC("<color=red>" + "서로 무슨 역할을 할지 조율하세요. 인게임에서는 오로지 보이스로만 소통이 가능합니다");
@@ -253,14 +246,27 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     [PunRPC]
     private void GameStart()
     {
-
-        Invoke("GameScene", 3f);
+ 
+        if(PhotonNetwork.IsMasterClient )Invoke("GameScene", 3f);
     }
 
     private void GameScene()
     {
+
         Debug.Log("게임 씬으로 이동");
-        //SceneManager.LoadScene("testSceneKWJ");
-        LoadingSceneController.LoadScene((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+        Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
+        if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+        if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
+        cp.Add("CurrentLevel", 1);
+        cp.Add("GameOver", false); //게임오버상태인지 아닌지
+        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("PhotonNetwork : Trying to Load a level but we are not the master Client at RoomUI");
+            return;
+        }
+        else LoadingSceneController.LoadScene();
+        
     }
 }
+

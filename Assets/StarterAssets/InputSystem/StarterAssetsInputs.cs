@@ -244,6 +244,7 @@ namespace StarterAssets
 		public void PlayerMoveUnlock()
 		{
 			LookLock = false;
+
 			MoveLock = false;
 			Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
@@ -259,6 +260,8 @@ namespace StarterAssets
 		{
 			sensitivity = newSensitivity;
 		}
+
+	
 
 
     }

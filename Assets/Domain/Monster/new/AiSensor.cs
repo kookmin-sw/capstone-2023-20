@@ -61,6 +61,11 @@ public class AiSensor : MonoBehaviour
                 objects.Add(obj);
             }
         }
+        //Debug.Log("Detected Objects:");
+        //foreach (GameObject obj in objects)
+        //{
+        //    Debug.Log(obj.name);
+        //}
     }
     public bool IsInSight(GameObject obj)
     {
@@ -84,6 +89,7 @@ public class AiSensor : MonoBehaviour
         dest.y = origin.y;
         if(Physics.Linecast(origin, dest, occlusionLayers))
         {
+            Debug.Log("occlu");
             return false;
         }
         //Debug.Log("inSight");
@@ -182,11 +188,11 @@ public class AiSensor : MonoBehaviour
             Gizmos.DrawMesh(mesh, transform.position, transform.rotation);
         }
 
-
-        //Gizmos.color = Color.green;
-        //foreach (var obj in Objects)
+        // µð¹ö±ë Ãâ·Â
+        //Debug.Log("Detected Objects:");
+        //foreach (GameObject obj in Objects)
         //{
-        //    Gizmos.DrawSphere(obj.transform.position, 10f);
+        //    Debug.Log(obj.name);
         //}
 
     }

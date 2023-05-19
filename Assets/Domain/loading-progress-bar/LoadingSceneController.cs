@@ -16,7 +16,7 @@ public class LoadingSceneController : MonoBehaviour
 
     static int nextLevel;
 
-    static string[] levels = { "MainTitle", "MainBuilding", "Stage2", "Stage3" };
+    static string[] levels = { "MainTitle", "MainBuilding", "MainBuilding2", "Stage3" };
     static string[] tips = { "tip1", "tip2", "tip3", "tip4", "tip5" };
     public static void LoadScene(int level)
     {
@@ -35,7 +35,7 @@ public class LoadingSceneController : MonoBehaviour
         }
     }
 
-    void LoadStage()
+    public void LoadStage()
     {
         if (!PhotonNetwork.IsMasterClient)
         {

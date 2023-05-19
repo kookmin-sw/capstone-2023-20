@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 
 public class Locker : MonoBehaviour
 {
@@ -10,6 +14,9 @@ public class Locker : MonoBehaviour
     public bool Viewing = false;
     public bool IsLock = false;
     public bool unLock = false;
+
+    
+
     public void LockView()
     {
         if (!Viewing && !IsLock)
@@ -35,5 +42,22 @@ public class Locker : MonoBehaviour
         DestroyView();
         Destroy(this.gameObject.transform.Find("Combination PadLock").gameObject);
         // 캐비넷 상호작용 추가
+    }
+    
+    public void NextStage()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
+        int nextLevel = (int)cp["CurrentLevel"] + 1;
+        if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+        cp.Add("CurrentLevel", nextLevel);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+            //LoadingSceneController.LoadScene((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
+            PhotonNetwork.LoadLevel("MainBuilding2");
+            
+        }
     }
 }

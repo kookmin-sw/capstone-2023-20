@@ -11,12 +11,14 @@ public class LeversController : MonoBehaviour
     public int OrderNumber = 0;
     private int ClearNumber;
     private ObjectManager objectmanager;
+    private AudioSource audio;
 
     void Start()
     {
         //levers = GameObject.Find("Shield Metall");
         ClearNumber = levers.Length - 1;
         objectmanager = GetComponent<ObjectManager>();
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -88,6 +90,7 @@ public class LeversController : MonoBehaviour
             levers[OrderNumber].ImageInActive();
             OrderNumber++;
             levers[OrderNumber].ImageActive();
+            audio.Play();
         }
     }
 }

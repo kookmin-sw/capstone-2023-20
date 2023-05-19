@@ -73,7 +73,7 @@ namespace Puzzles
             {
                 Debug.Log("Clear");
                 puzzle.GetComponent<ObjectManager>().Activate();
-                pv.RPC("SyncFunc", RpcTarget.Others, "PopupManager");
+                pv.RPC("SyncFunc", RpcTarget.All, "PopupManager");
             }
         }
 

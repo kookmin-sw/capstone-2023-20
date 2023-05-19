@@ -55,6 +55,15 @@ MonoBehaviour:
   - SyncFunc
   - DoorUnlock
   - UnLockOther
+  - InitPlayer
+  - Load
+  - MoveGameOverScene
+  - SetStateText
+  - StartGame
+  - StartLoadSceneProcess
+  - SyncActivate2
+  - SyncFunc1
+  - SyncFunc2
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

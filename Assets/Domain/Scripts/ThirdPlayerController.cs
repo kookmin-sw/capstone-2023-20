@@ -422,7 +422,8 @@ public class ThirdPlayerController : MonoBehaviour
                     other.GetComponent<DoorLock>().DoorUnlock();
                     CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
                     InventoryManager.removeItem("Announce Room Key");
-                    pv.RPC("UnLockOther", RpcTarget.Others, other.GetComponent<DoorLock>().Door.name);
+                    pv.RPC("UnLockOther", RpcTarget.Others, other.GetComponent<DoorLock>().OtherDoor.name);
+                    //Debug.Log(other.GetComponent<DoorLock>().OtherDoor.name);
                     //other.gameObject.transform.parent.gameObject.GetComponent<DoorDefaultClose>().UnLockDoor();
                 }
             }

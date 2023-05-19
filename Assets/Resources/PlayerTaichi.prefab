@@ -677,7 +677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419592033743734884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3750002, z: -0.16666625}
+  m_LocalPosition: {x: 0, y: 1.375, z: -0.16666669}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1099,7 +1099,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1821169072941716589}
         m_TargetAssemblyTypeName: Option, Assembly-CSharp
         m_MethodName: OnClickOut
         m_Mode: 1
@@ -5417,7 +5417,7 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
@@ -5477,10 +5477,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: ca6f97359b8387f449e240d359ba09db, type: 2}
-  voice: {fileID: 0}
-  bgm: {fileID: 0}
-  sfx: {fileID: 0}
-  sensitivity: {fileID: 0}
+  voice: {fileID: 8916921411747375567}
+  bgm: {fileID: 5255067721765752590}
+  sfx: {fileID: 8612295852513621432}
+  sensitivity: {fileID: 7374176262894329569}
   Input: {fileID: 5620541967409702305}
 --- !u!1 &4960273781654471504
 GameObject:
@@ -7473,7 +7473,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1821169072941716589}
         m_TargetAssemblyTypeName: Option, Assembly-CSharp
         m_MethodName: SetSensitivity
         m_Mode: 1
@@ -8269,7 +8269,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1821169072941716589}
         m_TargetAssemblyTypeName: Option, Assembly-CSharp
         m_MethodName: SetSoundBGM
         m_Mode: 1
@@ -8395,7 +8395,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1821169072941716589}
         m_TargetAssemblyTypeName: Option, Assembly-CSharp
         m_MethodName: SetSoundSFX
         m_Mode: 1
@@ -11524,7 +11524,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1821169072941716589}
         m_TargetAssemblyTypeName: Option, Assembly-CSharp
         m_MethodName: SetSoundVoice
         m_Mode: 1
@@ -11813,7 +11813,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1821169072941716589}
         m_TargetAssemblyTypeName: Option, Assembly-CSharp
-        m_MethodName: OnOutBtn
+        m_MethodName: OnRealOutBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13499,6 +13499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KeypadArray: 000000000000000000000000000000000000000000000000
   counter: 0
+  KeyInputs: {fileID: 0}
 --- !u!1001 &8765911337923667623
 PrefabInstance:
   m_ObjectHideFlags: 0

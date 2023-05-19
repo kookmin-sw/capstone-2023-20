@@ -6,7 +6,7 @@ using UnityEngine;
 public class DoorLock : MonoBehaviour
 {
     private bool IsDoorLocked = true;
-    public GameObject Door;
+    public GameObject OtherDoor;
     [SerializeField] private DoorDefaultClose DoorDefaultClose;
 
     public bool getDoorState()

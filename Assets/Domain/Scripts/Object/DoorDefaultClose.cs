@@ -103,7 +103,7 @@ public class DoorDefaultClose : MonoBehaviour
             LockState = false;
             Debug.Log("UnLock Other too");
             UnLockOther();
-            pv.RPC("UnLockOther", RpcTarget.Others, "broadcastrooom1");
+            //pv.RPC("UnLockOther", RpcTarget.Others, "broadcastrooomdoor1");
             audiosource.clip = DoorLocked;
             audiosource.Play();
         }

@@ -8,45 +8,24 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/MainTitle.unity
     guid: 9757f9ed8c10ca3468cddd893d4c6f35
   - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/testSceneKWJ.unity
-    guid: c7f1076db8e39c0449bda875140b4cdf
-  - enabled: 0
-    path: Assets/Scenes/testScene.unity
-    guid: 67206306b634a1d45bb19d1374a1f57d
+    path: Assets/Scenes/khj/khj11w/StartStory.unity
+    guid: e21dcfce67d6c884ba92521e4865c277
   - enabled: 1
     path: Assets/Scenes/MainBuilding.unity
     guid: aa1330cb6a600a04c92a7a12b05ba2f4
-  - enabled: 0
-    path: Assets/Scenes/cutScene.unity
-    guid: 46b46a276b7492a4f8f7047043dfa0a6
-  - enabled: 0
-    path: Assets/PhotonTest-KKB.unity
-    guid: 7b18114acc18ed949a84942a37833bd9
-  - enabled: 0
-    path: Assets/MainBuilding-KKB.unity
-    guid: 895f241ef160f3b49a48a8609ac84ce4
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 9d4c57b2f667f8d4eb822fb721095f47
-  - enabled: 0
-    path: Assets/Scenes/MainBuilding_kwj.unity
-    guid: 647f7fc6e527ad148bbb9e1015422738
-  - enabled: 0
-    path: Assets/Scenes/MainBuilding-KWJ(11).unity
-    guid: c7877422b2f380c49ab7d110a3bde30e
   - enabled: 1
     path: Assets/Scenes/MainBuilding2.unity
     guid: 3f77687f66b0e33438d965f360c75792
-  - enabled: 0
-    path: Assets/Unity-Logs-Viewer/Reporter/Test/ReporterScene.unity
-    guid: 50197f88423d447488d9bff2736b47dc
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}

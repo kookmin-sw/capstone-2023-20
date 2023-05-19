@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading;
 using UnityEngine.Events;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class DoorDefaultClose : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class DoorDefaultClose : MonoBehaviour
     AudioSource audiosource;
     public AudioClip DoorOpen;
     public AudioClip DoorLocked;
+
+    public PhotonView pv;
 
     [SerializeField]
     private bool LockState = false;
@@ -93,21 +96,27 @@ public class DoorDefaultClose : MonoBehaviour
         }
     }
 
-    //[PunRPC]
     public void UnLockDoor()
     {
         if (LockState == true)
         {
             LockState = false;
+            Debug.Log("UnLock Other too");
+            UnLockOther();
+            pv.RPC("UnLockOther", RpcTarget.Others, "broadcastrooom1");
             audiosource.clip = DoorLocked;
             audiosource.Play();
         }
-        if (LockState == false && ConnectedDoor != null) {
-            ConnectedDoor.UnLockDoor();
-            Debug.Log(ConnectedDoor + "Unlocked");
-        }
+        
 
     }
+
+    public void UnLockOther()
+    {
+        LockState = false;
+    }
+    
+    
 
     //private void OnTriggerEnter(Collider other)
     //{

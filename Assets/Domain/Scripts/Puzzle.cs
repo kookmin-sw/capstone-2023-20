@@ -10,6 +10,7 @@ public class Puzzle : MonoBehaviour
 {
     public bool state;
     public GameObject target;
+    public Canvas canvas;
     private ThirdPlayerController ThirdPlayerController;
     private StarterAssetsInputs playerInputs;
     private CanvasRenderModeChanger changer;
@@ -58,6 +59,17 @@ public class Puzzle : MonoBehaviour
             ThirdPlayerController.InvestigateValue = false;
         }
 
+    }
+    public void ChangeDisplay()
+    {
+        canvas.targetDisplay = 2;
+
+    }
+
+    public void LockOff()
+    {
+        playerInputs.PlayerLockOn();
+        ThirdPlayerController.InvestigateValue = false;
     }
 
 }

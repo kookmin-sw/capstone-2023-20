@@ -81,6 +81,12 @@ public class ThirdPlayerController : MonoBehaviour
         GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate();
     }
 
+    [PunRPC]
+    void SyncFunc2(String name)
+    {
+        GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate2();
+    }
+
     private void Update()
     {
 
@@ -107,6 +113,8 @@ public class ThirdPlayerController : MonoBehaviour
                     {
                         //InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
+                        pv.RPC("SyncFunc", RpcTarget.All, hit.collider.name);
+                        pv.RPC("SyncFunc2", RpcTarget.Others, hit.collider.name);
 
                     }
 
@@ -123,7 +131,9 @@ public class ThirdPlayerController : MonoBehaviour
 
                             GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
                             //동기화용 함수실행
-                            pv.RPC("SyncFunc", RpcTarget.Others, hit.collider.name);
+                            pv.RPC("SyncFunc", RpcTarget.All, hit.collider.name);
+                            pv.RPC("SyncFunc2", RpcTarget.Others, hit.collider.name);
+
                             playerInputs.investigate = false;
                             playerInputs.interaction = false;
                         }

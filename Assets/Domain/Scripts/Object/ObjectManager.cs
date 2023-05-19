@@ -12,6 +12,7 @@ public class ObjectManager : MonoBehaviour
     public UnityEvent OncePlayEvent;
 
     public UnityEvent SyncEvent;
+    public UnityEvent SyncEvent2;
     public PhotonView pv;
 
     int PlayCount = 0;
@@ -19,7 +20,6 @@ public class ObjectManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //pv = GetComponentFind(NetworkManager)<PhotonView>();
     }
 
     // Update is called once per frame
@@ -33,6 +33,17 @@ public class ObjectManager : MonoBehaviour
     {
         if (SyncEvent.GetPersistentEventCount() > 0)
             SyncEvent.Invoke();
+    }
+    [PunRPC]
+    public void SyncActivate2()
+    {
+        if (SyncEvent2.GetPersistentEventCount() > 0)
+            SyncEvent2.Invoke();
+    }
+
+    public void SyncFunc()
+    {
+        pv.RPC("SyncActivate", RpcTarget.All);
     }
 
     public void Activate()

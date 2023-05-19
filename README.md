@@ -17,7 +17,7 @@
 |이름|학번|역할|개인 깃허브|
 |-|-|-|-|
 |김기범|****1583|멀티 플레이 환경구축, 채팅기능, UI/UX |[링크](https://github.com/jimi567)|
-|곽혜정|****0655|몬스터, UI 디자인, 세부기능|[링크](https://github.com/kwawak)|
+|곽혜정|****0655|SFX,몬스터, UI 디자인, 세부기능|[링크](https://github.com/kwawak)|
 |김원진|****0538|퍼즐로직, 인벤토리, 미니맵 UI/UX|[링크](https://github.com/oen0thera)|
 |유성현|****1656|퍼즐로직, 컷씬, 세부기능|[링크](https://github.com/SeongHyeon0409)|
 

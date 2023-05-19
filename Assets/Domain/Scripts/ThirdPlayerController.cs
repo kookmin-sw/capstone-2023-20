@@ -76,7 +76,7 @@ public class ThirdPlayerController : MonoBehaviour
 
     // 오브젝트 함수 호출
     [PunRPC]
-    void SyncFunc(String name)
+    void SyncFunc(string name)
     {
         GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate();
     }
@@ -85,6 +85,12 @@ public class ThirdPlayerController : MonoBehaviour
     void SyncFunc2(String name)
     {
         GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate2();
+    }
+
+    [PunRPC]
+    public void UnLockOther(string name)
+    {
+        GameObject.Find(name).GetComponent<DoorDefaultClose>().UnLockOther();
     }
 
     private void Update()
@@ -202,6 +208,21 @@ public class ThirdPlayerController : MonoBehaviour
                         playerInputs.UILock = true;
                         playerInputs.PlayerMoveLock();
                         KeyPad.SetActive(true);
+
+
+                    }
+
+                }
+
+                else if (hit.collider.CompareTag("Article"))
+                {
+                    popup.OpenPopUpInteract();
+                    if(playerInputs.investigate == true)
+                    {
+                        playerInputs.UILock = true;
+                        playerInputs.PlayerMoveLock();
+                        LockView.SetActive(true);
+                        Instantiate(hit.collider.gameObject, ItemView.transform.position, Quaternion.identity);
                         playerInputs.investigate = false;
                     }
                 }
@@ -219,12 +240,18 @@ public class ThirdPlayerController : MonoBehaviour
                 popup.ClosePopUpInteract();
                 popup.ClosePopUpItem();
             }
+
             if (isCollision == false)
             {
                 playerInputs.interaction = false;
             }
         }
-
+        if (!KeyPad.activeSelf && !LockView.activeSelf && !CCTVView.activeSelf && !playerInputs.inventory && !playerInputs.minimap)
+        {
+            playerInputs.UILock = false;
+            playerInputs.PlayerMoveUnlock();
+            playerInputs.investigate = false;
+        }
 
         //김원진 - 인벤토리 상태시 인벤토리 UI 활성화
         //김원진 - 중복 UI 방지 위해 미니맵 UI 비활성 코드 추가
@@ -342,17 +369,25 @@ public class ThirdPlayerController : MonoBehaviour
             {
                 LockView.SetActive(false);
                 popup.OpenPopUpInteract();
-                other.gameObject.transform.Find("door").gameObject.tag = "LockerUnlocked";
-                popup.ClosePopUpInteract();
-                //김원진 - Locker 주변에서 UI 켰을경우
-                if (playerInputs.inventory)
+                if (other.gameObject.transform.Find("door"))
                 {
-                    playerInputs.UILock = true;
+                    other.gameObject.transform.Find("door").gameObject.tag = "LockerUnlocked";
+                    popup.ClosePopUpInteract();
+                    //김원진 - Locker 주변에서 UI 켰을경우
+                    if (playerInputs.inventory)
+                    {
+                        playerInputs.UILock = true;
+                    }
+                    if (playerInputs.minimap)
+                    {
+                        playerInputs.UILock = true;
+                    }
                 }
-                if (playerInputs.minimap)
+                else if (other.gameObject.transform.Find("NextStage"))
                 {
-                    playerInputs.UILock = true;
+                    other.GetComponent<Locker>().NextStage();
                 }
+
             }
 
 
@@ -387,6 +422,7 @@ public class ThirdPlayerController : MonoBehaviour
                     other.GetComponent<DoorLock>().DoorUnlock();
                     CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
                     InventoryManager.removeItem("Announce Room Key");
+                    pv.RPC("UnLockOther", RpcTarget.Others, other.GetComponent<DoorLock>().Door.name);
                     //other.gameObject.transform.parent.gameObject.GetComponent<DoorDefaultClose>().UnLockDoor();
                 }
             }
@@ -463,6 +499,6 @@ public class ThirdPlayerController : MonoBehaviour
                                            fadeImage.color.a * 0);
 
         fadeImage.gameObject.SetActive(false);
-        
+
     }
 }

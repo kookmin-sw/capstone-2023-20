@@ -41,6 +41,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MainBuilding_kwj.unity
     guid: 647f7fc6e527ad148bbb9e1015422738
+  - enabled: 1
+    path: Assets/Scenes/khj/khj11w/MainBuilding_khj11w.unity
+    guid: 506049228565d25439ae9fe8f3d4b7ff
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}

@@ -10222,6 +10222,7 @@ MonoBehaviour:
   LockView: {fileID: 7775359451037757950}
   ItemView: {fileID: 3945796500857882253}
   CCTVView: {fileID: 2658661352121693346}
+  KeyPad: {fileID: 0}
   InvestigateValue: 0
 --- !u!114 &8955304397293242559
 MonoBehaviour:
@@ -10252,7 +10253,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   FootstepAudioVolume: 0.3
-  JumpHeight: 1.2
+  JumpHeight: 0.8
   Gravity: -15
   JumpTimeout: 0.3
   FallTimeout: 0.15
@@ -12386,6 +12387,16 @@ PrefabInstance:
     - target: {fileID: 6341735739690818123, guid: e870d3e0ddbbd61438c894f18fc25942,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6406600781631740507, guid: e870d3e0ddbbd61438c894f18fc25942,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973124559647580201, guid: e870d3e0ddbbd61438c894f18fc25942,
+        type: 3}
+      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7302883836040235232, guid: e870d3e0ddbbd61438c894f18fc25942,

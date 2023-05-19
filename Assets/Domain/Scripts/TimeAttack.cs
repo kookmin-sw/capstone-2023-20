@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-
+using Photon.Pun;
 
 
 public class TimeAttack : MonoBehaviour
@@ -71,6 +71,7 @@ public class TimeAttack : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void StartGame()
     {
         gameActive = true;

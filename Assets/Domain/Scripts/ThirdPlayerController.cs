@@ -54,6 +54,11 @@ public class ThirdPlayerController : MonoBehaviour
     // 팝업창
     private Popup popup;
 
+
+    [Header("FadeOut")]
+    private float fadeSpeed = 1f;
+    private Image fadeImage;
+
     private void Start()
     {
     }
@@ -65,6 +70,7 @@ public class ThirdPlayerController : MonoBehaviour
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
         popup = GetComponentInChildren<Popup>();
+        DontDestroyOnLoad(this.gameObject);
     }
     private void Update()
     {
@@ -389,5 +395,28 @@ public class ThirdPlayerController : MonoBehaviour
         }
     }
 
+    public void FadingStart()
+    {
+        StartCoroutine(FadeOut());
+    }
 
+    IEnumerator FadeOut()
+    {
+        fadeImage = this.gameObject.GetComponentInChildren<FadeObject>().gameObject.GetComponent<Image>();
+
+        fadeImage.gameObject.SetActive(true);
+        // 패널의 알파 값을 서서히 증가시켜 페이드아웃 효과를 줌
+        while (fadeImage.color.a < 1.0f)
+        {
+            fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b,
+                                           fadeImage.color.a + fadeSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b,
+                                           fadeImage.color.a * 0);
+
+        fadeImage.gameObject.SetActive(false);
+        
+    }
 }

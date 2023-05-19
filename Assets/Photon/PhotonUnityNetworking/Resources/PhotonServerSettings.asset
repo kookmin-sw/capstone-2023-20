@@ -52,6 +52,12 @@ MonoBehaviour:
   - GameOver
   - MoveGameOverScene
   - Load
+  - DestroyPlayer
+  - initPlayerCP
+  - InitPlayerCP
+  - InitPlayer
+  - StartLoadSceneProcess
+  - FadeOut
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

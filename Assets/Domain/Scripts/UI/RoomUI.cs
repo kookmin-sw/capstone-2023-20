@@ -247,7 +247,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     private void GameStart()
     {
  
-        Invoke("GameScene", 3f);
+        if(PhotonNetwork.IsMasterClient )Invoke("GameScene", 3f);
     }
 
     private void GameScene()

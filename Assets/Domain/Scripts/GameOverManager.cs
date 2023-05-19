@@ -7,42 +7,40 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
 using StarterAssets;
+using ExitGames.Client.Photon;
 
 public class GameOverManager : MonoBehaviour
 {
-    static int stage;
+   
+    [SerializeField]
     private PhotonView pv;
     [SerializeField]
     private TMP_Text stateText;
 
     private void Awake()
-    { 
-        Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
-        if (cp.ContainsKey("InGame")) cp.Remove("InGame"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
-        if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
-        cp.Add("InGame", false);
-        cp.Add("GameOver", true); //게임오버상태인지 아닌지
-        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
-        cp = PhotonNetwork.LocalPlayer.CustomProperties;
+    {
+        pv.RPC("InitPlayer", RpcTarget.All);
+    }
+
+    
+
+    [PunRPC]
+    private void InitPlayer()
+    {
+        Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
         if (cp.ContainsKey("GameReady")) cp.Remove("GameReady");
         cp.Add("GameReady", false);
         PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
-        pv = gameObject.GetPhotonView();
-
-        //플레이어 캐릭터 파괴
-        PhotonNetwork.Destroy(GameObject.Find("Player" + PhotonNetwork.LocalPlayer.NickName));
-
-    }
-    private void Update()
-    {
-        
+        if (GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName) == null) return;
+        PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName));
     }
 
     public void OnClickRestart()
     {
-        PhotonNetwork.LocalPlayer.SetCustomProperties
-    (new Hashtable { { "GameReady", true } });
-
+        Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+        if (cp.ContainsKey("GameReady")) cp.Remove("GameReady");
+        cp.Add("GameReady", true);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
         bool gameStart = true;
         foreach (int id in PhotonNetwork.CurrentRoom.Players.Keys)
         {
@@ -73,9 +71,19 @@ public class GameOverManager : MonoBehaviour
 
     public static void LoadGameOver()
     {
-        stage = (int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"];
-        PhotonNetwork.LoadLevel("GameOver");
+        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel("GameOver");
 
+
+        Hashtable cp;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            cp = PhotonNetwork.CurrentRoom.CustomProperties;
+            if (cp.ContainsKey("InGame")) cp.Remove("InGame"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+            if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
+            cp.Add("InGame", false);
+            cp.Add("GameOver", true); //게임오버상태인지 아닌지
+            PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        }
     }
 
     [PunRPC]

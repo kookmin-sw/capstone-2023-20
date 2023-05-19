@@ -30,11 +30,21 @@ public class Option : MonoBehaviour
     private GameObject warning;
     private GameObject backGround;
 
-    private void Start()
+    private void Awake()
     {
         manager = GameObject.Find("NetworkManager");
         warning = this.transform.GetChild(0).gameObject;
         backGround = this.transform.GetChild(1).gameObject;
+    }
+
+    private void OnEnable()
+    {
+        this.gameObject.GetComponent<Canvas>().sortingOrder = 50;
+    }
+
+    private void OnDisable()
+    {
+        this.gameObject.GetComponent<Canvas>().sortingOrder = 0;
     }
 
     public void SetInputSystem(StarterAssetsInputs newinput)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
@@ -14,19 +15,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [SerializeField]
     private GameObject CloseGameMsg;
 
-    [Header("FadeOut")]
-    private float fadeSpeed = 2f;
-    private Image fadeImage;
-    private float delayTime = 1.0f;  // 전환 대기 시간
-
-
-
-
     
-
     private void Awake()
     {
-        
+        var objs = FindObjectsOfType<NetworkManager>();
+        if (objs.Length != 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     
@@ -49,15 +47,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
         GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<StarterAssetsInputs>().PlayerMoveLock(); //마우스 커서 되돌림.
         Debug.Log("로컬플레이어 이름 ::" + GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name);
-        fadeImage = GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponentInChildren<FadeOut>().GetComponent<Image>();
-        StartCoroutine(FadeOut());
-        if(PhotonNetwork.IsMasterClient) GameOverManager.LoadGameOver();
+        FadeOut();
     }
     public void OnLevelWasLoaded(int level)
     {
-        if(level == 1 || (bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] ) 
+        // 메인빌딩이거나, 게임오버 상태면서, 게임오버씬이 아닐 경우만 플레이어캐릭터 생성
+        if(level == 1 || ((bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] && level != 4) ) 
         {
-            if (!PhotonNetwork.IsMasterClient) return;
             pv.RPC("CreatePlayer", RpcTarget.All);
             Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
             if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
@@ -65,7 +61,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
             
         }
-        else if(level == 0)
+        else if(level == 0 )
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
@@ -73,12 +69,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [PunRPC]
     private void CreatePlayer()
     {
+        GameObject chk = GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName);
+        if (chk != null) return;
         Transform pos = GameObject.Find("SpwanPoint" + PhotonNetwork.LocalPlayer.NickName).transform;
+        
         PhotonNetwork.Instantiate("Player" + PhotonNetwork.LocalPlayer.NickName, pos.position, pos.rotation);
 
         GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;
-        DontDestroyOnLoad(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName));
         Debug.Log(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name + " 생성완료 크레이트플레이어");
+        
     }
 
 
@@ -93,12 +92,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<StarterAssetsInputs>().PlayerMoveLock(); //마우스 커서 되돌림.
         Debug.Log(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name + " 파괴하고 방 나가기");
         PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName));
-        /*Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
-        if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
-        cp.Add("CurrentLevel", 0);
-        PhotonNetwork.CurrentRoom.SetCustomProperties(cp);*/
-        LoadingSceneController.LoadScene();
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("MainTitle");
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
@@ -110,21 +105,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     {
         Debug.Log("방을 나갔습니다.");
     }
-
-    IEnumerator FadeOut()
+    private void FadeOut()
     {
-        fadeImage.gameObject.SetActive(true);
-        // 패널의 알파 값을 서서히 감소시켜 페이드아웃 효과를 줌
-        while (fadeImage.color.a < 1.0f)
+        if(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<ThirdPlayerController>() != null)
         {
-            fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b,
-                                           fadeImage.color.a + fadeSpeed * Time.deltaTime);
-            yield return null;
+            GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<ThirdPlayerController>().FadingStart();
         }
-
-        // 전환 대기 시간 동안 대기
-        yield return new WaitForSeconds(delayTime);
+        GameOverManager.LoadGameOver();
     }
+
 
 
 

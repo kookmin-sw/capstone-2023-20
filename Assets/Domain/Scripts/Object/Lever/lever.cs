@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class lever : MonoBehaviour
 {
+
     public int number;
     public bool state = false;
     public DoorDefaultClose[] DDC;

@@ -55,6 +55,11 @@ public class ThirdPlayerController : MonoBehaviour
     // 팝업창
     private Popup popup;
 
+
+    [Header("FadeOut")]
+    private float fadeSpeed = 1f;
+    private Image fadeImage;
+
     private void Start()
     {
     }
@@ -66,6 +71,7 @@ public class ThirdPlayerController : MonoBehaviour
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
         popup = GetComponentInChildren<Popup>();
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // 오브젝트 함수 호출
@@ -73,6 +79,12 @@ public class ThirdPlayerController : MonoBehaviour
     void SyncFunc(String name)
     {
         GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate();
+    }
+
+    [PunRPC]
+    void SyncFunc2(String name)
+    {
+        GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate2();
     }
 
     private void Update()
@@ -101,6 +113,8 @@ public class ThirdPlayerController : MonoBehaviour
                     {
                         //InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
+                        pv.RPC("SyncFunc", RpcTarget.All, hit.collider.name);
+                        pv.RPC("SyncFunc2", RpcTarget.Others, hit.collider.name);
 
                     }
 
@@ -117,7 +131,9 @@ public class ThirdPlayerController : MonoBehaviour
 
                             GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
                             //동기화용 함수실행
-                            pv.RPC("SyncFunc", RpcTarget.Others, hit.collider.name);
+                            pv.RPC("SyncFunc", RpcTarget.All, hit.collider.name);
+                            pv.RPC("SyncFunc2", RpcTarget.Others, hit.collider.name);
+
                             playerInputs.investigate = false;
                             playerInputs.interaction = false;
                         }
@@ -235,14 +251,16 @@ public class ThirdPlayerController : MonoBehaviour
             Minimap.SetActive(false);
         }
         //KKB - option Input
-        //if (playerInputs.option)
-        //{
-        //    Option.SetActive(true);
-        //}
-        //else
-        //{
-        //    Option.SetActive(false);
-        //}
+        if (playerInputs.option)
+        {
+            //playerInputs.PlayerMoveLock();
+            Option.SetActive(true);
+        }
+        else
+        {
+            //playerInputs.PlayerMoveUnlock();
+            Option.SetActive(false);
+        }
 
     }
 
@@ -423,5 +441,28 @@ public class ThirdPlayerController : MonoBehaviour
         }
     }
 
+    public void FadingStart()
+    {
+        StartCoroutine(FadeOut());
+    }
 
+    IEnumerator FadeOut()
+    {
+        fadeImage = this.gameObject.GetComponentInChildren<FadeObject>().gameObject.GetComponent<Image>();
+
+        fadeImage.gameObject.SetActive(true);
+        // 패널의 알파 값을 서서히 증가시켜 페이드아웃 효과를 줌
+        while (fadeImage.color.a < 1.0f)
+        {
+            fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b,
+                                           fadeImage.color.a + fadeSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b,
+                                           fadeImage.color.a * 0);
+
+        fadeImage.gameObject.SetActive(false);
+        
+    }
 }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.Demo.Cockpit;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyUI : MonoBehaviourPunCallbacks
@@ -102,7 +101,6 @@ public class LobbyUI : MonoBehaviourPunCallbacks
         //초기 CurrentLevel은 1로 설정 추후 단계 클리어할때마다 1씩 증가시켜서 팅겼다가 다시 들어온 유저가 알맞는 레벨에 입장하도록하기위함,
         Hashtable cp = new Hashtable();
         cp.Add("InGame", false);
-        cp.Add("CurrentLevel", 1);
         ro.CustomRoomProperties = cp;
         PhotonNetwork.CreateRoom(RoomName.text, ro);
     }
@@ -117,6 +115,7 @@ public class LobbyUI : MonoBehaviourPunCallbacks
         //로비에 노출시킬 프로퍼티 설정
         string[] PIL = { "InGame" };
         PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(PIL);
+       
 
         Debug.Log(RoomName.text + "생성 완료");
     }

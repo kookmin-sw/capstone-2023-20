@@ -40,19 +40,35 @@ public class sifidoor : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Taichi" || other.tag == "Latifa")
+        if (LockState == false)
         {
-            animator.SetBool("IsOpen", true);
-            audiosource.Play();
+            if (other.tag == "Taichi" || other.tag == "Latifa")
+            {
+                animator.SetBool("IsOpen", true);
+                audiosource.Play();
+            }
         }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if ((other.tag == "Taichi" || other.tag == "Latifa") && animator.GetBool("IsOpen") == true)
+        if (LockState == false)
         {
-            animator.SetBool("IsOpen", false);
-            audiosource.Play();
+            if ((other.tag == "Taichi" || other.tag == "Latifa") && animator.GetBool("IsOpen") == true)
+            {
+                animator.SetBool("IsOpen", false);
+                audiosource.Play();
+            }
+        }
+
+    }
+
+    public void UnLockDoor()
+    {
+        if (LockState == true)
+        {
+            LockState = false;
         }
     }
 

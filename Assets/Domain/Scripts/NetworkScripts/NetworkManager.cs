@@ -50,6 +50,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
         if (GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName) == null) return;
         GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<StarterAssetsInputs>().PlayerMoveLock(); //마우스 커서 되돌림.
+        if (PhotonNetwork.IsMasterClient)
+        {
+            cp = PhotonNetwork.CurrentRoom.CustomProperties;
+            if (cp.ContainsKey("InGame")) cp.Remove("InGame"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+            if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
+            cp.Add("InGame", false);
+            cp.Add("GameOver", true); //게임오버상태인지 아닌지
+            PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        }
         Debug.Log("로컬플레이어 이름 ::" + GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name);
         FadeOut();
     }
@@ -69,6 +78,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
+        else
+        {
+            pv.RPC("SetPlayerPos", RpcTarget.All);
+        }
     }
     [PunRPC]
     private void CreatePlayer()
@@ -83,7 +96,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         Debug.Log(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name + " 생성완료 크레이트플레이어");
         
     }
+    [PunRPC]
+    private void SetPlayerPos()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName);
+        if (player != null)
+        {
+            Debug.LogError("플레이어 캐릭터가 없어요!!!");
+            return;
+        }
+        Transform pos = GameObject.Find("SpwanPoint" + PhotonNetwork.LocalPlayer.NickName).transform;
 
+        player.transform.position = pos.position;
+    }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {

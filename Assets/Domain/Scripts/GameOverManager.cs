@@ -54,17 +54,8 @@ public class GameOverManager : MonoBehaviour
 
     public static void LoadGameOver()
     {
-        Hashtable cp;
-        if (PhotonNetwork.IsMasterClient)
-        {
-            cp = PhotonNetwork.CurrentRoom.CustomProperties;
-            if (cp.ContainsKey("InGame")) cp.Remove("InGame"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
-            if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
-            cp.Add("InGame", false);
-            cp.Add("GameOver", true); //게임오버상태인지 아닌지
-            PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
-            PhotonNetwork.LoadLevel("GameOver");
-        }
+        PhotonNetwork.LoadLevel("GameOver");
+        
     }
 
     [PunRPC]

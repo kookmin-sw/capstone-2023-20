@@ -24,13 +24,13 @@ public class LoadingSceneController : MonoBehaviour
 
     private int nextLevel;
     //타이틀, 본관, 체육관, 연구실, 게임오버씬, 로딩씬 순으로 빌드
-    //테스트 씬 - PhotonTest_KKB;
-    private string[] levels = { "MainTitle", "Mainbuilding", "Mainbuilding2", "scify_ysh", "" };
+    //테스트 씬 - PhotonTest-KKB;
+    private string[] levels = { "MainTitle", "Mainbuilding", "Gym", "scify_ysh", "" };
     private string[] tips = {
         "2인으로 플레이가 가능합니다.",
         "현재와 미래의 학교는 연결되어 있는 건가..?",
         "왜 이렇게 체육관에 공이 널부러져 있지?..",
-        "연구실 팁은 뭘 줘야될까...",
+        ".......",
          };
     private string[] explains = {
         "타이틀로 이동 중...",
@@ -70,8 +70,14 @@ public class LoadingSceneController : MonoBehaviour
         while (PhotonNetwork.LevelLoadingProgress < 1f)
         {
             progressBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
+            if (PhotonNetwork.IsMasterClient) pv.RPC("fillBar", RpcTarget.Others, progressBar.fillAmount);
             yield return null;
         }
         BGI[nextLevel].SetActive(false);
+    }
+    [PunRPC]
+    private void fillBar(float arg)
+    {
+        progressBar.fillAmount = arg;
     }
 }

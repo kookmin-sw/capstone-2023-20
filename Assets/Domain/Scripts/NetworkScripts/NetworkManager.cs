@@ -78,7 +78,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
-        else
+        else if(level == 3 ) //level == ¿¬±¸¼Ò
         {
             pv.RPC("SetPlayerPos", RpcTarget.All);
         }

@@ -9,7 +9,7 @@ using TMPro;
 using StarterAssets;
 using ExitGames.Client.Photon;
 
-public class GameOverManager : MonoBehaviour
+public class GameOverManager : MonoBehaviourPunCallbacks
 {
    
     [SerializeField]

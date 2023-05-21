@@ -248,9 +248,9 @@ public class ThirdPlayerController : MonoBehaviour
         }
         if (!KeyPad.activeSelf && !LockView.activeSelf && !CCTVView.activeSelf && !playerInputs.inventory && !playerInputs.minimap && !playerInputs.option)
         {
-            playerInputs.UILock = false;
-            playerInputs.PlayerMoveUnlock();
-            playerInputs.investigate = false;
+            //playerInputs.UILock = false;
+            //playerInputs.PlayerMoveUnlock();
+            //playerInputs.investigate = false;
         }
 
         //김원진 - 인벤토리 상태시 인벤토리 UI 활성화

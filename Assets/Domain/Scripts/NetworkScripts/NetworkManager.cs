@@ -44,7 +44,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [PunRPC]
     private void MoveGameOverScene()
     {
-
+        Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+        if (cp.ContainsKey("GameReady")) cp.Remove("GameReady");
+        cp.Add("GameReady", false);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
+        if (GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName) == null) return;
         GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<StarterAssetsInputs>().PlayerMoveLock(); //마우스 커서 되돌림.
         Debug.Log("로컬플레이어 이름 ::" + GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name);
         FadeOut();
@@ -52,7 +56,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public void OnLevelWasLoaded(int level)
     {
         // 메인빌딩이거나, 게임오버 상태면서, 게임오버씬이 아닐 경우만 플레이어캐릭터 생성
-        if(level == 1 || ((bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] && level != 4) ) 
+        if(level == 2 || ((bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] && level != 4) ) 
         {
             pv.RPC("CreatePlayer", RpcTarget.All);
             Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -111,6 +115,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         {
             GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<ThirdPlayerController>().FadingStart();
         }
+        PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName));
         GameOverManager.LoadGameOver();
     }
 

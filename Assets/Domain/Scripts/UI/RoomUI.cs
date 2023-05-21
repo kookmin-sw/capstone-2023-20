@@ -265,7 +265,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
             Debug.Log("PhotonNetwork : Trying to Load a level but we are not the master Client at RoomUI");
             return;
         }
-        else LoadingSceneController.LoadScene();
+        else PhotonNetwork.LoadLevel("StartStory");
         
     }
 }

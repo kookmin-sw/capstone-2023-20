@@ -17,23 +17,6 @@ public class GameOverManager : MonoBehaviour
     [SerializeField]
     private TMP_Text stateText;
 
-    private void Awake()
-    {
-        pv.RPC("InitPlayer", RpcTarget.All);
-    }
-
-    
-
-    [PunRPC]
-    private void InitPlayer()
-    {
-        Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
-        if (cp.ContainsKey("GameReady")) cp.Remove("GameReady");
-        cp.Add("GameReady", false);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
-        if (GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName) == null) return;
-        PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName));
-    }
 
     public void OnClickRestart()
     {
@@ -71,9 +54,6 @@ public class GameOverManager : MonoBehaviour
 
     public static void LoadGameOver()
     {
-        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel("GameOver");
-
-
         Hashtable cp;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -83,6 +63,7 @@ public class GameOverManager : MonoBehaviour
             cp.Add("InGame", false);
             cp.Add("GameOver", true); //게임오버상태인지 아닌지
             PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+            PhotonNetwork.LoadLevel("GameOver");
         }
     }
 

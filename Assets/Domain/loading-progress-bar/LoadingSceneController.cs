@@ -25,7 +25,7 @@ public class LoadingSceneController : MonoBehaviour
     private int nextLevel;
     //타이틀, 본관, 체육관, 연구실, 게임오버씬, 로딩씬 순으로 빌드
     //테스트 씬 - PhotonTest_KKB;
-    private string[] levels = { "MainTitle", "MainBuilding", "Stage2", "Stage3", "" };
+    private string[] levels = { "MainTitle", "Mainbuilding", "Mainbuilding2", "scify_ysh", "" };
     private string[] tips = {
         "2인으로 플레이가 가능합니다.",
         "현재와 미래의 학교는 연결되어 있는 건가..?",

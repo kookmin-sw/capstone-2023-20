@@ -246,7 +246,7 @@ public class ThirdPlayerController : MonoBehaviour
                 playerInputs.interaction = false;
             }
         }
-        if (!KeyPad.activeSelf && !LockView.activeSelf && !CCTVView.activeSelf && !playerInputs.inventory && !playerInputs.minimap)
+        if (!KeyPad.activeSelf && !LockView.activeSelf && !CCTVView.activeSelf && !playerInputs.inventory && !playerInputs.minimap && !playerInputs.option)
         {
             playerInputs.UILock = false;
             playerInputs.PlayerMoveUnlock();

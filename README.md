@@ -15,6 +15,7 @@
 ### 3. 인게임 사진
 <img src="https://github.com/kookmin-sw/capstone-2023-20/assets/31495131/81a27ba2-341f-4282-ad07-efef125b53e1"  width="300" height="150">
 <img src="https://github.com/kookmin-sw/capstone-2023-20/assets/31495131/42ae5e10-6a52-40b1-94bc-fffe1f7d9f88"  width="300" height="150">
+<br>
 <img src="https://github.com/kookmin-sw/capstone-2023-20/assets/31495131/16fb7fdc-68f3-468c-b7fb-96b6ed3eddf60"  width="300" height="150">
 <img src="https://github.com/kookmin-sw/capstone-2023-20/assets/31495131/452cb453-2982-4270-8510-bf24919bcd00"  width="300" height="150">
 

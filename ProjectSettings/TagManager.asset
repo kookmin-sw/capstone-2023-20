@@ -26,7 +26,7 @@ TagManager:
   - SecretDoor
   - Article
   - KeypadCollider
-  - ArticleCollider
+  - CCTVCollider
   layers:
   - Default
   - TransparentFX

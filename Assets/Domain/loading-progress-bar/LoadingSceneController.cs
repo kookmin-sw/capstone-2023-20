@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-
+using UnityEngine.SceneManagement;
 
 public class LoadingSceneController : MonoBehaviourPunCallbacks
 {
@@ -57,25 +57,33 @@ public class LoadingSceneController : MonoBehaviourPunCallbacks
             Debug.Log("PhotonNetwork : Trying to Load a level but we are not the master Client at LSC");
             return;
         }
-        else pv.RPC("StartLoadSceneProcess", RpcTarget.All);
+        else pv.RPC("StartLoadSceneProcess", RpcTarget.MasterClient);
     }
 
-  
+    [PunRPC]
     private void StartLoadSceneProcess()
     {
-        StartCoroutine(LoadSceneProcess());
+        if (PhotonNetwork.IsMasterClient) StartCoroutine(LoadSceneProcess());
     }
+   
     IEnumerator LoadSceneProcess()
     {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(levels[nextLevel]); // 비동기로 씬 로딩 시작
+        asyncLoad.allowSceneActivation = false; // 씬 활성화를 잠시 중지
 
-        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(levels[nextLevel]);
-   
-        while (PhotonNetwork.LevelLoadingProgress < 1f)
+        while (!asyncLoad.isDone) // 씬 로딩이 완료될 때까지 반복
         {
-            progressBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
+            progressBar.fillAmount = asyncLoad.progress; // 진행 상황을 프로그래스 바에 반영
+
+            if (asyncLoad.progress >= 0.9f) // 씬 로딩이 거의 완료되었을 때
+            {
+                asyncLoad.allowSceneActivation = true; // 씬 활성화 허용
+            }
+
             yield return null;
         }
-        BGI[nextLevel].SetActive(false);
+
+        BGI[nextLevel].SetActive(false); // 로딩이 완료되면 BGI 비활성화
     }
-  
+
 }

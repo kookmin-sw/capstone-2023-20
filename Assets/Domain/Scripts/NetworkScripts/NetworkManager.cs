@@ -39,7 +39,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     //게임오버씬으로 이동하는 퍼블릭함수(죽거나, 시간초과나면 이 함수 호출)
     public void GameOver()
     {
-        pv.RPC("MoveGameOverScene", RpcTarget.All);
+        pv.RPC("MoveGameOverScene", RpcTarget.MasterClient);
     }
     [PunRPC]
     private void MoveGameOverScene()
@@ -65,7 +65,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public void OnLevelWasLoaded(int level)
     {
         // 메인빌딩이거나, 게임오버 상태면서, 게임오버씬이 아닐 경우만 플레이어캐릭터 생성
-        if(level == 2 || ((bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] && level != 4) ) 
+        if(level == 2 || ((bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] && level != 6) ) 
         {
             pv.RPC("CreatePlayer", RpcTarget.All);
             Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -74,11 +74,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
             
         }
-        else if(level == 0 )
+        else if(level <= 1 )
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
-        else if(level == 3 ) //level == 연구소
+        else if(level == 3 || level == 4) //level == 연구소
         {
             pv.RPC("SetPlayerPos", RpcTarget.All);
         }
@@ -162,6 +162,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     //씬을 로드할때 사용되는 함수 ==> 다음 씬으로 가기위한 조건이 충족되면 아래 함수를 호출해주면 됩니다 복붙해서 사용해주세요
     /*  
     void func(){
+            if(!PhotonNetwork.isMasterClient) return;
             Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
             int nextLevel = (int)cp["CurrentLevel"] + 1;
             if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;

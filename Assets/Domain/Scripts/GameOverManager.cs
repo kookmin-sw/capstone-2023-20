@@ -36,7 +36,7 @@ public class GameOverManager : MonoBehaviourPunCallbacks
             Hashtable rp = PhotonNetwork.CurrentRoom.CustomProperties;
             rp["InGame"] = true;
             PhotonNetwork.CurrentRoom.SetCustomProperties(rp);
-            pv.RPC("Load", RpcTarget.All);
+            Invoke("Load", 2f);
         }
         else
         {
@@ -45,8 +45,12 @@ public class GameOverManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void Load()
+    {
+        pv.RPC("LoadingScene", RpcTarget.MasterClient);
+    }
     [PunRPC]
-    void Load()
+    void LoadingScene()
     {
         Debug.Log("currentLevel at GameOver : " + PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
         if (PhotonNetwork.IsMasterClient) LoadingSceneController.LoadScene();

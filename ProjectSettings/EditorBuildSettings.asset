@@ -24,6 +24,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Gym.unity
     guid: 3f77687f66b0e33438d965f360c75792
   - enabled: 1
+    path: Assets/Scenes/scifi_ysh.unity
+    guid: b43c67551d7df4246b0540a921d9e404
+  - enabled: 1
+    path: Assets/Scenes/khj/khj11w/Ending.unity
+    guid: f42a9143d448f514daec69b850b4cc6a
+  - enabled: 1
     path: Assets/GameOver.unity
     guid: 2aca2c65cded55e49b5c3c803263fa59
   - enabled: 1

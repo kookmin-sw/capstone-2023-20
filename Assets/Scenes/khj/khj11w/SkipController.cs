@@ -7,11 +7,11 @@ using UnityEngine;
 public class SkipController : MonoBehaviourPunCallbacks
 {
     public string NextSceneName;
+    public GameObject SkipBtn;
 
-
-    public void OnLevelWasLoaded(int level)
+    private void Start()
     {
-        if (PhotonNetwork.IsMasterClient) PhotonNetwork.Instantiate("SkipBtn",new Vector3(683,384,0),new Quaternion(0f,0f,0f,0f));
+        if (PhotonNetwork.IsMasterClient) SkipBtn.SetActive(true);
     }
 
     public void SkipButtonClicked()

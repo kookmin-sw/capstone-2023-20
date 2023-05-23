@@ -217,6 +217,10 @@ public class ThirdPlayerController : MonoBehaviour
                     }
                     
                 }
+                else if (hit.collider.CompareTag("CCTVCollider"))
+                {
+                    popup.OpenPopUpInteract();
+                }
 
                 //else if (hit.collider.CompareTag("Article"))
                 //{
@@ -403,6 +407,7 @@ public class ThirdPlayerController : MonoBehaviour
         }
         else if (other.tag == "CCTV")
         {
+            Debug.Log("CCTV Collider!");    
             popup.OpenPopUpInteract();
             if (playerInputs.interaction)
             {

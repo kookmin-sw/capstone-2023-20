@@ -81,8 +81,20 @@ public class InventoryitemController : MonoBehaviour
             else if (ItemName == "Attend")
             {
                 Debug.Log("ItemModel: " + ItemModel);
-                itemPrefab = Instantiate(ItemModel, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(90, 0, 0)));
+                itemPrefab = Instantiate(ItemModel, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(90, 90, 0)));
                 Debug.Log("MOVED! : "+itemPrefab.gameObject.name+ itemPrefab.gameObject.transform.localPosition);
+                Debug.Log(itemPrefab);
+            }
+            else if (ItemName == "Article")
+            {
+                itemPrefab = Instantiate(ItemModel, new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 0, 0)));
+                Debug.Log("MOVED! : " + itemPrefab.gameObject.name + itemPrefab.gameObject.transform.localPosition);
+                Debug.Log(itemPrefab);
+            }
+            else if (ItemName == "Notes")
+            {
+                itemPrefab = Instantiate(ItemModel, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 90, 0)));
+                Debug.Log("MOVED! : " + itemPrefab.gameObject.name + itemPrefab.gameObject.transform.localPosition);
                 Debug.Log(itemPrefab);
             }
             

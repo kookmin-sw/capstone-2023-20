@@ -33,9 +33,13 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
 
     public PhotonView pv;
 
+    private Dictionary<string, string> parse;
     private void Awake()
     {
-    
+        parse = new Dictionary<string, string>();
+        parse.Add("Latifa","Ω¬ø¨");
+        parse.Add("Taichi", "øπ¥„");
+
     }
 
     void Update()
@@ -80,7 +84,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         RoomRenewal();
-        ChatRPC("<color=yellow>" + otherPlayer.NickName + "¥‘¿Ã ≈¿Â«œºÃΩ¿¥œ¥Ÿ</color>");
+        ChatRPC("<color=yellow>" + parse[otherPlayer.NickName] + "¥‘¿Ã ≈¿Â«œºÃΩ¿¥œ¥Ÿ</color>");
         CharacterRenewal();
     }
 
@@ -103,7 +107,7 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     public void OnClickSendChatBtn()
     {
         if(!ChatInput.text.Equals(""))
-            pv.RPC("ChatRPC", RpcTarget.All, PhotonNetwork.LocalPlayer.NickName + " : " + ChatInput.text);
+            pv.RPC("ChatRPC", RpcTarget.All, parse[PhotonNetwork.LocalPlayer.NickName] + " : " + ChatInput.text);
         ChatInput.text = "";
     }
 
@@ -152,14 +156,14 @@ public class RoomUI : MonoBehaviourPunCallbacks//,IPunObservable
     public void OnClickLatifaBtn()
     {
         PhotonNetwork.LocalPlayer.NickName = "Latifa"; 
-        ChatRPC("<color=yellow>" + PhotonNetwork.LocalPlayer.NickName + "¿ª º±≈√«œºÃΩ¿¥œ¥Ÿ</color>");
+        ChatRPC("<color=yellow>" + parse[PhotonNetwork.LocalPlayer.NickName] + "¿ª º±≈√«œºÃΩ¿¥œ¥Ÿ</color>");
         CharacterRenewal();
     }
 
     public void OnClickTaichiBtn()
     {
         PhotonNetwork.LocalPlayer.NickName = "Taichi";
-        ChatRPC("<color=yellow>" + PhotonNetwork.LocalPlayer.NickName + "¿ª º±≈√«œºÃΩ¿¥œ¥Ÿ</color>");
+        ChatRPC("<color=yellow>" + parse[PhotonNetwork.LocalPlayer.NickName] + "¿ª º±≈√«œºÃΩ¿¥œ¥Ÿ</color>");
         CharacterRenewal();
 
     }

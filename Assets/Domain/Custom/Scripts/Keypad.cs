@@ -7,6 +7,7 @@ public class Keypad : MonoBehaviour
 {
     public int[] KeypadArray = new int[6];
     public int counter = 0;
+    public bool KeypadClosed = false;
     private string keyname;
     [SerializeField] private GameObject KeyInputs;
 
@@ -43,7 +44,7 @@ public class Keypad : MonoBehaviour
         {
             KeypadArray[i] = 0;
             keyname = "Key " + (i+1);
-            KeyInputs.transform.Find(keyname).GetComponent<TextMeshProUGUI>().text = " ";
+            KeyInputs.transform.Find(keyname).GetComponent<TextMeshProUGUI>().text = "_";
 
         }
     }
@@ -51,5 +52,16 @@ public class Keypad : MonoBehaviour
     public void CloseKeypad()
     {
         this.gameObject.SetActive(false);
+        KeypadClosed = true;
+    }
+
+    public void ReadyClosed()
+    {
+        KeypadClosed = false;
+    }
+
+    public bool IfClosed()
+    {
+        return KeypadClosed;
     }
 }

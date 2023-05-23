@@ -54,10 +54,7 @@ public class Locker : MonoBehaviour
         PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
         if (PhotonNetwork.IsMasterClient)
         {
-            //Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
-            //LoadingSceneController.LoadScene((int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
-            PhotonNetwork.LoadLevel("MainBuilding2");
-            
+            LoadingSceneController.LoadScene();   
         }
     }
 }

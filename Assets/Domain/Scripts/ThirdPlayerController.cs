@@ -46,6 +46,7 @@ public class ThirdPlayerController : MonoBehaviour
     private Animator animator;
     private bool CurrentDoorLock = false;
     private bool isCollision = false;
+    private GameObject InstantView;
 
     float hitDistance = 2f;
     public bool InvestigateValue = false;
@@ -108,7 +109,7 @@ public class ThirdPlayerController : MonoBehaviour
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
             if ((hit.distance < hitDistance) && (!EventSystem.current.IsPointerOverGameObject()))
             {
-                //Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
@@ -203,29 +204,37 @@ public class ThirdPlayerController : MonoBehaviour
                 else if (hit.collider.CompareTag("SecretDoor"))
                 {
                     popup.OpenPopUpInteract();
-                    if(playerInputs.investigate == true)
+
+                    if (playerInputs.investigate == true)
                     {
-                        playerInputs.UILock = true;
-                        playerInputs.PlayerMoveLock();
-                        KeyPad.SetActive(true);
-
-
+                        if (!KeyPad.activeSelf && playerInputs.UILock == false)
+                        {
+                            playerInputs.UILock = true;
+                            playerInputs.PlayerMoveLock();
+                            KeyPad.SetActive(true);
+                            playerInputs.investigate = false;
+                        }
                     }
-
+                    
                 }
 
-                else if (hit.collider.CompareTag("Article"))
-                {
-                    popup.OpenPopUpInteract();
-                    if(playerInputs.investigate == true)
-                    {
-                        playerInputs.UILock = true;
-                        playerInputs.PlayerMoveLock();
-                        LockView.SetActive(true);
-                        Instantiate(hit.collider.gameObject, ItemView.transform.position, Quaternion.identity);
-                        playerInputs.investigate = false;
-                    }
-                }
+                //else if (hit.collider.CompareTag("Article"))
+                //{
+                //    popup.OpenPopUpInteract();
+                //    if (playerInputs.investigate == true)
+                //    {
+                //        playerInputs.UILock = true;
+                //        playerInputs.PlayerMoveLock();
+                //        LockView.SetActive(true);
+                //        InstantView = Instantiate(hit.collider.gameObject, ItemView.transform.Find("ArticlePos").transform.position, Quaternion.Euler(new Vector3(90, -287.405f, 0)));
+                //        playerInputs.investigate = false;
+                //    }
+                //    if (!LockView.activeSelf)
+                //    {
+                //        Destroy(InstantView);
+                //    }
+
+                //}
 
 
                 else
@@ -246,12 +255,7 @@ public class ThirdPlayerController : MonoBehaviour
                 playerInputs.interaction = false;
             }
         }
-        if (!KeyPad.activeSelf && !LockView.activeSelf && !CCTVView.activeSelf && !playerInputs.inventory && !playerInputs.minimap)
-        {
-            playerInputs.UILock = false;
-            playerInputs.PlayerMoveUnlock();
-            playerInputs.investigate = false;
-        }
+        
 
         //김원진 - 인벤토리 상태시 인벤토리 UI 활성화
         //김원진 - 중복 UI 방지 위해 미니맵 UI 비활성 코드 추가
@@ -426,6 +430,22 @@ public class ThirdPlayerController : MonoBehaviour
                     //Debug.Log(other.GetComponent<DoorLock>().OtherDoor.name);
                     //other.gameObject.transform.parent.gameObject.GetComponent<DoorDefaultClose>().UnLockDoor();
                 }
+            }
+        }
+        else if (other.tag == "KeypadCollider")
+        {
+            if (!KeyPad.activeSelf && playerInputs.UILock == true)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+            }
+        }
+        else if (other.tag == "ArticleCollider")
+        {
+            if(!LockView.activeSelf && playerInputs.UILock == true)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
             }
         }
     }

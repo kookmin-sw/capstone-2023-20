@@ -25,6 +25,8 @@ TagManager:
   - Rug
   - SecretDoor
   - Article
+  - KeypadCollider
+  - ArticleCollider
   layers:
   - Default
   - TransparentFX

@@ -26,7 +26,8 @@ public class TimeAttack : MonoBehaviour
 
     void Start()
     {
-        gameActive = false;
+        //gameActive = false;
+        setTime = time;
         objectManager = GetComponent<ObjectManager>();
 
     }

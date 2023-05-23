@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Video;
-using UnityEngine.SceneManagement;
-
+using Photon.Pun;
+using Photon.Realtime;
 public class VideoController : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
@@ -19,6 +19,6 @@ public class VideoController : MonoBehaviour
     private void OnLoopPointReached(VideoPlayer source)
     {
         // 비디오 재생이 끝나면 다음 씬으로 전환
-        SceneManager.LoadScene(NextSceneName);
+        if (PhotonNetwork.IsMasterClient) LoadingSceneController.LoadScene();
     }
 }

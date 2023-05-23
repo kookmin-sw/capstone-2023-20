@@ -39,20 +39,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     //게임오버씬으로 이동하는 퍼블릭함수(죽거나, 시간초과나면 이 함수 호출)
     public void GameOver()
     {
-        pv.RPC("MoveGameOverScene", RpcTarget.All);
+        pv.RPC("MoveGameOverScene", RpcTarget.MasterClient);
     }
     [PunRPC]
     private void MoveGameOverScene()
     {
-
+        Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+        if (cp.ContainsKey("GameReady")) cp.Remove("GameReady");
+        cp.Add("GameReady", false);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
+        if (GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName) == null) return;
         GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<StarterAssetsInputs>().PlayerMoveLock(); //마우스 커서 되돌림.
+        if (PhotonNetwork.IsMasterClient)
+        {
+            cp = PhotonNetwork.CurrentRoom.CustomProperties;
+            if (cp.ContainsKey("InGame")) cp.Remove("InGame"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
+            if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
+            cp.Add("InGame", false);
+            cp.Add("GameOver", true); //게임오버상태인지 아닌지
+            PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
+        }
         Debug.Log("로컬플레이어 이름 ::" + GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name);
         FadeOut();
     }
     public void OnLevelWasLoaded(int level)
     {
         // 메인빌딩이거나, 게임오버 상태면서, 게임오버씬이 아닐 경우만 플레이어캐릭터 생성
-        if(level == 1 || ((bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] && level != 4) ) 
+        if(level == 2 || ((bool)PhotonNetwork.CurrentRoom.CustomProperties["GameOver"] && level != 6) ) 
         {
             pv.RPC("CreatePlayer", RpcTarget.All);
             Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -61,9 +74,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
             
         }
-        else if(level == 0 )
+        else if(level <= 1 )
         {
             PhotonNetwork.Destroy(this.gameObject);
+        }
+        else if(level == 3 || level == 4) //level == 연구소
+        {
+            pv.RPC("SetPlayerPos", RpcTarget.All);
         }
     }
     [PunRPC]
@@ -79,7 +96,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         Debug.Log(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).name + " 생성완료 크레이트플레이어");
         
     }
+    [PunRPC]
+    private void SetPlayerPos()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName);
+        if (player != null)
+        {
+            Debug.LogError("플레이어 캐릭터가 없어요!!!");
+            return;
+        }
+        Transform pos = GameObject.Find("SpwanPoint" + PhotonNetwork.LocalPlayer.NickName).transform;
 
+        player.transform.position = pos.position;
+    }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
@@ -111,6 +140,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         {
             GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<ThirdPlayerController>().FadingStart();
         }
+        PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName));
         GameOverManager.LoadGameOver();
     }
 
@@ -132,6 +162,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     //씬을 로드할때 사용되는 함수 ==> 다음 씬으로 가기위한 조건이 충족되면 아래 함수를 호출해주면 됩니다 복붙해서 사용해주세요
     /*  
     void func(){
+            if(!PhotonNetwork.isMasterClient) return;
             Hashtable cp = PhotonNetwork.CurrentRoom.CustomProperties;
             int nextLevel = (int)cp["CurrentLevel"] + 1;
             if (cp.ContainsKey("CurrentLevel")) cp.Remove("CurrentLevel"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;

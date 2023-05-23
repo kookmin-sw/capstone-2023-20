@@ -9,7 +9,7 @@ using TMPro;
 using StarterAssets;
 using ExitGames.Client.Photon;
 
-public class GameOverManager : MonoBehaviour
+public class GameOverManager : MonoBehaviourPunCallbacks
 {
    
     [SerializeField]
@@ -17,23 +17,6 @@ public class GameOverManager : MonoBehaviour
     [SerializeField]
     private TMP_Text stateText;
 
-    private void Awake()
-    {
-        pv.RPC("InitPlayer", RpcTarget.All);
-    }
-
-    
-
-    [PunRPC]
-    private void InitPlayer()
-    {
-        Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
-        if (cp.ContainsKey("GameReady")) cp.Remove("GameReady");
-        cp.Add("GameReady", false);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
-        if (GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName) == null) return;
-        PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName));
-    }
 
     public void OnClickRestart()
     {
@@ -53,7 +36,7 @@ public class GameOverManager : MonoBehaviour
             Hashtable rp = PhotonNetwork.CurrentRoom.CustomProperties;
             rp["InGame"] = true;
             PhotonNetwork.CurrentRoom.SetCustomProperties(rp);
-            pv.RPC("Load", RpcTarget.All);
+            Invoke("Load", 2f);
         }
         else
         {
@@ -62,8 +45,12 @@ public class GameOverManager : MonoBehaviour
         }
     }
 
+    private void Load()
+    {
+        pv.RPC("LoadingScene", RpcTarget.MasterClient);
+    }
     [PunRPC]
-    void Load()
+    void LoadingScene()
     {
         Debug.Log("currentLevel at GameOver : " + PhotonNetwork.CurrentRoom.CustomProperties["CurrentLevel"]);
         if (PhotonNetwork.IsMasterClient) LoadingSceneController.LoadScene();
@@ -71,19 +58,8 @@ public class GameOverManager : MonoBehaviour
 
     public static void LoadGameOver()
     {
-        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel("GameOver");
-
-
-        Hashtable cp;
-        if (PhotonNetwork.IsMasterClient)
-        {
-            cp = PhotonNetwork.CurrentRoom.CustomProperties;
-            if (cp.ContainsKey("InGame")) cp.Remove("InGame"); //충돌 방지 확실하게 삭제후 업데이트 하기 위함;
-            if (cp.ContainsKey("GameOver")) cp.Remove("GameOver");
-            cp.Add("InGame", false);
-            cp.Add("GameOver", true); //게임오버상태인지 아닌지
-            PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
-        }
+        PhotonNetwork.LoadLevel("GameOver");
+        
     }
 
     [PunRPC]

@@ -27,14 +27,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         DontDestroyOnLoad(gameObject);
     }
 
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            GameOver();
-        }
-    }
 
     //게임오버씬으로 이동하는 퍼블릭함수(죽거나, 시간초과나면 이 함수 호출)
     public void GameOver()

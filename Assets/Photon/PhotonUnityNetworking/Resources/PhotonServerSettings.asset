@@ -67,6 +67,8 @@ MonoBehaviour:
   - SetPlayerPos
   - fillBar
   - LoadingScene
+  - NextStage
+  - NextStage3
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

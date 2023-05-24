@@ -43,7 +43,7 @@ public class Locker : MonoBehaviour
         Destroy(this.gameObject.transform.Find("Combination PadLock").gameObject);
         // 캐비넷 상호작용 추가
     }
-    
+
     public void NextStage()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -54,7 +54,7 @@ public class Locker : MonoBehaviour
         PhotonNetwork.CurrentRoom.SetCustomProperties(cp);
         if (PhotonNetwork.IsMasterClient)
         {
-            LoadingSceneController.LoadScene();   
+            LoadingSceneController.LoadScene();
         }
     }
 }

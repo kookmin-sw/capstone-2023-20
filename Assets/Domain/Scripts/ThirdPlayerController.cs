@@ -94,6 +94,20 @@ public class ThirdPlayerController : MonoBehaviour
         GameObject.Find(name).GetComponent<DoorDefaultClose>().UnLockOther();
     }
 
+    [PunRPC]
+    public void NextStage(string name)
+    {
+        GameObject.Find(name).GetComponent<Locker>().NextStage();
+    }
+
+    [PunRPC]
+    public void NextStage3()
+    {
+        KeyPad.GetComponent<Keypad>().NextStage();
+    }
+
+    
+
     private void Update()
     {
 
@@ -301,6 +315,11 @@ public class ThirdPlayerController : MonoBehaviour
             Option.SetActive(false);
         }
 
+        if (KeyPad.GetComponent<Keypad>().KeypadUnlocked)
+        {
+            pv.RPC("NextStage3", RpcTarget.All, this.name);
+        }
+
     }
 
 
@@ -397,7 +416,7 @@ public class ThirdPlayerController : MonoBehaviour
                 }
                 else if (other.gameObject.transform.Find("NextStage"))
                 {
-                    other.GetComponent<Locker>().NextStage();
+                    pv.RPC("NextStage", RpcTarget.All);
                 }
 
             }

@@ -14,3 +14,5 @@
 *.controller -merge eol=lf
 *.spriteatlas -merge eol=lf
 D:/ProjectsandStudyTrue/unity/capstone-2023-20 filter=lfs diff=lfs merge=lfs -text
+D:/ProjectsandStudyTrue/unity/capstone-2023-20 filter=lfs diff=lfs merge=lfs -text
+D:/ProjectsandStudyTrue/unity/capstone-2023-20 filter=lfs diff=lfs merge=lfs -text

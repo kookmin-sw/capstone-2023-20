@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/DoorOpen.cs.meta
+guid: 47fa581fec2b4bc4b915e9640feb6696
+========
+guid: f99ed3933152a6b4293567f13129dc71
+>>>>>>>> 132d196a6dc10886356ecd9f9239248f4404a0ef:Assets/Scripts/NetworkScripts/NetworkManager.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

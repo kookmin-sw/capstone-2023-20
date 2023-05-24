@@ -29,7 +29,7 @@ MonoBehaviour:
     EnableLobbyStatistics: 0
     NetworkLogging: 1
   DevRegion: 
-  PunLogging: 0
+  PunLogging: 2
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
@@ -46,6 +46,29 @@ MonoBehaviour:
   - ChangeColour
   - HeresWhy
   - CreatePlayer
+  - Leave
+  - OjbectFunc
+  - Activate
+  - SyncActivate
+  - UnLockDoor
+  - ObjectFunc
+  - SyncFunc
+  - DoorUnlock
+  - UnLockOther
+  - InitPlayer
+  - Load
+  - MoveGameOverScene
+  - SetStateText
+  - StartGame
+  - StartLoadSceneProcess
+  - SyncActivate2
+  - SyncFunc1
+  - SyncFunc2
+  - SetPlayerPos
+  - fillBar
+  - LoadingScene
+  - NextStage
+  - NextStage3
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

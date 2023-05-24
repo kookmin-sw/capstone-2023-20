@@ -36,29 +36,33 @@ public class ThirdPlayerController : MonoBehaviour
     //김원진 - 현재 캐릭터가 위치한 곳 저장
     [SerializeField] private GameObject CurrentMap;
 
-    [SerializeField] private GameObject ItemInteraction;
-    [SerializeField] private GameObject LockInteraction;
+    [SerializeField] private GameObject UnlockInteraction;
     [SerializeField] private GameObject LockView;
     [SerializeField] private GameObject ItemView;
-
+    [SerializeField] private GameObject CCTVView;
+    [SerializeField] private GameObject KeyPad;
     private StarterAssetsInputs playerInputs;
     private ThirdPersonController thirdPersonController;
     private Animator animator;
-
+    private bool CurrentDoorLock = false;
+    private bool isCollision = false;
+    private GameObject InstantView;
 
     float hitDistance = 2f;
     public bool InvestigateValue = false;
 
-    Material outline;
-
-    Renderer renderers;
-    List<Material> materialList = new List<Material>();
-
     Vector3 mouseWorldPosition = Vector3.zero;
+
+    // 팝업창
+    private Popup popup;
+
+
+    [Header("FadeOut")]
+    private float fadeSpeed = 1f;
+    private Image fadeImage;
 
     private void Start()
     {
-        outline = new Material(Shader.Find("Custom/OutLine"));
     }
 
     private void Awake()
@@ -67,7 +71,43 @@ public class ThirdPlayerController : MonoBehaviour
         playerInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
+        popup = GetComponentInChildren<Popup>();
+        DontDestroyOnLoad(this.gameObject);
     }
+
+    // 오브젝트 함수 호출
+    [PunRPC]
+    void SyncFunc(string name)
+    {
+        GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate();
+    }
+
+    [PunRPC]
+    void SyncFunc2(String name)
+    {
+        GameObject.Find(name).GetComponent<ObjectManager>().SyncActivate2();
+    }
+
+    [PunRPC]
+    public void UnLockOther(string name)
+    {
+        GameObject.Find(name).GetComponent<DoorDefaultClose>().UnLockOther();
+    }
+
+    [PunRPC]
+    public void NextStage(string name)
+    {
+        GameObject.Find(name).GetComponent<Locker>().NextStage();
+    }
+
+    [PunRPC]
+    public void NextStage3()
+    {
+        KeyPad.GetComponent<Keypad>().NextStage();
+    }
+
+    
+
     private void Update()
     {
 
@@ -79,52 +119,166 @@ public class ThirdPlayerController : MonoBehaviour
         // ������
         if (Physics.Raycast(ray, out hit))
         {
-
+            //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.blue);
             // raycast 2f 이내, 화면에 UI없을시에만 활성화
-            if (hit.distance < hitDistance && EventSystem.current.IsPointerOverGameObject() == false)
+            if ((hit.distance < hitDistance) && (!EventSystem.current.IsPointerOverGameObject()))
             {
-                //Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
+                Debug.Log("충돌객체: " + hit.collider.name  + "\n충돌태그: " + hit.collider.tag);
                 // 퍼즐 오브젝트 일시
                 if (hit.collider.CompareTag("PuzzleObj"))
                 {
 
-                    // 상호작용 버튼 활성화
-                    Popup.instance.OpenPopUp();
-
-                    // 상호작용 메세지 활성화
+                    // 상호작용 메시지 활성화
+                    popup.OpenPopUpInteract();
                     if (playerInputs.investigate == true)
                     {
-                        InvestigateValue = true;
+                        //InvestigateValue = true;
                         GameObject.Find(hit.collider.name).GetComponent<Puzzle>().Activate();
-                        playerInputs.PlayerLockOn();
+                        pv.RPC("SyncFunc", RpcTarget.All, hit.collider.name);
+                        pv.RPC("SyncFunc2", RpcTarget.Others, hit.collider.name);
+
                     }
 
                 }
                 else if (hit.collider.CompareTag("EventObj"))
                 {
-                    Popup.instance.OpenPopUp();
+                    popup.OpenPopUpInteract();
+                    // 김원진 - 잠긴 문인지 확인
+                    if (playerInputs.investigate == true)
+                    {
+                        if (CurrentDoorLock == false)
+                        {
+                            // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
+
+                            GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
+                            //동기화용 함수실행
+                            pv.RPC("SyncFunc", RpcTarget.All, hit.collider.name);
+                            pv.RPC("SyncFunc2", RpcTarget.Others, hit.collider.name);
+
+                            playerInputs.investigate = false;
+                            playerInputs.interaction = false;
+                        }
+                    }
+
+                }
+                else if (hit.collider.CompareTag("LockerUnlocked"))
+                {
+                    popup.OpenPopUpInteract();
                     if (playerInputs.investigate == true)
                     {
                         // 유성현 - UnityEvent Invoke를 이용해 서로 다른 함수를 호출 할 수 있도록 확장
-                        GameObject.Find(hit.collider.name).GetComponent<ObjectManager>().Activate();
+                        GameObject.Find(hit.collider.name).GetComponent<Cabinet>().Activate();
                         playerInputs.investigate = false;
                         playerInputs.interaction = false;
                     }
                 }
+                else if (hit.collider.CompareTag("Items"))
+                {
+                    popup.OpenPopUpItem();
+                    //김원진 - 아이템 상호작용시 습득
+                    if (playerInputs.interaction)
+                    {
+                        //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
+                        InventoryManager.addItem(hit.collider.GetComponent<ItemController>().Item);
+                        hit.collider.GetComponent<GetItem>().Get();
+                        playerInputs.interaction = false;
+                    }
+                }
+                else if (hit.collider.CompareTag("LockerItem"))
+                {
+                    popup.OpenPopUpItem();
+                    if (playerInputs.investigate == true)
+                    {
+                        //ItemInteraction.SetActive(false);
+                        popup.ClosePopUpItem();
+                        Debug.Log(hit.collider.GetComponent<ItemController>().Item);
+                        InventoryManager.addItem(hit.collider.GetComponent<ItemController>().Item);
+                        hit.collider.GetComponent<GetItem>().Get();
+                        playerInputs.interaction = false;
+                    }
+
+
+                }
+                else if (hit.collider.CompareTag("Locker"))
+                {
+                    //popup.OpenPopUpInteract();
+                }
+                else if (hit.collider.CompareTag("Rug"))
+                {
+                    popup.OpenPopUpInteract();
+                    if (playerInputs.investigate == true)
+                    {
+                        Debug.Log(GameObject.Find(hit.collider.name));
+                        Destroy(GameObject.Find(hit.collider.name));
+                        popup.ClosePopUpItem();
+                        playerInputs.investigate = false;
+                    }
+                }
+
+                else if (hit.collider.CompareTag("SecretDoor"))
+                {
+                    popup.OpenPopUpInteract();
+
+                    if (playerInputs.investigate == true)
+                    {
+                        if (!KeyPad.activeSelf && playerInputs.UILock == false)
+                        {
+                            playerInputs.UILock = true;
+                            playerInputs.PlayerMoveLock();
+                            KeyPad.SetActive(true);
+                            playerInputs.investigate = false;
+                        }
+                    }
+                    
+                }
+                else if (hit.collider.CompareTag("CCTVCollider"))
+                {
+                    popup.OpenPopUpInteract();
+                }
+
+                //else if (hit.collider.CompareTag("Article"))
+                //{
+                //    popup.OpenPopUpInteract();
+                //    if (playerInputs.investigate == true)
+                //    {
+                //        playerInputs.UILock = true;
+                //        playerInputs.PlayerMoveLock();
+                //        LockView.SetActive(true);
+                //        InstantView = Instantiate(hit.collider.gameObject, ItemView.transform.Find("ArticlePos").transform.position, Quaternion.Euler(new Vector3(90, -287.405f, 0)));
+                //        playerInputs.investigate = false;
+                //    }
+                //    if (!LockView.activeSelf)
+                //    {
+                //        Destroy(InstantView);
+                //    }
+
+                //}
+
+
                 else
                 {
-                    Popup.instance.ClosePopUp();
-
+                    popup.ClosePopUpInteract();
+                    popup.ClosePopUpItem();
                 }
             }
             // raycast에 물체가 없을 시
             else
             {
-                Popup.instance.ClosePopUp();
+                popup.ClosePopUpInteract();
+                popup.ClosePopUpItem();
+            }
+
+            if (isCollision == false)
+            {
+                playerInputs.interaction = false;
             }
         }
-
-
+        if (!KeyPad.activeSelf && !LockView.activeSelf && !CCTVView.activeSelf && !playerInputs.inventory && !playerInputs.minimap && !playerInputs.option)
+        {
+            //playerInputs.UILock = false;
+            //playerInputs.PlayerMoveUnlock();
+            //playerInputs.investigate = false;
+        }
         //김원진 - 인벤토리 상태시 인벤토리 UI 활성화
         //김원진 - 중복 UI 방지 위해 미니맵 UI 비활성 코드 추가
         if (playerInputs.inventory)
@@ -152,19 +306,28 @@ public class ThirdPlayerController : MonoBehaviour
         //KKB - option Input
         if (playerInputs.option)
         {
+            //playerInputs.PlayerMoveLock();
             Option.SetActive(true);
         }
         else
         {
+            //playerInputs.PlayerMoveUnlock();
             Option.SetActive(false);
         }
 
+        if (KeyPad.GetComponent<Keypad>().KeypadUnlocked)
+        {
+            pv.RPC("NextStage3", RpcTarget.All, this.name);
+        }
+
     }
+
 
     //김원진 - 미니맵 전환 구역 진입시 미니맵 전환.
     //김원진 - CurrentMap이 Null 상태일 경우 최초 진입한 전환구역의 TransMap을 CurrentMap으로 설정.
     private void OnTriggerEnter(Collider other)
     {
+        isCollision = true;
         if(other.tag == "Maps")
         {
             Debug.Log("Entering : " + other);
@@ -197,33 +360,19 @@ public class ThirdPlayerController : MonoBehaviour
             }
         }
 
-        if (other.tag == "Locker")
-        {
-            LockInteraction.SetActive(true);
-        }
+
     }
 
     //김원진 - 능동적 아이템 획득을 위해 OnTriggerEnter -> OnTriggerStay로 변환
     //       - cf) Enter로 할 시 최초진입이 기준이므로 아이템 획득을 위해 상호작용 버튼을 누를시 획득되지 않는 경우가 생김.
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Items")
+
+        if (other.tag == "Locker")
         {
-            ItemInteraction.SetActive(true);
-            //김원진 - 아이템 상호작용시 습득
+            popup.OpenPopUpInteract();
+            Debug.Log("Locker Interaction");
             if (playerInputs.interaction)
-            {
-                //김원진 - 상호작용시 떠있는 EventUI 문구 제거.
-                ItemInteraction.SetActive(false);
-                Debug.Log(other.GetComponent<ItemController>().Item);
-                InventoryManager.addItem(other.GetComponent<ItemController>().Item);
-                other.GetComponent<GetItem>().Get();
-                playerInputs.interaction = false;
-            }
-        }
-        else if (other.tag == "Locker")
-        {
-            if(playerInputs.interaction)
             {
                 if (other.GetComponent<Locker>().IsLock == false)
                 {
@@ -237,8 +386,9 @@ public class ThirdPlayerController : MonoBehaviour
                     playerInputs.UILock = true;
                     playerInputs.PlayerMoveLock();
                 }
+
                 playerInputs.interaction = false;
-                LockInteraction.SetActive(false);
+                popup.ClosePopUpInteract();
             }
             if (!LockView.activeSelf)
             {
@@ -246,14 +396,94 @@ public class ThirdPlayerController : MonoBehaviour
                 playerInputs.PlayerMoveUnlock();
                 other.GetComponent<Locker>().Viewing = false;
             }
+            if (other.GetComponent<Locker>().unLock == true)
+            {
+                LockView.SetActive(false);
+                popup.OpenPopUpInteract();
+                if (other.gameObject.transform.Find("door"))
+                {
+                    other.gameObject.transform.Find("door").gameObject.tag = "LockerUnlocked";
+                    popup.ClosePopUpInteract();
+                    //김원진 - Locker 주변에서 UI 켰을경우
+                    if (playerInputs.inventory)
+                    {
+                        playerInputs.UILock = true;
+                    }
+                    if (playerInputs.minimap)
+                    {
+                        playerInputs.UILock = true;
+                    }
+                }
+                else if (other.gameObject.transform.Find("NextStage"))
+                {
+                    pv.RPC("NextStage", RpcTarget.All);
+                }
+
+            }
+
+
+
+        }
+        else if (other.tag == "CCTV")
+        {
+            Debug.Log("CCTV Collider!");    
+            popup.OpenPopUpInteract();
+            if (playerInputs.interaction)
+            {
+                CCTVView.SetActive(true);
+                playerInputs.UILock = true;
+                playerInputs.PlayerMoveLock();
+                popup.ClosePopUpInteract();
+                playerInputs.interaction = false;
+            }
+
+            if (!CCTVView.activeSelf)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+            }
+        }
+        else if (other.tag == "LockedDoor")
+        {
+            CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
+            if (playerInputs.interaction)
+            {
+                if (InventoryManager.Items.Find(x => x.ItemName == "Announce Room Key"))
+                {
+                    UnlockInteraction.SetActive(true);
+                    other.GetComponent<DoorLock>().DoorUnlock();
+                    CurrentDoorLock = other.GetComponent<DoorLock>().getDoorState();
+                    InventoryManager.removeItem("Announce Room Key");
+                    pv.RPC("UnLockOther", RpcTarget.Others, other.GetComponent<DoorLock>().OtherDoor.name);
+                    //Debug.Log(other.GetComponent<DoorLock>().OtherDoor.name);
+                    //other.gameObject.transform.parent.gameObject.GetComponent<DoorDefaultClose>().UnLockDoor();
+                }
+            }
+        }
+        else if (other.tag == "KeypadCollider")
+        {
+            if (!KeyPad.activeSelf && playerInputs.UILock == true)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+            }
+        }
+        else if (other.tag == "ArticleCollider")
+        {
+            if(!LockView.activeSelf && playerInputs.UILock == true)
+            {
+                playerInputs.UILock = false;
+                playerInputs.PlayerMoveUnlock();
+            }
         }
     }
     private void OnTriggerExit(Collider other)
     {
-
+        isCollision= false;
         if (other.tag == "Items")
         {
-            ItemInteraction.SetActive(false);
+            //ItemInteraction.SetActive(false);
+            popup.ClosePopUpItem();
         }
         if (other.tag == "Maps")
         {
@@ -281,10 +511,43 @@ public class ThirdPlayerController : MonoBehaviour
         if (other.tag == "Locker")
         {
             other.GetComponent<Locker>().DestroyView();
-            LockInteraction.SetActive(false);
+            //popup.ClosePopUpInteract();
             LockView.SetActive(false);
+        }
+        if (other.tag == "CCTV")
+        {
+            popup.ClosePopUpInteract();
+        }
+
+        if (other.tag == "LockedDoor")
+        {
+            UnlockInteraction.SetActive(false);
+            CurrentDoorLock = false;
         }
     }
 
+    public void FadingStart()
+    {
+        StartCoroutine(FadeOut());
+    }
 
+    IEnumerator FadeOut()
+    {
+        fadeImage = this.gameObject.GetComponentInChildren<FadeObject>().gameObject.GetComponent<Image>();
+
+        fadeImage.gameObject.SetActive(true);
+        // 패널의 알파 값을 서서히 증가시켜 페이드아웃 효과를 줌
+        while (fadeImage.color.a < 1.0f)
+        {
+            fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b,
+                                           fadeImage.color.a + fadeSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b,
+                                           fadeImage.color.a * 0);
+
+        fadeImage.gameObject.SetActive(false);
+
+    }
 }

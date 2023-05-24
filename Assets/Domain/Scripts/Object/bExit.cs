@@ -10,12 +10,14 @@ public class bExit : MonoBehaviour
     private StarterAssetsInputs playerInputs;
     private ThirdPlayerController ThirdPlayerController;
     public Puzzle puzzle;
+    private CanvasRenderModeChanger changer;
 
     // Start is called before the first frame update
     private void Awake()
     {
         playerInputs = FindObjectOfType<StarterAssetsInputs>();
         ThirdPlayerController = FindObjectOfType<ThirdPlayerController>();
+        changer = puzzle.GetComponent<CanvasRenderModeChanger>();
     }
 
     private void Update()
@@ -34,9 +36,9 @@ public class bExit : MonoBehaviour
     }   
     public void CallExit()
     {
-        playerInputs.PlayerLockOn();
-        ThirdPlayerController.InvestigateValue = false;
         puzzle.GetComponent<Puzzle>().Activate();
+        if (changer != null)
+            changer.Activate();
     }
    
 }

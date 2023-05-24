@@ -16,6 +16,17 @@ TagManager:
   - Maps
   - PuzzleObj
   - Locker
+  - LockerUnlocked
+  - LockerItem
+  - CCTV
+  - LockedDoor
+  - Taichi
+  - Latifa
+  - Rug
+  - SecretDoor
+  - Article
+  - KeypadCollider
+  - CCTVCollider
   layers:
   - Default
   - TransparentFX

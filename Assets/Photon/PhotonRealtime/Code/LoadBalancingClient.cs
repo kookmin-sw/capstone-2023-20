@@ -891,6 +891,11 @@ namespace Photon.Realtime
             this.EnableLobbyStatistics = appSettings.EnableLobbyStatistics;
             this.LoadBalancingPeer.DebugOut = appSettings.NetworkLogging;
 
+            //KKB - Photon timeout setting
+            /*this.LoadBalancingPeer.DisconnectTimeout = 30;
+            this.LoadBalancingPeer.SentCountAllowance = 8;*/
+            // ---
+
             this.AuthMode = appSettings.AuthMode;
             if (appSettings.AuthMode == AuthModeOption.AuthOnceWss)
             {

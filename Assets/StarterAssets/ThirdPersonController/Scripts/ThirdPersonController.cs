@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -131,15 +132,17 @@ namespace StarterAssets
 
         private void Awake()
         {
+            
+        }
+
+        private void Start()
+        {
             // get a reference to our main camera
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
-        }
-
-        private void Start()
-        {
+            Debug.Log(_mainCamera.name);
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -168,6 +171,8 @@ namespace StarterAssets
                 Move();
             JumpAndGravity();
             GroundedCheck();
+
+            
 
         }
 

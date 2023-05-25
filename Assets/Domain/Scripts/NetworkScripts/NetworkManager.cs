@@ -81,7 +81,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         GameObject chk = GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName);
         if (chk != null) return;
         Transform pos = GameObject.Find("SpwanPoint" + PhotonNetwork.LocalPlayer.NickName).transform;
-        
         PhotonNetwork.Instantiate("Player" + PhotonNetwork.LocalPlayer.NickName, pos.position, pos.rotation);
 
         GameObject.FindGameObjectWithTag(PhotonNetwork.LocalPlayer.NickName).GetComponent<ThirdPlayerController>().virtualCamera.Priority += 10;

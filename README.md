@@ -45,6 +45,6 @@
 
 ### 7. 기타
 
-+ 실행 방법 
-
-해당 저장소의 DownLoad 브랜치에 Zip파일을 다운로드 후, 별도의 프로그램 설치 없이 exe파일을 실행하여 게임을 플레이할 수 있다.
++ 실행 방법 </br>
+https://drive.google.com/file/d/1FkkTZ5PZSkZAf4noTX-ObEwL64bGWxHP/view?usp=sharing </br>
+링크에서 zip파일을 다운받아 압축해제 한 후 WIMF.exe 파일을 실행한다.

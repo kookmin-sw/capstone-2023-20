@@ -15,6 +15,7 @@ public class MonsterController : MonoBehaviour
     private Transform playerTransform;
     private NavMeshAgent nvAgent;
     private Animator _animator;
+    public int pt;
 
 
 
@@ -23,7 +24,7 @@ public class MonsterController : MonoBehaviour
     //
     private bool flagIdle = true;
     [SerializeField]
-    private float IdleTIme = 5f;
+    private float IdleTime = 5f;
     private float chkTime = 0f;
     [SerializeField]
     private float traceSpeed = 3f;
@@ -37,8 +38,7 @@ public class MonsterController : MonoBehaviour
 
     [SerializeField] Transform[] m_ptPoints = null; // 정찰 위치들을 담을 배열
 
-    //debug
-    public GameObject alarm;
+    private AudioSource audioSource;
 
     private GameObject wayPoint;
     //
@@ -53,17 +53,19 @@ public class MonsterController : MonoBehaviour
         wayPoint = GameObject.Find("WayPoints");
 
         m_ptPoints = wayPoint.gameObject.GetComponentsInChildren<Transform>();
+        audioSource = GetComponent<AudioSource>();
 
         // 추적 대상의 위치를 설정하면 바로 추적 시작
         // nvAgent.destination = playerTransform.position;
 
         StartCoroutine(this.CheckState());
         StartCoroutine(this.CheckStateForAction());
+        StartCoroutine(RecalculatePathRoutine());
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, 5f); // 랜덤위치 생기는 최대거리
+        Gizmos.DrawWireSphere(transform.position, 10f); // 소리들리기 시작하는 거리
 
     }
     IEnumerator CheckState()
@@ -74,6 +76,17 @@ public class MonsterController : MonoBehaviour
 
             //float dist = Vector3.Distance(playerTransform.position, _transform.position);
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            if (distanceToPlayer > 10f)
+            {
+                // 거리가 10f보다 멀어지면 오디오 소스의 볼륨을 0으로 설정
+                audioSource.volume = 0f;
+            }
+            else
+            {
+                // 거리가 maxDistance 이내일 경우 오디오 소스의 3D 세팅된 볼륨 크기로 설정
+                float volume = 1f - (distanceToPlayer / 10.0f); // 거리에 따라 볼륨 조절
+                audioSource.volume = volume;
+            }
             if (distanceToPlayer < 0.5f)
             {
                 PlayerDeath();
@@ -102,14 +115,24 @@ public class MonsterController : MonoBehaviour
             {
                 case CurrentState.trace: // 추적 상태
                     nvAgent.speed = traceSpeed;
-                    nvAgent.destination = playerTransform.position;
+                    Vector3 targetPosition = playerTransform.position - (transform.position - playerTransform.position).normalized * 2.0f;
+                    nvAgent.destination = targetPosition;
                     _animator.SetBool("isRun", true);
                     break;
                 case CurrentState.patrol:
                     if (isLost) // 플레이어 찾았는데 놓친 경우
                     {
                         isLost = false;
+                        _animator.SetBool("isIdle", true);
                         nvAgent.ResetPath(); // 경로 초기화
+                        yield return new WaitForSeconds(IdleTime); // 일정 시간 동안 대기
+                    }
+                    if (CheckIdleState())
+                    {
+                        _animator.SetBool("isWalk", true);
+                        int pt = Random.Range(0, m_ptPoints.Length);
+                        Debug.Log("pt: " + pt);
+                        nvAgent.SetDestination(m_ptPoints[pt].position);
                     }
                     nvAgent.speed = patrolSpeed; // 순찰 최대 이동 속도
                     Patroling();
@@ -119,20 +142,29 @@ public class MonsterController : MonoBehaviour
             yield return null;
         }
     }
+    IEnumerator RecalculatePathRoutine()
+    {
+        while (!isDead)
+        {
+            if (curState == CurrentState.trace) // 추격 상태에서만 경로를 재계산합니다
+            {
+                // 네비게이션 경로를 재계산합니다
+                nvAgent.SetDestination(playerTransform.position);
+            }
+            //5초에 한번
+            yield return new WaitForSeconds(5.0f);
+        }
+    }
     void Patroling()
     {
-        if (nvAgent.remainingDistance < 1f && chkTime < IdleTIme && flagIdle) // 일정시간동안 idle
+        if (nvAgent.remainingDistance < 1f && chkTime < IdleTime && flagIdle) // 일정시간동안 idle
         {
-            //Debug.Log("patrolIdle remainingDist > " + nvAgent.remainingDistance);
-            //alarm.SetActive(true);
-            //Debug.Log("patrol_idle");
             chkTime += Time.deltaTime;
             //nvAgent.ResetPath();
         }
-        if (chkTime > IdleTIme) // idle 종료, 순찰 이동
+        if (chkTime > IdleTime) // idle 종료, 순찰 이동
         {
             flagIdle = false;
-            //alarm.SetActive(false);
             Debug.Log("chkTime : " + chkTime);
             chkTime = 0;
 
@@ -140,17 +172,8 @@ public class MonsterController : MonoBehaviour
             {
                 _animator.SetBool("isWalk", true);
 
-                //랜덤포인트 순찰
-                //Vector3 RandomPos;
-                //RandomPoint(out RandomPos);
-                //Vector3 randomDir = (_transform.position - RandomPos).normalized;
-                //float dirMagnitude = (_transform.position - RandomPos).magnitude;
-                //Debug.DrawRay(_transform.position, randomDir * dirMagnitude, Color.red, 10.0f);
-                // 현재위치부터 랜덤위치까지 레이를 그리고 10.0초 동안 보여줌
-                //nvAgent.SetDestination(RandomPos);
-
-                //순찰포인트 순서대로 순찰
-                int pt = Random.Range(0, m_ptPoints.Length);
+                //순찰포인트 랜덤 순찰
+                pt = Random.Range(0, m_ptPoints.Length);
                 Debug.Log("pt >"+ pt);
 
                 nvAgent.SetDestination(m_ptPoints[pt].position);
@@ -172,27 +195,25 @@ public class MonsterController : MonoBehaviour
             }
         }
     }
-    bool RandomPoint(out Vector3 randomPosResult)
+    bool CheckIdleState()
     {
-        randomPosResult = _transform.position; // 제자리
-
-        float range = 5f;
-        Vector3 randomPoint = _transform.position + Random.insideUnitSphere * range; //random point in a sphere 
-        float maxDist = 3.0f; // 매쉬가 본 갈 수 있는 장소중에서 랜덤포인트와 가까운 거리 찾을때 쓰는 최대거리
-        NavMeshHit hit;
-        //samplepos 이용해서 장애물 있는 위치에는 포인트 생성 안함, bake 된 위치에
-        //NavMeshPermalink : AI 에이전트가 걸어다닐 수 있는 표면. 네비게이션 경로를 계산할 수 있는 표면이 된다.
-        //navmesh.allareas에 해당하는 navmesh 중 maxDist 반경 내에서 randomPoint에서 가장 가까운 위치 hit에 리턴
-        if (NavMesh.SamplePosition(randomPoint, out hit, maxDist, NavMesh.AllAreas)) //documentation: https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+        Debug.Log(nvAgent.velocity.magnitude);
+        if (nvAgent.velocity.magnitude < 0.9f)
         {
-            //the 1.0f is the max distance from the random point to a point on the navmesh, might want to increase if range is big
-            //or add a for loop like in the documentation
-            randomPosResult = hit.position;
-            return true;
+            chkTime += Time.deltaTime;
+            if (chkTime > 3f)
+            {
+                chkTime = 0f;
+                Debug.Log("chkIdle");
+                return true;
+            }
+        }
+        else
+        {
+            chkTime = 0f;
         }
         return false;
     }
-    
 
     void rayChkDoor()
     {
